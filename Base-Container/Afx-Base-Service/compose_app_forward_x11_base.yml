@@ -1,0 +1,69 @@
+# This file is part of: APP-Forward-X11-Development-Template-Stack
+# Copyright (c) 2024 Nico Jan Eelhart
+#
+# This source code is licensed under the MIT License found in the  'LICENSE.md' file in the root directory of this source tree.
+#
+
+# GOAL
+# Running a GUI application inside a Docker container on a Windows host using Docker Desktop 
+# with WSL2 and X11 forwarding allow you to run Linux containers while forwarding the GUI to your Windows host.
+# 
+# 	BEFORE executing the compose Docker command make sure you have read 'howto_create_a_dev_container.md' in the Howtos folder
+#	This contains important instructions that NEED to be executed before running this base container
+
+
+networks:
+
+# Define a network where the container has a fixed IP address
+# bridge does not work on Docker Desktop(DD) with Windows containers, but works fine under DD with Linux containers
+#
+# When in the same network, using both the same 'nat' and 'bridge' setting, containers can communicate with each other via their
+# the service names (x11_network-fixed in this case) or IP address, no port mappings needed for inter-container communication.
+#
+# You can replace 'nat', 'bridge' with 'overlay' which is meant for production clusters, load balancing (Docker Swarm or Kubernetes 
+# deployments) For simple, local setups where multi-host communication is not needed, using overlay might be overkill.
+# 
+# See the file: '.env' for the variables
+# docker network create external-example
+
+#  x11_forward-network-fixed:
+#    name: Flipper2
+#    driver: bridge 
+#    ipam:
+#      config:
+#        - subnet: ${FIXED_SUBNET}
+
+  x11_forward-network-fixed: 
+    name: ext_x11_forward-network-fixed
+    driver: bridge 
+    ipam:
+      config:
+        - subnet: ${FIXED_SUBNET}
+
+
+
+volumes:
+  vol_wpf:
+  
+
+services:               
+    axf-basic-service:                            #  Our service axf-basic-service
+        build:
+            context: .  
+            dockerfile: Dockerfile_App-Forward-X11_Base
+        image: eelhart/appforwardx11-base:latest # This name can be used to extend or chain this image.
+        networks:
+            x11_forward-network-fixed:
+              ipv4_address: ${FIXED_IP}         # Use a fixed IP address for this container
+        environment:
+            - PORT=${PORT}                      # Pass variable from .env to PORT (1e), this is available in the 
+                                                # container(ENV) and in dockerfile, during building after
+                                                # defining: 'ARG PORT' in the docker file
+            - DISPLAY=host.docker.internal:0    # THIS relays the linux output to vcxsrv(Xlaunch) Also added in the Docker file!   
+        volumes:
+            - /tmp/.X11-unix:/tmp/.X11-unix     # MOUNTS the X11 socket GUI directory
+        command: ["/bin/sh", "-c", "while sleep 1000; do :; done"]  # use this in case of err, let's you get in(CMD)
+
+
+# To Start this container:
+# docker-compose -f  compose_app_forward_x11_base.yml up -d --build --force-recreate  --remove-orphans

@@ -1,0 +1,79 @@
+# This file is part of: APP-Forward-X11-Development-Template-Stack
+# Copyright (c) 2024 Nico Jan Eelhart
+#
+# This source code is licensed under the MIT License found in the  'LICENSE.md' file in the root directory of this source tree.
+#
+
+# *** Extending/Chaining ***
+# This requires that the base image is build()        
+#        - In the folder: '../../App-X11-Forward-BASE-Service'  Execute:   
+#          docker build -t eelhart/appforwardx11-base:latest -f Dockerfile_App-Forward-X11_Base .
+#
+#           This will create the image but ***NOT*** the network. So it is better to build and create  
+#           the whole container with:
+#               docker-compose -f compose_net_x11_base.yml up -d --build
+#           After that the image is present and the container,you can delete the container after this
+#
+FROM eelhart/appforwardx11-base:latest
+
+
+# For GUI forwarding
+ENV DISPLAY=host.docker.internal:0
+
+# Install necessary packages for .NET and X11
+RUN apt-get update && apt-get install -y \
+    && wget https://packages.microsoft.com/config/ubuntu/24.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb \
+    && dpkg -i packages-microsoft-prod.deb \
+    && apt-get update && apt-get install -y dotnet-sdk-8.0
+
+
+
+
+# Install the VS Code debugger
+RUN curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg
+
+
+# 1) Set the working directory
+WORKDIR /projects
+
+# 2) Set arguments, MAKE SURE the environment variables are assigned here (file:.env) so there available.
+ARG PRJ_NAME_ARG
+ENV PRJ_NAME_ARG=${PRJ_NAME_ARG}
+ARG PRJ_BASE_ARG
+ENV PRJ_BASE_ARG=${PRJ_BASE_ARG}
+
+ENV DISPLAY=host.docker.internal:0
+
+# 3) Define build-time argument and use the build argument as an environment variable available at runtime
+ARG PORT_ARG
+ENV PORT=${PORT_ARG}
+EXPOSE ${PORT}
+
+# 4) Output to user the parameters which will be used (Use the shell form explicitly to ensure environment variable expansion)
+RUN echo "    - .NET project Name: ${PRJ_BASE_ARG}/${PRJ_NAME_ARG} for Console based application"
+RUN /bin/sh -c "mkdir -p ${PRJ_BASE_ARG}"
+WORKDIR ${PRJ_BASE_ARG}
+
+# 4.1) Remove the existing my-react-app directory if it exists. We don't want this. Docker will complain if directory exists.
+
+# 5) Config information(port, host)
+#COPY /.env ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/.env
+
+# 6) Visual Studio Code Settings
+COPY .vscode/ ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/.vscode/
+
+# 7) Create a >NET project based on a template
+#
+#   7.1 - Navigate to the project directory
+WORKDIR ${PRJ_NAME_ARG}
+#
+#   7.2 - Copy our template sample so we have a starting point for development
+RUN mkdir ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/src
+COPY /Project-Templates/Console/*.* ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/
+COPY /Project-Templates/Console/src/*.* ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/src/
+
+# 7.3 Restore NuGet packages needed for our project
+RUN dotnet restore
+
+# Build the project
+RUN dotnet build

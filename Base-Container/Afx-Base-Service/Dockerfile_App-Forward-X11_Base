@@ -1,0 +1,44 @@
+# This file is part of: APP-Forward-X11-Development-Template-Stack
+# Copyright (c) 2024 Nico Jan Eelhart
+#
+# This source code is licensed under the MIT License found in the  'LICENSE.md' file in the root directory of this source tree.
+#
+
+# GOAL
+# Running a GUI application inside a Docker container on a Windows host using Docker Desktop 
+# with WSL2 and X11 forwarding allow you to run Linux containers while forwarding the GUI to your Windows host.
+# 
+# 	BEFORE executing the compose Docker command make sure you have read 'howto_create_a_dev_container.md' in the Howtos folder
+#	This contains important instructions that NEED to be executed before running this base container
+
+
+# Use an Ubuntu base image
+FROM ubuntu:24.04
+
+# For GUI forwarding
+ENV DISPLAY=host.docker.internal:0
+
+# Install necessary packages for .NET and X11
+RUN apt-get update && apt-get install -y \
+    wget \
+    apt-transport-https \
+    software-properties-common \
+    x11-apps
+
+
+
+# Install libraries required for development
+RUN apt-get update && apt-get install -y \
+    gnupg2 \
+    libc6 \
+    libgcc1 \
+    libgssapi-krb5-2 \
+#    libssl1.1 \
+    libstdc++6 \
+    zlib1g \
+    libicu-dev \
+    curl \
+    unzip \
+	libx11-dev \
+    libxkbcommon-x11-0 \
+    && rm -rf /var/lib/apt/lists/*
