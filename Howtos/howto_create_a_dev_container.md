@@ -296,7 +296,8 @@ This will create a GUI project for a Avalonia UI .NET project, [site](https://av
 
 **Create Application project:** 
 1. Open a CMD in the folder .\Sub-Containers\Afx-X11-Forward-Avalonia-Service\
-1. In the file ***.env*** file, set the variable **'PRJ_NAME_ARG'** to a value for your project name. Optional you can also set the environment variable from the command line, This value will be used for the project name and the project directory.If you omit this step the **default** will be used (see variable: **PRJ_NAME_ARG** in the ***.env*** file) 
+1. In the  the file ***.env*** , you can adjust the **project type** (PRJ_TYPE_ARG) by default the 'avalonia.mvvm' is used.
+1. Also in the file ***.env*** file, you can  set the variable **'PRJ_NAME_ARG'** to a value for your project name. Optional you can also set the environment variable from the command line, This value will be used for the project name and the project directory.If you omit this step the **default** will be used (see variable: **PRJ_NAME_ARG** in the ***.env*** file) 
 <pre class="nje-cmd-one-line">$env:PRJ_NAME_ARG="my-project"		# From Command line </pre>
 3 Then execute the docker command
 <pre class="nje-cmd-one-line"> docker  compose -f compose_avalonia_x11_project.yml up -d  --remove-orphans --build --force-recreate </pre>
