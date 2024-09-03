@@ -155,12 +155,12 @@ To install the X-server and receive graphical output from the application, follo
 
 #### 2.1.5 Create the basic Docker Container
 Finally, to create an start the base container.
-- Open the sub folder: '.\Base-Container\Afx-Base-Service\' with a CMD
+- Open the service sub folder: ***'.\Base-Container\Afx-Base-Service\**' within a CMD
 - We use a fixed IP address in the Compose file to make it easier to communicate with services, such as an SSH server (not used in this setup). While this is not strictly necessary, we have included it by default. If you encounter any issues, you may choose to remove it from the **compose_app_forward_x11_base.yml** file. The pre-configured IP address used can be found in the **.env** file. see:
 <pre class="nje-cmd-one-line-sm-ident"> FIXED_SUBNET  # Default: 172.20.0.0/16            FIXED_IP      # Default: 172.20.0.15</pre>
 
 
-- Execute this command in the service folder (**Net-X11-Service**)
+- Execute this command in the service sub folder
 <pre class="nje-cmd-one-line-sm-ident"> docker-compose -f compose_app_forward_x11_base.yml up -d --build --force-recreate  --remove-orphans </pre>
 
 > *Warning!*{: style="color: red;font-size:13px; "} <br>
@@ -172,7 +172,7 @@ Finally, to create an start the base container.
 
 
 #### 2.1.6 Verify the Setup
-- After running the command in 2.1.5 you can open **Docker Desktop** and in the container section a new container is created under the name: ***'afx -basic/axf-basic-service-1'***. Open a terminal session in this container
+- After running the command in 2.1.5 you can open **Docker Desktop** and in the container section a new container is created under the name: ***'afx-basic-service/axf-basic-service-1'***. Open a terminal session in this container
 - Under the Images tab of Docker Desktop you should see the image **eelhart/appforwardx11-base** This is the image that will be used by the **Sub Containers** that you may create (see paragraph 3) to add different development environments to develop GUI applications. 
 > *Warning!*{: style="color: red;font-size:13px; "} <br>
 > <small> For the usage of the Sub Containers you may remove the container 'afx -basic/axf-basic-service-1' but you will need to hold on to the image **eelhart/appforwardx11-base**</small>
@@ -284,7 +284,7 @@ This will create a basic .NET Command-line application that will return, guess? 
 <span class="nje-ident"></span>*Note that this compose creates and builds the project.*
 
 ### 3.2  Setup Result
-- After running the commands in 3.1 you can open **Docker Desktop** and in the container section a new container is created under the name: ***'Afx-X11-Forward-NET-Service/afx-dotnet-container-1'***.
+- After running the commands in 3.1 you can open **Docker Desktop** and in the container section a new container is created under the name: ***'afx-x11-forward-net-Service/afx-dotnet-container-1'***.
 - Open a terminal session in this container
 - Enter the following command in the terminal session : 
 <pre class="nje-cmd-one-line-sm-ident">dotnet run</pre>
