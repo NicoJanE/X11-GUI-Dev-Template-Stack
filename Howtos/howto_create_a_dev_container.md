@@ -102,7 +102,7 @@ Finding this version can be a bit challenging, especially because we need the ma
 When we have the distribution source, we can install the WSL environment. To keep the Base Container files in one place we do this in the root of our Base-Service folder ( **'./Base-Container/Afx-Base-Service/wsl2distro'***).
 - **Open** the sub folder: '.\Base-Container\Afx-Base-Service\' with a CMD
 - **Execute** this command and replace the ***install.tar.gz.file*** with the result from the previous step
-<pre class="nje-cmd-one-line"> wsl --import Ubuntu-docker-App-X11 ./wsl2-distro  install.tar.gz.file </pre>
+<pre class="nje-cmd-one-line"> wsl --import Ubuntu-docker-App-X11 ./wsl2-distro  install.tar.gz </pre>
 <span class="nje-ident"></span>This creates the **Ubuntu-docker-App-X11** WSL in the: **./wsl2-distro**. WSL **check** commands:
 
 <pre class="nje-cmd-multi-line">
