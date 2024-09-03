@@ -1,0 +1,78 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Clean: All Build Output",
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "clean",
+                "${workspaceFolder}/project-file.csproj"
+            ],
+            "problemMatcher": [],
+            "detail": "  - Clean build output directories"
+        },
+        {
+            "label": "Debug: Restores NuGet Packages",
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "restore",
+                "${workspaceFolder}/project-file.csproj"
+            ],
+            "problemMatcher": [],
+            "detail": "  - Restore the required NuGet packages for Debug Build configuration"
+        },
+        {
+            "label": "Debug: Build Configuration",
+            "type": "process",                                  //  Basic two type this + 'shell' -> can be used. shell-specific syntax, such as environment variable expansion.  others via extensions
+            "dependsOn": "Clean: All Build Output",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "${workspaceFolder}/project-file.csproj",
+                "--configuration",
+                "Debug",
+                "--output",
+                "${workspaceFolder}/bin/Debug/"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": "$msCompile",
+            "detail": " - Build project in Debug mode"
+        },
+        {
+            "label": "Release: Restore NuGet Packages",
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "restore",
+                "${workspaceFolder}/project-file.csproj"
+            ],
+            "problemMatcher": [],
+            "detail": "  - Restore the NuGet packages for Release Build configuration"
+        },
+        {
+            "label": "Release: Build Configuration",
+            "type": "process",
+            "dependsOn": "Clean: All Build Output",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "${workspaceFolder}/project-file.csproj",
+                "--configuration",
+                "Release",
+                "--output",
+                "${workspaceFolder}/bin/Release/"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": "$msCompile",
+            "detail": "  - Build project in Release mode"
+        }
+    ]
+}

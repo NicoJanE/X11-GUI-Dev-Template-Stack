@@ -258,7 +258,6 @@ ports:
 <br><br>
 </details>
 
-
 # 3. Creating the Sub containers
 This section includes several combinations of docker files and compose files, these can be used to create different **Sub containers**. Make sure you have **first** created the ***Base Container*** as described in paragraph 2!
 
@@ -267,7 +266,8 @@ In the folder ***Sub-Containers*** We store our sub containers in a separated fo
 - Afx-X11-Forward-NET-Service
 This installs the .NET framework and the required libraries, and it will create a simple sample command-line application based on a template project.
 
-## 3.1 creating the .NET Sub Container (Afx-X11-Forward-NET-Service)
+<br>
+## 3.1 Creating the .NET Sub Container (afx-x11-forward-net-service)
 This will create a basic .NET Command-line application that will return, guess? ...Yes!; "Hello World". This program does not output the text on the X11 Windows in the host. It is meant to prove that the **Base Container** can be extended, and to show how it can be done. In addition it will  create a project, based on a template, and demonstrate how to use Visual Studio Code (VSC) to Debug and run the application on the Windows host. ***See paragraph 4*** for VSC instructions.
 
 > *Note:*{: style="color: Grey;font-size:13px; "}
@@ -275,7 +275,7 @@ This will create a basic .NET Command-line application that will return, guess? 
 ><pre class="nje-cmd-one-line-sm-ident">xeyes</pre>
  
 
-**Create the .NET Command Line Application project:** 
+**Create the  Application project:** 
 1. Open a CMD in the folder .\Sub-Containers\Afx-X11-Forward-NET-Service\
 1. In the file ***.env*** file, set the variable **'PRJ_NAME_ARG'** to a value for your project name. Optional you can also set the environment variable from the command line, This value will be used for the project name and the project directory.If you omit this step the **default** will be used (see variable: **PRJ_NAME_ARG** in the ***.env*** file) 
 <pre class="nje-cmd-one-line">$env:PRJ_NAME_ARG="my-project"		# From Command line </pre>
@@ -283,17 +283,39 @@ This will create a basic .NET Command-line application that will return, guess? 
 <pre class="nje-cmd-one-line"> docker  compose -f compose_net_x11_project.yml up -d  --remove-orphans --build --force-recreate </pre>
 <span class="nje-ident"></span>*Note that this compose creates and builds the project.*
 
-### 3.2  Setup Result
+### 3.1.1  Setup Result
 - After running the commands in 3.1 you can open **Docker Desktop** and in the container section a new container is created under the name: ***'afx-x11-forward-net-Service/afx-dotnet-container-1'***.
 - Open a terminal session in this container
 - Enter the following command in the terminal session : 
 <pre class="nje-cmd-one-line-sm-ident">dotnet run</pre>
 <span class="nje-ident"></span>The world famous text (for developers) should appear!
 
+<br>
+## 3.2 Creating a Avalonia .NET Sub Container (afx-x11-forward-avalonia-service)
+This will create a GUI project for a Avalonia UI .NET project, [site](https://avaloniaui.net/).
+
+**Create Application project:** 
+1. Open a CMD in the folder .\Sub-Containers\Afx-X11-Forward-Avalonia-Service\
+1. In the file ***.env*** file, set the variable **'PRJ_NAME_ARG'** to a value for your project name. Optional you can also set the environment variable from the command line, This value will be used for the project name and the project directory.If you omit this step the **default** will be used (see variable: **PRJ_NAME_ARG** in the ***.env*** file) 
+<pre class="nje-cmd-one-line">$env:PRJ_NAME_ARG="my-project"		# From Command line </pre>
+3 Then execute the docker command
+<pre class="nje-cmd-one-line"> docker  compose -f compose_avalonia_x11_project.yml up -d  --remove-orphans --build --force-recreate </pre>
+<span class="nje-ident"></span>*Note that this compose creates and builds the project.*
+
+### 3.2.1  Setup Result
+- After running the commands in 3.1 you can open **Docker Desktop** and in the container section a new container is created under the name: ***'afx-x11-forward-avalonia-Service/afx-avalonia-dotnet-container-1'***.
+- Open a terminal session in this container
+- Check with the 'pwd' command to confirm the project is a sub directory of: "ava/" 
+<pre class="nje-cmd-one-line-sm-ident">pwd  # /ava/your-project-name</pre>
+- Enter the following command in the terminal session : 
+<pre class="nje-cmd-one-line-sm-ident">dotnet run</pre>
+<span class="nje-ident"></span>This should display Window with "Welcome to Avalonia!" on your host
 
 
 
 
+
+<br>
 # 4 Develop with VSC in the host
 To develop in **V**isual **S**tudio **C**ode we advice the following instructions 
 
