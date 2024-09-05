@@ -39,6 +39,14 @@ RUN curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg
 # Install Avalonia, Install the specific templates within the .NET.SDK
 RUN dotnet new install Avalonia.Templates
 
+# Create the file: 'dotnet-tools.json' To manage local (project-specific) .NET tools
+RUN dotnet new tool-manifest  --name local-tools
+#
+# Add a tool to check/update your central package avolonia Packages (file 'Directory.Packages.props')
+# commands: dotnet outdated
+# commands: dotnet outdated --upgrade
+RUN  dotnet tool install dotnet-outdated-tool
+
 
 # 1) Set the working directory
 WORKDIR /projects
@@ -71,8 +79,22 @@ COPY .vscode/ ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/.vscode/
 # -f # framework: net6.0, net7.0, net8.0
 RUN dotnet new ${PRJ_TYPE_ARG}  -o ${PRJ_NAME_ARG} -f net8.0
 
-#   7.1 - Navigate to the project directory and build it
+#   7.1 -   Navigate to the project directory and make sure to change the *.csproj and *.sln file
+#           To a generic fixed name, this makes it posible to create generic build tasks and Launch files for VSC.
+
 WORKDIR ${PRJ_NAME_ARG}
+RUN mv ${PRJ_NAME_ARG}.csproj project-file.csproj
+#    && \ mv {PRJ_NAME_ARG}.sln ../project-file.sln # Add this if you also have a solution file generated
+#
+# Add this if you also have a solution file generated and renamed (see line above)
+# Update the solution file to reference the renamed project file
+# RUN dotnet sln ../project-file.sln remove MyApplicationName/{PRJ_NAME_ARG}.csproj && \
+#    dotnet sln ../project-file.sln add project-file.csproj
+
+
 RUN dotnet build
+
+
+
 
 

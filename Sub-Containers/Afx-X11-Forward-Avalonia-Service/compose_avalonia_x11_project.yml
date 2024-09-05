@@ -38,4 +38,4 @@ services:
             - /tmp/.X11-unix:/tmp/.X11-unix     # MOUNTS the X11 socket GUI directory
         command: ["/bin/sh", "-c", "while sleep 1000; do :; done"]  # use this in case of err, let's you get in(CMD)
         
-# zdocker-compose -f compose_avalonia_x11_project.yml up -d  --remove-orphans --build --force-recreate  
+# docker-compose -f compose_avalonia_x11_project.yml up -d  --remove-orphans --build --force-recreate  
