@@ -171,7 +171,15 @@ Finally, to create an start the base container.
 > <pre class="nje-cmd-one-line-sm-ident"> docker system prune -a --volumes</pre>
 
 
-#### 2.1.6 Verify the Setup
+## 2.1.6 Connect the Wsl from 2.1.2 to the docker container
+- Ensure that this WSL distribution is connected  to your Docker setup
+    - In Docker -> Settings -> Resource -> WSL integration
+    - In the **'Enable integration with additional distros:'** section (if you don't see this option,  press: Refetch distros)
+    - Select ***Ubuntu-docker-App-X11*** **Make sure only this one is selected!**
+    - Press Apply & Restart (You may need to restart the Docker container manually). **I had the experience that it did not do anything after pressing 'Apply', when Started Docker Desktop with Admin rights it was fine**
+
+
+#### 2.1.7 Verify the Setup
 - After running the command in 2.1.5 you can open **Docker Desktop** and in the container section a new container is created under the name: ***'afx-basic-service/axf-basic-service-1'***. Open a terminal session in this container
 - Under the Images tab of Docker Desktop you should see the image **eelhart/appforwardx11-base** This is the image that will be used by the **Sub Containers** that you may create (see paragraph 3) to add different development environments to develop GUI applications. 
 > *Warning!*{: style="color: red;font-size:13px; "} <br>

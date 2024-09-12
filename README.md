@@ -32,3 +32,5 @@ For more information, visit the [main documentation page](https://nicojane.githu
 </details>
 
 
+<br><br>
+<small>Version: 0.9 </small>

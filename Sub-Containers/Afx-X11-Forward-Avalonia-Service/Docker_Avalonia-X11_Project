@@ -86,7 +86,7 @@ WORKDIR ${PRJ_NAME_ARG}
 RUN mv ${PRJ_NAME_ARG}.csproj project-file.csproj
 #    && \ mv {PRJ_NAME_ARG}.sln ../project-file.sln # Add this if you also have a solution file generated
 #
-# Add this if you also have a solution file generated and renamed (see line above)
+# Add this if you also have a solution file generated0, and renamed it (see line above)
 # Update the solution file to reference the renamed project file
 # RUN dotnet sln ../project-file.sln remove MyApplicationName/{PRJ_NAME_ARG}.csproj && \
 #    dotnet sln ../project-file.sln add project-file.csproj
