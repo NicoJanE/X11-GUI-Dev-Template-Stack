@@ -2,19 +2,30 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "WPF .NET App Launch",
-//            "type": "clr",
+            "name": "Run Avalonia",
             "type": "coreclr",
             "request": "launch",
             "program": "${workspaceFolder}/bin/Debug/project-file.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
-            "console": "internalConsole"
+            "console": "internalConsole",
+            "preLaunchTask": "Debug: Build Configuration"        // This ensures the build task runs before launch
+        },
+        {
+            "name": "Watch run Avalonia",                       // Wtach XAML changes will runnning
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/Debug/net6.0/YourProject.dll", // Adjust to your project file
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "console": "internalConsole",
+            "preLaunchTask": "dotnet watch",                    // This links to the watch task
+            "internalConsoleOptions": "openOnSessionStart"
         },
         {
             "name": ".NET Framework Attach",
-//            "type": "clr",
             "type": "coreclr",
             "request": "attach",
             "processId": "${command:pickProcess}"

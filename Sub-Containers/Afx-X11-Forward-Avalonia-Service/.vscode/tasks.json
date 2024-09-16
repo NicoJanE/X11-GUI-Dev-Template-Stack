@@ -73,6 +73,17 @@
             },
             "problemMatcher": "$msCompile",
             "detail": "  - Build project in Release mode"
+        },
+        {
+            "label": "Watch XAML build",
+            "type": "shell",
+            "command": "dotnet watch run --project ${workspaceFolder}/project-file.csproj",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": "$msCompile",
+            "detail": "Start the dotnet watch run command"
         }
     ]
 }

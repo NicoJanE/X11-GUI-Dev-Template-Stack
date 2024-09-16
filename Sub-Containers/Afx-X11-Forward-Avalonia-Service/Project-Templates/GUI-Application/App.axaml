@@ -1,0 +1,81 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="DefaultApp.App"
+             xmlns:local="using:DefaultApp"
+             RequestedThemeVariant="Default">
+             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.DataTemplates>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
+  
+
+<!-- s -->
+    
+
+    <!-- Define a specific style for TextBox, Repeat this for other types(no inheritance or so) -->
+    <!--    Usage: <TextBox Classes="Default-style" /> -->    
+    <Application.Styles>
+        <Style Selector="TextBox.Default-style">
+            <Setter Property="Margin" Value="0,8,10,0"/>     <!-- Left, top, right, bottom-->                        
+            <!--<Setter Property="FontSize" Value="16"/>  -->
+        </Style>
+   
+        <Style Selector="Label.Default-style">
+            <Setter Property="Margin" Value="0,18,0,0"/>
+            <!--  <Setter Property="FontSize" Value="16"/>  -->
+        </Style>
+
+        <Style Selector="ComboBox.Default-style">
+            <Setter Property="Margin" Value="0,8,0,0"/>
+            <!-- <Setter Property="FontSize" Value="16"/> -->
+        </Style>
+
+        <Style Selector="HeaderedContentControl.Default-style">
+            <Setter Property="Margin" Value="0,0,10,0"/>
+            <!-- <Setter Property="FontSize" Value="16"/> -->
+        </Style>
+
+       <Style Selector="Button.Default-style">
+            <Setter Property="Margin" Value="0,0,10,0"/>
+            <!-- <Setter Property="FontSize" Value="16"/> -->
+        </Style>
+
+
+
+    </Application.Styles>
+    
+
+
+    <Application.Styles>
+        <FluentTheme />    
+        <Style Selector="HeaderedContentControl">
+        <Setter Property="Template">
+            <Setter.Value>
+            <ControlTemplate>
+                <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border ZIndex="1" Padding="5,0,5,0" Background="White" Margin="5,0,0,0">
+                    <TextBlock TextBlock.FontWeight="Bold" Text="{TemplateBinding Header}"  />
+                </Border>
+                <Border Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="0,10,0,0"
+                    BorderBrush="{TemplateBinding Background}"
+                    BorderThickness="1">
+                    <ContentPresenter Content="{TemplateBinding Content}"  />
+                </Border>
+                </Grid>
+            </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        </Style>
+    </Application.Styles>
+
+</Application>

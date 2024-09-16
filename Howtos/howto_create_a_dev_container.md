@@ -297,32 +297,85 @@ This will create a basic .NET Command-line application that will return, guess? 
 - Enter the following command in the terminal session : 
 <pre class="nje-cmd-one-line-sm-ident">dotnet run</pre>
 <span class="nje-ident"></span>The world famous text (for developers) should appear!
-
 <br>
-## 3.2 Creating a Avalonia .NET Sub Container (afx-x11-forward-avalonia-service)
-This will create a GUI project for a Avalonia UI .NET project, [site](https://avaloniaui.net/).
 
-**Create Application project:** 
-1. Open a CMD in the folder .\Sub-Containers\Afx-X11-Forward-Avalonia-Service\
-1. In the  the file ***.env*** , you can adjust the **project type** (PRJ_TYPE_ARG) by default the 'avalonia.mvvm' is used.
-1. Also in the file ***.env*** file, you can  set the variable **'PRJ_NAME_ARG'** to a value for your project name. Optional you can also set the environment variable from the command line, This value will be used for the project name and the project directory.If you omit this step the **default** will be used (see variable: **PRJ_NAME_ARG** in the ***.env*** file) 
-<pre class="nje-cmd-one-line">$env:PRJ_NAME_ARG="my-project"		# From Command line </pre>
-3 Then execute the docker command
+
+## 3.2 Creating a Avalonia .NET Sub Container (afx-x11-forward-avalonia-service)
+This process will create a GUI project for an Avalonia UI .NET application. For more information, visit the [Avalonia site](https://avaloniaui.net/). <br>
+
+Different projects can be created based on the Avalonia template. Additionally, a **custom** template created by us is used to instantiate your project by **default**.
+
+**Steps to Create an Avalonia Base Application Project:** 
+1. Open a Command Prompt in the folder: ***.\Sub-Containers\Afx-X11-Forward-Avalonia-Service\\***
+1. **Configure the project**:
+  - Open the ***.env*** file to adjust the necessary settings: <br><br>
+        - **Project Type** By default ***PRJ_TYPE_USE_CUSTOM_APP*** iss et to create a basic application based on our custom template. You can disable this to choose one of the Avalonia-provided templates by setting the variable: **PRJ_TYPE_ARG**.
+        - **Project Name**: Set the variable **PRJ_NAME_ARG** to your desired project name. This will be used for both the project name and the project directory.If omitted, the default value from **PRJ_NAME_ARG** in the **.env** file will be used.
+        - **Network Configuration**: If needed, you can specify an alternative subnet and IP address by adjusting the variables **FIXED_SUBNET** and **FIXED_IP**.    
+1. Execute the Docker command to create the project.:
 <pre class="nje-cmd-one-line"> docker  compose -f compose_avalonia_x11_project.yml up -d  --remove-orphans --build --force-recreate </pre>
 <span class="nje-ident"></span>*Note that this compose creates and builds the project.*
 
 ### 3.2.1  Setup Result
-- After running the commands in 3.1 you can open **Docker Desktop** and in the container section a new container is created under the name: ***'afx-x11-forward-avalonia-Service/afx-avalonia-dotnet-container-1'***.
+- After running the commands in 3.2 you can open **Docker Desktop** and in the container section a new container is created under the name: ***'afx-x11-forward-avalonia-Service/afx-avalonia-dotnet-container-1'***.
 - Open a terminal session in this container
 - Check with the 'pwd' command to confirm the project is a sub directory of: "ava/" 
 <pre class="nje-cmd-one-line-sm-ident">pwd  # /ava/your-project-name</pre>
 - Enter the following command in the terminal session : 
 <pre class="nje-cmd-one-line-sm-ident">dotnet run</pre>
-<span class="nje-ident"></span>This should display Window with "Welcome to Avalonia!" on your host
+<span class="nje-ident"></span>This should display Application GUI on your host via the XLaunch program
+- You should be able to open, build, and debug the project in ***Visual Studio code***, **See paragraph 4** for details
 
 
+### 3.2.2 Post setup Checks (When needed)
+This section outlines the required Visual Studio Code (VSC) plugins and configurations. These should **already** be **installed** and **set up** if you are using our custom application template (see **PRJ_TYPE_USE_CUSTOM_APP**). In this case, the project file and .vscode directory will include the necessary settings. For other project types (**PRJ_TYPE_ARG**), you must configure these manually. If something seems wrong, you may want to verify the settings as well. (Click on **Side note** below to expand the section)
 
+> *Warning 1*{: style="color: red;font-size:13px; "} <small>As of Sept. 2024, you might need to change one thing. Be sure to install **version 0.29** of the **Avalonia for Visual Studio Code** plugin. There is a persistent parsing error in versions up to 0.31 that pops up whenever you type. See more details [here](https://github.com/AvaloniaUI/AvaloniaVSCode/issues/113)</small> <br> 
 
+<details closed>  
+<summary class="clickable-summary">
+<span  class="summary-icon"></span> 
+**Side note**: **Visual Code**  installed and configured in the Container
+</summary> 	<!-- On same line is failure, Don't indent the following Markdown lines!  -->
+ 
+>### **Visual Code** installed and configured in the Container 
+1. General plugins
+  -  Avalonia for vscode (by Avalonia team)<br>
+This feature for XAML development and auto complete features (Requires .NET Core 8.0)
+**WARNING** Make sure to install **version 0.29**, untill version 0.31 there is a super annoying parse error which pops-up when every you type something, see [here](https://github.com/AvaloniaUI/AvaloniaVSCode/issues/113). When a higher version then 0.31 is released you can test that version to check if it still there
+1.2 C# Dev Kit
+2. **Kir-AntipovHot Reload** plugin should already be part of this project, this is how it defined:
+	- Project file should contain (Copy this if not)	 	  
+	  ```
+	  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+		<DefineConstants>$(DefineConstants);ENABLE_XAML_HOT_RELOAD</DefineConstants>
+	  </PropertyGroup>
+	  <ItemGroup>
+		<PackageReference Condition="$(DefineConstants.Contains(ENABLE_XAML_HOT_RELOAD))" Include="Avalonia.Markup.Xaml.Loader" Version="11.1.0" />
+		<PackageReference Condition="$(DefineConstants.Contains(ENABLE_XAML_HOT_RELOAD))" Include="HotAvalonia" Version="1.1.1" />
+		<PackageReference Include="HotAvalonia.Extensions" Version="1.1.1" PrivateAssets="All" />
+	  </ItemGroup>
+	  ```
+	- In project ReactiveUI Package should be present, check if it is	
+	 ```
+	 PackageReference Include="Avalonia.ReactiveUI" Version="your_version_here" # alternatively added it with: dotnet add package Avalonia.ReactiveUI
+	 ```
+	- Next initialize **HotAvalonia** in the ***App.axaml.cs*** (This should already be done, but for your reference)
+		- Using directive ``using HotAvalonia;``
+		- In the method ' public override void Initialize()' add:<br>
+		``this.EnableHotReload(); // HotAvalonia Ensure this line **precedes** AvaloniaXamlLoader.Load(this);``
+	- Make sure the ``.UseReactiveUI();`` is called in **AppBuilder.Configure()** see ***program.cs***. This also requires: ``using Avalonia.ReactiveUI;``
+	- **Run task** -> **Watch run Avalonia** Change an \*.axaml and the program output should be adapted
+	WARNING: When Visual Code complains about multiple project and refuses to start, it is likely due to the fact that in the same folder a solution file automatically created for you :(
+  removing/relocating this file might solve the issue, to prevent it from creating:
+  - Look for installed plugin **'C# Dev Kit'**
+  - press Extensions settings
+  - Uncheck 'Automatically **Create Solution In Workspace'**
+  - Reload your project.
+>
+<small> *Thanks: to **Kir_Antipov** [Github](https://github.com/Kir-Antipov) for providing the required tools to make this work!  </small>
+<br>
+</details>
 
 <br>
 # 4 Develop with VSC in the host
@@ -330,15 +383,17 @@ To develop in **V**isual **S**tudio **C**ode we advice the following instruction
 
 ### 4.1. Open the .NET application container in VSC (@host)
 - Press CTRL-SHIFT-P or F1 and select (start typing) **Attach to running container...**
-- Select our **net-x11-service-net-x11-1** container (If you did not rename the service nam).
-This opens a new Window with all your container information
+- Select our **afx-x11-forward-avalonia-service** container
+- Alternatively you might click on the **Docker boot** on the left toolbar and select the container from there.  
+This opens a new Window withthe  container information
 
 ### 4.2. Open Folder and building your app.
-- Use the **VSC Explorer** and the **Open Folder** to open a remote container folder, make **sure** that you open the correct folder to **make sure** the **.vscode** directory  settings are used. 
-- Select open folder and type: **/projects/net/your_project_name** This makes sure the project is loaded along with settings created for the project in the folder .vscode
+- Use the **VSC Explorer** and the **Open Folder** to open the remote container's folder. **Ensure** you open the correct folder so that the **.vscode** directory settings are applied properly.
+- Select Open Folder and enter: **/projects/ava/your_project_name**. This will ensure the project is loaded along with the settings configured in the .vscode folder. (Alternatively, you can obtain the path by opening a terminal inside the Docker container. The initial folder shown by the pwd command will give you the correct path.)
 
-During the opening of the .NET container and the project root folder in Visual Studio Code, a dedicated Visual Studio Code server will be installed for the container. This server essentially provides the Visual Studio Code environment within the container, with its own settings and extensions. When you open a folder for the first time, the system will detect any required extensions and prompt you to install them. If prompted to install an extension, simply follow the instructions to complete the installation. As of August 2024, the following extensions are recommended for this project:
+When opening the .NET container and the project root folder in Visual Studio Code, a dedicated Visual Studio Code server will be installed within the container. This server provides a full Visual Studio Code environment with its own settings and extensions. Upon opening the folder for the first time, the system will detect any required extensions and prompt you to install them. Follow the instructions to complete the installation if prompted. As of August 2024, the following extension is recommended for this project
 - C# Dev Kit
+-
 
 In case the intellisense indicates errors in one of the project files this is probably due to the missing of an extension.
 <br>
@@ -353,7 +408,7 @@ In case the intellisense indicates errors in one of the project files this is pr
 >
 >**Settings file**
 >
->To change or  the build targets and related settings you will need to update the files in the **.vscode directory** of the project (this is the reason you have to open the right project directory, opening the right directory make sure the project directory is the root and VSC searches for a '.vscode' directory in the root to apply settings to this project) the following settings files are available in '.vscode':
+>To change the build targets and related settings you will need to update the files in the **.vscode directory** of the project (this is the reason you have to open the right project directory, opening the right directory make sure the project directory is the root and VSC searches for a '.vscode' directory in the root to apply settings to this project) the following settings files are available in '.vscode':
 > - .vscode/tasks.json: For build tasks.
 > - .vscode/launch.json: For debugging configurations.
 > - .vscode/settings.json: For general VS Code settings specific to your project (e.g., editor preferences, linting settings).
@@ -364,10 +419,15 @@ In case you have to customize the build properties or other settings these files
 
 ### 4.3 VSC Build tasks
 In the menu **'Terminal -> Run Tasks...'** You can find the build task for our project, which are defined in the settings file (see side note above). The following are defined for our project:
-- Clean: All Build Output
-- Debug: Build Configuration
-- Debug: Restores NuGet Packages
-- Release: Build Configuration
-- Release: Restore NuGet Packages
+- Clean: All Build Output<br> 
+- Debug: Build Configuration <br>
+- Debug: Restores NuGet Packages <br>
+<span class="nje-ident"/> <small>*Almost all ways called automatically*</small>
+- Release: Build Configuration <br>
+- Release: Restore NuGet Packages <br>
+<span class="nje-ident"/> <small>*Almost all ways called automatically*</small>
+- Watch XAML Build <br>
+<span class="nje-ident"/> <small>*This makes sure you can see the 'live output' of the application while your updating the XAML file(s)*</small>
 
-Most are self-explanatory. The **Restore NuGet Packages** step needs to be executed before the **Build Configuration** step to ensure that the required packages are downloaded before the build is executed (this is also done during the creation of the Docker container). If the Restore NuGet Packages step is not run first, you will see an error after building your app, apply in that case the restore packages command.
+
+Changes: Added a custom template to create a 'startup application.', improved and extended the build task, enabled Hot Reload for XAML changes, updated the documentation.

@@ -1,0 +1,34 @@
+<UserControl
+                xmlns="https://github.com/avaloniaui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:comment="Declare Tag to work as comments, tag is ignored"
+                mc:Ignorable="comment"
+            
+                xmlns:local="clr-namespace:DefaultApp.Views.UserControls"     comment:_1=" Defines namespace for c# file"
+                x:Class="DefaultApp.Views.UserControls.MainStatusBar"         comment:_2=" Maps to the c# file "
+                
+                Height="27"
+>
+
+
+    <!-- Statusbar Requirs height:27 -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="27"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0"
+                   Background="LightSteelBlue"
+                  ZIndex="1" />
+        <Label Grid.Row="0" Content="Status:"
+               IsTabStop="false"
+               Margin="12,0,0,0"
+               FontSize="14"
+               ZIndex="2"
+              />
+    </Grid>
+</UserControl>
+
+<!-- Panel.ZIndex="1" -->
+ 

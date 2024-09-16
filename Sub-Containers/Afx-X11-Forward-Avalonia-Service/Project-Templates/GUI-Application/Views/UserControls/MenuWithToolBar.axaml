@@ -1,0 +1,39 @@
+
+<UserControl
+                xmlns="https://github.com/avaloniaui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:COMMENT="Declare Tag to work as comments, tag is ignored"
+                mc:Ignorable="COMMENT"
+            
+                xmlns:local="clr-namespace:DefaultApp.Views.UserControls"     COMMENT:_1=" Defines namespace for c# file"
+                x:Class="DefaultApp.Views.UserControls.MenuWithToolBar"       COMMENT:_2=" Maps to the c# file "
+                x:DataType="local:MenuWithToolBar"                            COMMENT:_3=" Needed for the binding command the this axaml "
+>
+
+
+    <!-- MenuWithToolBar. Requires Height: 70! -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>            <!-- 0 Menu       -->
+            <RowDefinition Height="30"/>            <!-- 1 Toolbar    -->
+            <RowDefinition Height="10"/>            <!-- 2 Spacer     -->
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.RowSpan="2" Background="LightSteelBlue" ZIndex="1"/>        <!-- Background item using ZIndex for all 1e two rows -->
+        <Menu   Grid.Row="0"  Background="Transparent" Margin="0,5,0,0" ZIndex="2">
+            <MenuItem Header="File">
+                <MenuItem Header="New" />
+            </MenuItem>
+            <MenuItem Header="Edit"/>
+        </Menu>
+
+        <!-- Simulate a toolbar (there is no Toolbar tage in Avalonia) -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Background="Transparent" ZIndex="2">
+            <Button x:Name="Id1" Content="New" Background="Transparent" Foreground="Gray"  Command="{Binding NewCommand}" ToolTip.Tip="..." />
+            <Button Content="Other" Background="Transparent" Foreground="Gray" Command="{Binding CopyCommand}" ToolTip.Tip="...." />            
+            <Button Content="About" Background="Transparent" Foreground="Gray" Command="{Binding HelpCommand}" ToolTip.Tip="...." />
+        </StackPanel>
+    </Grid>
+
+</UserControl>

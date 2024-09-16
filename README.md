@@ -3,6 +3,9 @@
 # What
 This is a Docker Linux (Ubuntu 24.04) template container with GUI output to an X11 server on a Windows host. The container is **designed** for use on a Windows Docker Desktop host, enabling the **development** of **GUI applications** within a **Docker container**.  Note that the container can also be used to run any other Linux GUI applications in a container.
 
+**Available Sub Containers**
+- A generic .NET container with a basic Command Application template.
+- An Avalonia container with Avalonia GUI templates and a custom GUI application template tailored for this stack.
 
 For more information, visit the [main documentation page](https://nicojane.github.io/APP-X11-Forward-Development-Template-Stack/). You can find other Docker Template Stack (DTS) containers  [here.](https://nicojane.github.io/Docker-Template-Stacks-Home/)
 

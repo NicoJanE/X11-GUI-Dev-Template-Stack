@@ -10,7 +10,8 @@
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
-            "console": "internalConsole"
+            "console": "internalConsole",
+            "preLaunchTask": "Debug: Build Configuration"    // This ensures the build task runs before launch
         },
         {
             "name": ".NET Framework Attach",

@@ -1,0 +1,180 @@
+<Window xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:COMMENT=" Declare Tag to work as comments, tag is ignored "
+        mc:Ignorable="d COMMENT"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
+        xmlns="https://github.com/avaloniaui"            
+            
+        COMMENT:_1="Design time"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"            
+        d:DesignWidth="800" d:DesignHeight="450"
+        Width="980" Height="600"
+        MinWidth="400" MinHeight="300"
+
+        COMMENT:_2=" Project attributes "
+        xmlns:local="clr-namespace:DefaultApp.Views"          COMMENT:_2.1=" Define a local reference to this namespace"
+        x:Class="DefaultApp.Views.MainWindow"                 COMMENT:_2.2=" Maps to fully qualified class name implementation."    
+        Title="Application"
+        Icon="../Assets/avalonia-logo.ico"
+        
+        COMMENT:_3=" References to ViewModels namespace and types"
+        xmlns:vm="using:DefaultApp.ViewModels"                COMMENT:_3.1=" Reference to the ViewModels namespace "
+        x:DataType="vm:MainWindowViewModel"                        COMMENT:_3.2=" Specifies the ViewModel type for data binding in this XAML "
+
+        COMMENT:_4=" Namespaces definitions for different User controls "
+        xmlns:UserControls="clr-namespace:DefaultApp.Views.UserControls"
+    >
+    <!-- Note 1. The perhaps creative inside documentation workaround, may not work in all EDI's. In that case ditch them  -->
+	
+    <!-- Note 2. Use 'Avalonia for VSCode' extension version: 0.29! Till version 0.31 it fails with annoying parse error, see also: (https://github.com/AvaloniaUI/AvaloniaVSCode/issues/113) -->
+
+
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <!-- 1 The grid grdWindow grid container. Contains the master and all other sub grids. WARNING: DON'T change the Name="grdWindow".It has a MasterControl dependency  -->
+    <Grid x:Name="mainWindow">
+
+        <!-- MAIN layout definition-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>     <!-- 1.1    GRID SECTION: MenuWithToolBar                          -->            
+            <RowDefinition Height="auto"/>   <!-- 1.2    GRID SECTION: MainContent, 2 Main column subsections   -->
+            <RowDefinition Height="*"/>      <!-- 1.3    GRID SECTION: TabContent                               -->
+            <RowDefinition Height="27"/>     <!-- 1.4    GRID SECTION: StatusBar                                -->
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>      <!-- 1e Left margin in the Window  -->
+            <ColumnDefinition Width="3*"/>      <!-- 1.2.1 GRID SECTION: MainContent 3 times larger -->
+            <ColumnDefinition Width="1*"/>      <!-- 1.2.2 GRID SECTION: MainContent -->
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+
+
+        <!-- 1.1    SECTION: 'MenuWithToolBar' of the mainWindow. !The row height in this grid matches the heigth of the parent(1.1) Height needed: 70 -->
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" x:Name="MenuWithToolBar" >
+        <!--            <UserControls:MenuWithToolBar ></UserControls:MenuWithToolBar> --> 
+        <UserControls:MenuWithToolBar ></UserControls:MenuWithToolBar>
+        </Grid>
+
+        
+        <!-- 1.2    BEGIN SECTION: 'MainContent'    -->              
+        <!-- 1.2.1  'Begin Groupbox 1' row 1 Column 1     -->
+        <HeaderedContentControl Grid.Row="1" Grid.Column="1" Header="My Group 1" Background="Black" Classes="Default-style"  >
+            <Grid Grid.Row="1" Grid.Column="1" x:Name="MainContent_Col0"   >    <!-- Grid definition Groupbox 1-->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="12"/>                              <!-- 1e Left margin in the groupbox. Column 0 Skip  -->
+                    <ColumnDefinition Width="100"/>                                        
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="25"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="12"/>                              <!-- Last right margin in the groupbox. Column 5 Skip  -->
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>                                <!-- 1e top margin in groupbox 1  Row 0 skip -->
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>                    
+                    <RowDefinition Height="22"/>                                <!-- bottom margin in groupbox 1  Row 4 skip -->
+                </Grid.RowDefinitions>
+
+                <!-- Controls in side the 'MainContent' -->
+                <!-- ================================== -->
+
+                <!-- Stackpanels will use the  space from other rows that is required -->
+                <!-- MainContent: Labels Groupbox 1-->
+                <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1" >
+                    <Label  x:Name ="LbGroup"  Content="Group:" IsTabStop="false"  Classes="Default-style"  />
+                    <Label  x:Name="LbName"  Content="Name:" IsTabStop="false"  Classes="Default-style" />
+                    <Label  x:Name="Llb1"  Content="Name2:" IsTabStop="false"  Classes="Default-style" />                    
+                </StackPanel>
+          
+                <!-- MainContent: controls of above labels in Groupbox 1 -->                            
+                <StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="1" >
+                     <ComboBox  x:Name ="TbxGroup"   TabIndex="0" Width="410" HorizontalAlignment="Left"  Classes="Default-style"  Tag="{Binding ElementName=LbGroup}" >
+                        <ComboBoxItem  Name="One1" Content="one" />
+                        <ComboBoxItem  Name="One2" Content="two" />
+                    </ComboBox>
+                    <TextBox  x:Name ="TbxName" Width="410"  MaxWidth="710"  MinWidth="410"  Classes="Default-style" Tag="{Binding ElementName=LbName}"  Background="LightGray"/>                
+                     <TextBox  x:Name="Tb1"   Classes="Default-style" Background="LightBlue" Tag="{Binding ElementName=Llb1}" />
+                </StackPanel>
+
+                <!-- Binding samples, these are from WPF. TODO  get symilars items Avalonia -->
+                <!--<Button Grid.Row="3" Grid.Column="1" x:Name="Tb1" Content="{Binding  RelativeSource={RelativeSource, FindAncestor}, Path=CustomText}" />-->
+                <!--<TextBlock Grid.Row="3" Grid.Column="1" x:Name="Tb1" Text="{Binding CustomText, RelativeSource={RelativeSource AncestorType={x:Type MyNamespace:CustomButton}}}" />-->
+                <!--<TextBlock Grid.Row="3" Grid.Column="1" x:Name="Tb1"  />-->
+                <!--<TextBlock Grid.Row="3" Grid.Column="1" x:Name="Tb1" Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CustomText}" />-->
+                <!--<TextBlock Grid.Row="3" Grid.Column="1" x:Name="Tb1" Text="{Binding Path=CustomText, RelativeSource={RelativeSource AncestorType=Window} }" />-->
+                <!--<TextBlock Grid.Row="3" Grid.Column="1" x:Name="Tb1" Text="{Binding ElementName=WPFCustCtrlLib:MyNamespace, Path=CustomText}" />-->
+                                
+            </Grid>
+        </HeaderedContentControl>       <!-- End Groupbox 1 -->
+       
+        <!-- 1.2    CONTINUE 'MainContent'  -->
+        <!-- 1.2.1  Begin 'Groupbox 2' Row 1 Column 2 -->
+        <HeaderedContentControl Grid.Row="1" Grid.Column="2" Header="My Group actions" Background="Black"  Classes="Default-style" >
+            <Grid Grid.Row="1" Grid.Column="1" x:Name="MainContent_Col1"  >
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10"/>                  <!-- Column spacer:c0 -->
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>                    <!-- Row spacer:r0 -->
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="22"/>                    <!-- Row spacer:r0 -->
+                </Grid.RowDefinitions>
+
+                <!-- MainContent: Button and Labels Groupbox 2-->
+                <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1" >
+                    <StackPanel Orientation="Horizontal"  >                        
+                        <Button x:Name="btn_add1" Content="Add" Classes="Default-style"  />
+                        <Button x:Name="btn_add2" Content="Update" Classes="Default-style"  />
+                        <Button x:Name="btn_add3" Content="Remove" Classes="Default-style"  />
+                    </StackPanel>
+                    <Label  x:Name="LbName2"  Content="Name:" IsTabStop="false"  Classes="Default-style" />
+                    <Label  x:Name="Llb12"  Content="Name2:" IsTabStop="false"  Classes="Default-style" />                    
+                </StackPanel>
+
+            </Grid>
+        </HeaderedContentControl>        <!-- End Groupbox 2 -->        
+        <!-- 1.2 END SECTION: 'MainContent' -->
+
+
+        <!-- 1.3 SECTION: 'TabContent' of the mainWindow  -->
+        <Grid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" x:Name="MainTabContainer" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="250"/>
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+
+            <TabControl Grid.Row="0"  x:Name="Tabs_Details"   >
+                <TabItem x:Name="TbsItem1">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <!--<Image Width="20" Height="16" Source="*.png"/> -->
+                            <TextBlock>Details</TextBlock>
+                        </StackPanel>
+                    </TabItem.Header>
+                    <Grid x:Name="TabItem2"  />
+                    <!-- possible place holder controls -->
+                </TabItem>
+            </TabControl>
+        </Grid>
+        
+
+        <!-- 1.4 SECTION: 'StatusBar' of the mainWindow  Height needed: 27 -->
+        <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" x:Name="MainStatusBar" >
+            <UserControls:MainStatusBar/>            
+        </Grid>
+        <!-- Fake a status!-->
+        <TextBlock Grid.Row="3" Grid.Column="2" ZIndex="3"  Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+
+    </Grid>     <!-- mainWindow -->       
+
+
+</Window>

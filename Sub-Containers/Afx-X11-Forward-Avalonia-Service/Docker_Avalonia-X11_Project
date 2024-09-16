@@ -30,8 +30,6 @@ RUN apt-get update && apt-get install -y \
     && apt-get install -y nano
     
 
-
-
 # Install the VS Code debugger
 RUN curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg
 
@@ -40,12 +38,12 @@ RUN curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg
 RUN dotnet new install Avalonia.Templates
 
 # Create the file: 'dotnet-tools.json' To manage local (project-specific) .NET tools
-RUN dotnet new tool-manifest  --name local-tools
+RUN dotnet new tool-manifest  --name local-tools  --force
 #
 # Add a tool to check/update your central package avolonia Packages (file 'Directory.Packages.props')
 # commands: dotnet outdated
 # commands: dotnet outdated --upgrade
-RUN  dotnet tool install dotnet-outdated-tool
+RUN  dotnet tool install dotnet-outdated-tool 
 
 
 # 1) Set the working directory
@@ -59,39 +57,53 @@ ENV PRJ_BASE_ARG=${PRJ_BASE_ARG}
 
 ENV DISPLAY=host.docker.internal:0
 ARG PRJ_TYPE_ARG
+ARG PRJ_TYPE_USE_CUSTOM_APP
 
-# 3) Output to user the parameters which will be used (Use the shell form explicitly to ensure environment variable expansion)
-RUN echo "    - .NET AVALONIA project Name: ${PRJ_BASE_ARG}/${PRJ_NAME_ARG} GUI based application (${PRJ_TYPE_ARG})"
-RUN /bin/sh -c "mkdir -p ${PRJ_BASE_ARG}"
+# Flip to the base directory
+RUN mkdir -p ${PRJ_BASE_ARG}
 WORKDIR ${PRJ_BASE_ARG}
 
-# 4.1) Remove the existing my-react-app directory if it exists. We don't want this. Docker will complain if directory exists.
 
-# 5) Config information(port, host) No need to
-#COPY /.env ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/.env
+# Copy the necessary files from the build context into the Docker image
+# Otherwise we can not reach the files via the script below
+COPY Project-Templates/ ${PRJ_BASE_ARG}/Project-Templates/
 
-# 6) Visual Studio Code Settings
+# Use conditional logic to handle different scenarios.
+RUN if [ "$PRJ_TYPE_USE_CUSTOM_APP" = "Yes" ]; then \
+       echo "Custom app mode is enabled, do copy"; \       
+       mkdir -p  ${PRJ_NAME_ARG}/src/Assets; \
+       mkdir ${PRJ_NAME_ARG}/src/Models; \
+       mkdir ${PRJ_NAME_ARG}/src/ViewModels; \
+       mkdir ${PRJ_NAME_ARG}/src/Views; \
+       mkdir ${PRJ_NAME_ARG}/src/Views/UserControls; \
+       cp ${PRJ_BASE_ARG}/Project-Templates/GUI-Application/Views/UserControls/*.* ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/src/Views/UserControls;  \
+       cp ${PRJ_BASE_ARG}/Project-Templates/GUI-Application/Views/*.* ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/src/Views;  \
+       cp ${PRJ_BASE_ARG}/Project-Templates/GUI-Application/ViewModels/*.* ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/src/ViewModels;  \
+       cp ${PRJ_BASE_ARG}/Project-Templates/GUI-Application/Models/*.* ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/src/Models;  \
+       cp ${PRJ_BASE_ARG}/Project-Templates/GUI-Application/Assets/*.* ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/src/Assets;  \
+       cp ${PRJ_BASE_ARG}/Project-Templates/GUI-Application/*.axaml ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/src; \
+       cp ${PRJ_BASE_ARG}/Project-Templates/GUI-Application/*.cs ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/src; \
+       cp ${PRJ_BASE_ARG}/Project-Templates/GUI-Application/*.manifest ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}; \
+       cp ${PRJ_BASE_ARG}/Project-Templates/GUI-Application/*.csproj ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}; \
+       cp ${PRJ_BASE_ARG}/Project-Templates/GUI-Application/backup ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}; \
+    else \
+       if [ -n "$PRJ_TYPE_ARG" ]; then \
+           echo "    - .NET AVALONIA project Name: ${PRJ_BASE_ARG}/${PRJ_NAME_ARG} GUI based application (${PRJ_TYPE_ARG})"; \
+           # Create the AVALONIA .NET project -lang F# or C# (default) -o # output name -f # framework: net6.0, net7.0, net8.0 \
+           dotnet new ${PRJ_TYPE_ARG} -o ${PRJ_NAME_ARG} -f net8.0; \
+           # Change the *.csproj to a generic fixed name, this makes it possible to create generic build tasks and Launch files for VSC. \
+           mv ${PRJ_NAME_ARG}/${PRJ_NAME_ARG}.csproj ${PRJ_NAME_ARG}/project-file.csproj; \
+       else \
+           echo "PRJ_TYPE_ARG is not set or empty and PRJ_TYPE_USE_CUSTOM_APP is also not used. Nothing to do"!!; \
+       fi \
+    fi
+
+
+# Visual Studio Code Settings
 COPY .vscode/ ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/.vscode/
 
-# 7) Create the AVOLONIA .NET project
-# -lang F# or C# (default)
-# -o  # output name
-# -f # framework: net6.0, net7.0, net8.0
-RUN dotnet new ${PRJ_TYPE_ARG}  -o ${PRJ_NAME_ARG} -f net8.0
-
-#   7.1 -   Navigate to the project directory and make sure to change the *.csproj and *.sln file
-#           To a generic fixed name, this makes it posible to create generic build tasks and Launch files for VSC.
-
+# Navigate to the project directory and build
 WORKDIR ${PRJ_NAME_ARG}
-RUN mv ${PRJ_NAME_ARG}.csproj project-file.csproj
-#    && \ mv {PRJ_NAME_ARG}.sln ../project-file.sln # Add this if you also have a solution file generated
-#
-# Add this if you also have a solution file generated0, and renamed it (see line above)
-# Update the solution file to reference the renamed project file
-# RUN dotnet sln ../project-file.sln remove MyApplicationName/{PRJ_NAME_ARG}.csproj && \
-#    dotnet sln ../project-file.sln add project-file.csproj
-
-
 RUN dotnet build
 
 

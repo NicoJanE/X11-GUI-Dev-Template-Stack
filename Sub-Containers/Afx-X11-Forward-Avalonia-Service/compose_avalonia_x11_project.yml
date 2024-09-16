@@ -26,6 +26,7 @@ services:
                 PRJ_NAME_ARG: ${PRJ_NAME_ARG}       # Set PRJ_NAME_ARG with the.env file variable. Define PRJ_NAME_ARG also in Dockerfile 
                 PRJ_BASE_ARG: ${PRJ_BASE_ARG}
                 PRJ_TYPE_ARG: ${PRJ_TYPE_ARG}
+                PRJ_TYPE_USE_CUSTOM_APP: ${PRJ_TYPE_USE_CUSTOM_APP}
         image: eelhart/appforwardx11-base:latest    # This name can be used to extend or chain this image.
         environment:
             - DISPLAY=host.docker.internal:0    # THIS relays the Linux output to vcxsrv(Xlaunch) Also added in the Docker file!   
