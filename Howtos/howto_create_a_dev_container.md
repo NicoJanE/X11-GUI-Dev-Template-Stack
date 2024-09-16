@@ -428,6 +428,3 @@ In the menu **'Terminal -> Run Tasks...'** You can find the build task for our p
 <span class="nje-ident"/> <small>*Almost all ways called automatically*</small>
 - Watch XAML Build <br>
 <span class="nje-ident"/> <small>*This makes sure you can see the 'live output' of the application while your updating the XAML file(s)*</small>
-
-
-Changes: Added a custom template to create a 'startup application.', improved and extended the build task, enabled Hot Reload for XAML changes, updated the documentation.
