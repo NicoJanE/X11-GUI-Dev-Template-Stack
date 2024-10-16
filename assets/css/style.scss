@@ -9,6 +9,8 @@
   --nje-ident: 20px;      /* ident x pixels*/
   --nje-vmove: -18px;     /* Move vertical pixels, - is up + down*/
   --nje-number-of-spaces: 20px;
+  --nje-color:black;
+  --nje-size: 12px;
 }
 #content-wrapper {
   display: flex;  
@@ -282,6 +284,29 @@ a.button small {
 }
 
 
+/* May be used to create a block of text wit custom style
+
+    <div class="custom-style">
+    ...
+    </div>
+Or
+    <div class="custom-style" style="--nje-color: black; --nje-size: 12px;">
+    ...
+    </div>
+
+
+*/
+.custom-style{
+  color: var(--nje-color);      /* black */
+  font-size: var(--nje-size);   /* 12px; */
+  padding-left: 8px;
+  background-color: var(--nje-bg-color, transparent); /* Default is transparent */
+}
+
+
+
+
+
 /*
 .nje-cmd-one-line button {
     background-color: #FFD700;; 
@@ -307,4 +332,5 @@ a.button small {
 .nje-ident {
   display: inline-block;
   width:  var(--nje-number-of-spaces);  
+  
 }

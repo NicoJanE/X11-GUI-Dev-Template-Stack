@@ -29,8 +29,10 @@ repository_name: React-Development-Template-Stack     # Update this(repository n
 # includes home links for this page, leave blank in case of no Home links. 
 home_site_name: 
     - DTS
+    - WSL
 home_site_url: 
     - https://nicojane.github.io/Docker-Template-Stacks-Home
+    - https://nicojane.github.io/WSL-Template-Stacks-Home
 
 # EXAMPLE                                
 #<details>  
