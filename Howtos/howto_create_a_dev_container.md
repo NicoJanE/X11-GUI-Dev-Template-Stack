@@ -14,6 +14,20 @@ _This source code is licensed under the MIT License found in the  'LICENSE.md' f
 <br><br><br>
 
 
+<div class="custom-style" style="--nje-color: #3077C8; --nje-size:12px; --nje-bg-color:#EDEDED">
+**Quick content links**{: style="color: #474747;font-size:12px; "} *(Reference to most common page sections)*{: style="color: #474747;font-size:11px; "}
+- ***Basics***
+  - [Install the WSL](#212-install-the-ubuntu-wsl-version)
+  - [Configure the WSL](#213-configure-the-ubuntu-wsl-version)<br>
+  - [Install the X-Server(client)](#214-install-the-x-server-vcxsrv)<br> 
+  - [Create the base container](#215-create-the-basic-docker-container)<br> 
+- ***Sub Containers***                      
+  - [Create .NET project template sub container](#31-creating-the-net-sub-container-afx-x11-forward-net-service)<br> 
+  - [Create .NET Avolonia project template sub container](#32-creating-an-avalonia-net-sub-container-afx-x11-forward-avalonia-service)<br> 
+  - [Create .NET GTK# project template sub container](#33-creating-an-net-gtk-sub-container-afx-x11-forward-net-service-gtk)<br>  
+</div>  
+                                    
+
 # 1 What 
 This Docker Linux (Ubuntu 24.04) container is designed for use on a Windows Docker (Desktop) host. Its purpose is to enable the development of GUI applications (such as C++, .NET, Rust, and others[^1]) within a Linux Docker container and display the running application on a Windows host. Because Docker is headless (meaning no GUI support is available), we need a method to display the GUI application output (while debugging or running the application in release mode) on the Windows host system. Fortunately, this can be accomplished by combining the Docker Desktop container with a **WSL2** environment and the **vcxsrv** server (XLaunch).
 
@@ -266,15 +280,15 @@ ports:
 <br><br>
 </details>
 
-# 3. Creating the Sub containers
+# 3. Creating the Sub Containers
 This section includes several combinations of docker files and compose files, these can be used to create different **Sub containers**. Make sure you have **first** created the ***Base Container*** as described in paragraph 2!
 
 In the folder ***Sub-Containers*** We store our sub containers in a separated folder, per service, currently there is only one:
 
 - Afx-X11-Forward-NET-Service
 This installs the .NET framework and the required libraries, and it will create a simple sample command-line application based on a template project.
-
 <br>
+
 ## 3.1 Creating the .NET Sub Container (afx-x11-forward-net-service)
 This will create a basic .NET Command-line application that will return, guess? ...Yes!; "Hello World". This program does not output the text on the X11 Windows in the host. It is meant to prove that the **Base Container** can be extended, and to show how it can be done. In addition it will  create a project, based on a template, and demonstrate how to use Visual Studio Code (VSC) to Debug and run the application on the Windows host. ***See paragraph 4*** for VSC instructions.
 
@@ -300,7 +314,7 @@ This will create a basic .NET Command-line application that will return, guess? 
 <br>
 
 
-## 3.2 Creating a Avalonia .NET Sub Container (afx-x11-forward-avalonia-service)
+### 3.2 Creating an Avalonia .NET Sub Container (afx-x11-forward-avalonia-service)
 This process will create a GUI project for an Avalonia UI .NET application. For more information, visit the [Avalonia site](https://avaloniaui.net/). <br>
 
 Different projects can be created based on the Avalonia template. Additionally, a **custom** template created by us is used to instantiate your project by **default**.
@@ -316,7 +330,7 @@ Different projects can be created based on the Avalonia template. Additionally, 
 <pre class="nje-cmd-one-line"> docker  compose -f compose_avalonia_x11_project.yml up -d  --remove-orphans --build --force-recreate </pre>
 <span class="nje-ident"></span>*Note that this compose creates and builds the project.*
 
-### 3.2.1  Setup Result
+#### 3.2.1  Setup Result
 - After running the commands in 3.2 you can open **Docker Desktop** and in the container section a new container is created under the name: ***'afx-x11-forward-avalonia-Service/afx-avalonia-dotnet-container-1'***.
 - Open a terminal session in this container
 - Check with the 'pwd' command to confirm the project is a sub directory of: "ava/" 
@@ -327,7 +341,7 @@ Different projects can be created based on the Avalonia template. Additionally, 
 - You should be able to open, build, and debug the project in ***Visual Studio code***, **See paragraph 4** for details
 
 
-### 3.2.2 Post setup Checks (When needed)
+#### 3.2.2 Post setup Checks (When needed)
 This section outlines the required Visual Studio Code (VSC) plugins and configurations. These should **already** be **installed** and **set up** if you are using our custom application template (see **PRJ_TYPE_USE_CUSTOM_APP**). In this case, the project file and .vscode directory will include the necessary settings. For other project types (**PRJ_TYPE_ARG**), you must configure these manually. If something seems wrong, you may want to verify the settings as well. (Click on **Side note** below to expand the section)
 
 > *Warning 1*{: style="color: red;font-size:13px; "} <small>As of Sept. 2024, you might need to change one thing. Be sure to install **version 0.29** of the **Avalonia for Visual Studio Code** plugin. There is a persistent parsing error in versions up to 0.31 that pops up whenever you type. See more details [here](https://github.com/AvaloniaUI/AvaloniaVSCode/issues/113)</small> <br> 
@@ -338,12 +352,13 @@ This section outlines the required Visual Studio Code (VSC) plugins and configur
 **Side note**: **Visual Code**  installed and configured in the Container
 </summary> 	<!-- On same line is failure, Don't indent the following Markdown lines!  -->
  
->### **Visual Code** installed and configured in the Container 
+>***Visual Code** Plugins installed and configured in the Container 
 1. General plugins
+  -  C# Dev Kit
   -  Avalonia for vscode (by Avalonia team)<br>
 This feature for XAML development and auto complete features (Requires .NET Core 8.0)
-**WARNING** Make sure to install **version 0.29**, untill version 0.31 there is a super annoying parse error which pops-up when every you type something, see [here](https://github.com/AvaloniaUI/AvaloniaVSCode/issues/113). When a higher version then 0.31 is released you can test that version to check if it still there
-1.2 C# Dev Kit
+**WARNING** Make sure to install **version 0.29**, untill version 0.31 there is a super annoying parse error which pops-up when every you type something, see [here](https://github.com/AvaloniaUI/AvaloniaVSCode/issues/113). When a higher version then 0.31 is released you can test that version to check if it still there.
+
 2. **Kir-AntipovHot Reload** plugin should already be part of this project, this is how it defined:
 	- Project file should contain (Copy this if not)	 	  
 	  ```
@@ -378,22 +393,46 @@ This feature for XAML development and auto complete features (Requires .NET Core
 </details>
 
 <br>
+
+### 3.3 Creating an .NET GTK Sub Container (Afx-X11-Forward-NET-Service-GTK#)
+This is a shorted instruction set, to install the .NET GTK Sub Container
+
+1) ***Create the sub container***{: style="color:green; "} <br>
+Create the .NET GTK Sub container (folder: 'Afx-X11-Forward-NET-Service-GTK#'): 
+<pre class="nje-cmd-one-line">docker-compose -f compose_net_x11_gtksharp_project.yml up -d --build --force-recreate --remove-orphans 
+</pre><br>
+
+2) **Start the Docker sub container via the WSL**{: style="color:green; "} <small>*(optional*) </small><br>
+Execute the following command: 
+<pre class="nje-cmd-multi-line">wsl -d Ubuntu-docker-App-X11-Win32Dev 
+docker exec -it afx-x11-forward-net-service-gtk-axf-dotnet-gtksharp-container-1 /bin/bash 
+</pre>
+
+When  the container cannot be found, restart the Docker app and ensure WSL integration is enabled in Docker settings!
+<br>
+
+3) **Start the sub-container in Visual Studio Code**{: style="color:green; "} <br>
+Install the following extension(s) in the container
+<pre class="nje-cmd-multi-line">code --install-extension ms-dotnettools.csharp
+code --install-extension ms-dotnettools.csdevkit
+code --install-extensionms-dotnettools.vscode-dotnet-runtime
+</pre>
+<br><br>
+
 # 4 Develop with VSC in the host
-To develop in **V**isual **S**tudio **C**ode we advice the following instructions 
+To develop in **V**isual **S**tudio **C**ode we advice the following instructions. Note that this is a general instruction applicable for all sub containers, any specific issue will  be described in the **'README.md'** in the root directory of the sub container, this all includes specific VSC task and project structure.
 
 ### 4.1. Open the .NET application container in VSC (@host)
 - Press CTRL-SHIFT-P or F1 and select (start typing) **Attach to running container...**
-- Select our **afx-x11-forward-avalonia-service** container
-- Alternatively you might click on the **Docker boot** on the left toolbar and select the container from there.  
-This opens a new Window withthe  container information
+- Select fore example the  **afx-x11-forward-avalonia-service** sub container, or any other sub container
+- Alternatively you might click on the **Docker boot** on the left toolbar and select the container from there, this opens a new Window with the container information
 
 ### 4.2. Open Folder and building your app.
 - Use the **VSC Explorer** and the **Open Folder** to open the remote container's folder. **Ensure** you open the correct folder so that the **.vscode** directory settings are applied properly.
-- Select Open Folder and enter: **/projects/ava/your_project_name**. This will ensure the project is loaded along with the settings configured in the .vscode folder. (Alternatively, you can obtain the path by opening a terminal inside the Docker container. The initial folder shown by the pwd command will give you the correct path.)
+- Select Open Folder and enter: **/projects/ava/your_project_name** (for Avalonia). This will ensure the project is loaded along with the settings configured in the .vscode folder. (Alternatively, you can obtain the path by opening a terminal inside the Docker container. The initial folder shown by the pwd command will give you the correct path.)
 
-When opening the .NET container and the project root folder in Visual Studio Code, a dedicated Visual Studio Code server will be installed within the container. This server provides a full Visual Studio Code environment with its own settings and extensions. Upon opening the folder for the first time, the system will detect any required extensions and prompt you to install them. Follow the instructions to complete the installation if prompted. As of August 2024, the following extension is recommended for this project
-- C# Dev Kit
--
+When opening the .NET container and the project root folder in Visual Studio Code, a dedicated Visual Studio Code server will be installed within the container. This server provides a full Visual Studio Code environment with its own settings and extensions. Upon opening the folder for the first time, the system will detect any required extensions and prompt you to install them. Follow the instructions to complete the installation if prompted.
+
 
 In case the intellisense indicates errors in one of the project files this is probably due to the missing of an extension.
 <br>
@@ -418,7 +457,8 @@ In case you have to customize the build properties or other settings these files
 </details>
 
 ### 4.3 VSC Build tasks
-In the menu **'Terminal -> Run Tasks...'** You can find the build task for our project, which are defined in the settings file (see side note above). The following are defined for our project:
+Most of the build an launch task are pre-created for you, for example the Avalonia project has the following tasks:
+In the menu **'Terminal -> Run Tasks...'** You can find the build task for the Avalonia project, which are defined in the settings file (see side note above). The following are defined for our project:
 - Clean: All Build Output<br> 
 - Debug: Build Configuration <br>
 - Debug: Restores NuGet Packages <br>
@@ -428,3 +468,5 @@ In the menu **'Terminal -> Run Tasks...'** You can find the build task for our p
 <span class="nje-ident"/> <small>*Almost all ways called automatically*</small>
 - Watch XAML Build <br>
 <span class="nje-ident"/> <small>*This makes sure you can see the 'live output' of the application while your updating the XAML file(s)*</small>
+For other sub-container other task might be available, but most of them should be self explaining
+

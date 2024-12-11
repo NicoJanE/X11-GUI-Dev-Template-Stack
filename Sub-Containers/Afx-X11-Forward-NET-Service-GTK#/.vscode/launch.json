@@ -1,0 +1,23 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": ".NET Core Launch GTKApp(Debug)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "Build GTK App (Debug)",
+      "program": "${workspaceFolder}/bin/Debug/net8.0-windows/app.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": false,
+      "console": "internalConsole",        
+      "env": {
+        "XDG_RUNTIME_DIR": "/tmp/runtime-dir",
+      },
+      "sourceFileMap": {
+        "/src": "${workspaceFolder}"
+      }
+   
+    }
+  ]
+}

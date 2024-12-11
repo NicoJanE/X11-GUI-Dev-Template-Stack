@@ -1,0 +1,16 @@
+{
+    "name": "AFX Project extensions",    
+    "customizations": {
+        "vscode": {
+            "settings": {},
+            "extensions": ["ms-vscode.makefile-tools",
+            "xyz.local-history",
+            "ms-dotnettools.csharp"
+            ]
+        }        
+    },
+    "workspaceFolder": "__NJE-1970__",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/projects/net-gtk,type=bind",
+    "overrideCommand": false,
+    "remoteUser": "vscode"
+}

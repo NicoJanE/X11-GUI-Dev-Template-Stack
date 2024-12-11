@@ -1,0 +1,102 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build GTK App (Debug)",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "${workspaceFolder}",
+         "--configuration",
+      "Debug"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "detail": "Builds the GTK App project in debug mode."
+    },
+
+    {
+      "label": "Build Release",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "${workspaceFolder}/",
+        "--configuration",
+        "Release"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "detail": "Builds the HelloGtkSharp project in Release mode."
+    },
+
+    {
+      "label": "GTK App (Release)",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "run",
+        "--project",
+        "${workspaceFolder}"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "detail": "Runs the GTK App  project."
+    },
+
+
+
+    // Task to create a .NET classlib in the src/backend directory, operator must provide the new library name 
+    {        
+      "label": "AFX CREATE: Class Library (source)",
+      "type": "shell",
+      
+      "command": "bash",
+      "args": [
+          "-c",
+          // Escape the quotes and add ANSI color codes! so escape code: \033[0m  becomes: \\033[0m but it must be contained in an escaped string. Example:   \" .....bla bla escape code \"                                
+          //"clear && dotnet new classlib -o  ${input:libName} &&  echo -e \"\n\n\\033[1;32C Classlib created!\\033[0m \" && echo -e \"\t- \\033[1;33mOutput directory classlib: $(find ${workspaceFolder}/src/backend/ -type d -name ${input:libName}) \\033[0m\n\n\""             
+          "clear && dotnet new classlib -o  ${input:libName} &&  echo -e \"\n \\033[1;32m Classlib created!\\033[0m \" && echo -e \"\t- \\033[1;33m dotnet add reference $(find ${workspaceFolder}/src/backend/ -type d -name ${input:libName})/${input:libName}.csproj \\033[0m \" &&  echo -e \"\tRun the above command in your project directory (where 'app.csproj' is located) to add a reference your main project file \n\n \"  " 
+      ],
+      
+      "options": {
+          "cwd": "${workspaceFolder}/src/backend",
+      },
+      "group": {
+          "kind": "build",
+          "isDefault": true
+      },
+      "detail": "Task to create a .NET classlib in the src/backend directory, operator must provide the new library name ",
+      "problemMatcher": ["$msCompile"],
+      
+    },
+
+
+
+  ],
+
+
+
+  // separated  input selections
+  "inputs": 
+  [
+
+      // "AFX Build 5: Client Library Tester (Rust LINUX)
+      // User can define name of the 'class library' her
+      {
+          "id": "libName",
+          "type": "promptString",
+          "description": "Enter the name of the new class  library",
+          "default": "my_test_lib"
+      }
+  ],
+}

@@ -1,0 +1,23 @@
+<!-- app.csproj -->
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+
+    <AssemblyTitle>Your App Name</AssemblyTitle>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <AssemblyFileVersion>1.0.0.0</AssemblyFileVersion>
+  </PropertyGroup>
+  
+  <!--or use CMD command: dotnet add package GtkSharp __version 3.* --> 
+   <ItemGroup>       
+       <PackageReference Include="GtkSharp" Version="3.*" />
+   </ItemGroup> 
+   <ItemGroup>
+     <ProjectReference Include="src\backend\cl_example\cl_example.csproj" />
+   </ItemGroup>
+
+</Project>

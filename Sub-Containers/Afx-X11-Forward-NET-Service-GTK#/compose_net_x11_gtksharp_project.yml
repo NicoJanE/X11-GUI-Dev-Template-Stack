@@ -1,0 +1,46 @@
+# This file is part of: NET-X11-Development-Template-Stack
+# Copyright (c) 2024 Nico Jan Eelhart
+#
+# This source code is licensed under the MIT License found in the  'LICENSE.md' file in the root directory of this source tree.
+#     d
+        
+networks: 
+    x11_forward-network-fixed:  
+        external: true 
+        name: ext_x11_forward-network-fixed
+              
+
+volumes:
+  vol_wpf:  
+
+  
+services:               
+    axf-dotnet-gtksharp-container:                 
+        extends:
+            file: ../../Base-Container/Afx-Base-Service/compose_app_forward_x11_base.yml    # Relative path to the base compose file
+            service: axf-basic-service                                                      # Same service name as base file
+        build:
+            context: .  
+            dockerfile: Docker_NET-X11_GTKsharp_Project         # Docker command to execute for this compose
+            args:
+                PRJ_NAME_ARG: ${PRJ_NAME_ARG}                   # Set PRJ_NAME_ARG with the.env file variable. Define PRJ_NAME_ARG also in Dockerfile 
+                PRJ_BASE_ARG: ${PRJ_BASE_ARG}
+                PORT: ${PORT}
+        ports:
+            - "${PORT}:${PORT}"                                 # First host second container    
+        image: eelhart/appforwardx11-net-gtksharp:latest        # This name can be used to extend or chain this image.
+        environment:
+            - PORT=${PORT}                      # Pass variable from .env to PORT (1e), this is available in the 
+                                                # container(ENV) and in dockerfile, during building after
+                                                # defining: 'ARG PORT' in the docker file
+            - DISPLAY=host.docker.internal:0    # THIS relays the Linux output to vcxsrv(Xlaunch) Also added in the Docker file!   
+                                                
+        working_dir: ${PRJ_BASE_ARG}/$PRJ_NAME_ARG
+        networks:
+            x11_forward-network-fixed
+        volumes:
+#            - ./Projects:/Projects              # Bind volume to and from our projects host folder THIS SUCK always
+            - /tmp/.X11-unix:/tmp/.X11-unix     # MOUNTS the X11 socket GUI directory
+        command: ["/bin/sh", "-c", "while sleep 1000; do :; done"]  # use this in case of err, let's you get in(CMD)
+        
+# docker-compose -f compose_net_x11_gtksharp__project.yml up -d  --remove-orphans --build --force-recreate   
