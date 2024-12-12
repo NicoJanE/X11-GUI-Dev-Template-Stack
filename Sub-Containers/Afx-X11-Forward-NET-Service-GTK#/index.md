@@ -19,8 +19,10 @@ If you have previously installed this (or a similar) AFX foreward sub container,
 1. **Create the WSLs**{: style="color:green; "} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <small>*(if not yet done*) </small>      
 In case you don't have the **WSL** container, open CMD in the folder: ***'APP-X11-Forward-Development-Template-Stack\Base-Container\Afx-Base-Service\'*** and execute: 
 <pre class="nje-cmd-one-line"> wsl --import Ubuntu-docker-App-X11-Win32Dev ./wsl2-distro  "install.tar.gz"  </pre>
- <small>By default the WSL image is created in the sub folder of the current directory (./wsl2-distro) you may choose to store this image more **central**, for example like in 'd:\wsl-data\afx-stacks', this way you can **reuse** this WSL distribution for different **AFX stacks**  </small>
-<br>
+
+> *Remark:*{: style="color: black;font-size:13px; "} <br>
+> <small>By default the WSL image is created in the sub folder of the current directory (./wsl2-distro) you may choose to store this image more **central**, for example like in 'd:\wsl-data\afx-stacks', this way you can **reuse** this WSL distribution for different **AFX stacks**  <br></small>
+
 
 2. **Create the base container**{: style="color:green; "} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <small>*(if not yet done*) </small> <br>
 Create docker base container (in folder: 'Afx-Base-Service')
@@ -35,8 +37,9 @@ Execute the following commands:
 <pre class="nje-cmd-multi-line">wsl -d Ubuntu-docker-App-X11-Win32Dev 
 docker exec -it afx-x11-forward-net-service-gtk-axf-dotnet-gtksharp-container-1 /bin/bash 
 </pre>
-<small>When  the container cannot be found, restart the Docker app and ensure WSL integration is enabled in Docker settings!</small>
-<br>
+> *Warning:*{: style="color: red;font-size:13px; "} <br>
+> <small>When  the container cannot be found, restart the Docker app and ensure WSL integration is enabled in Docker settings! <br></small>
+
 
 5. **Start the sub-container in Visual Studio Code**{: style="color:green; "}<br>
 Install the following extension(s) in the container
