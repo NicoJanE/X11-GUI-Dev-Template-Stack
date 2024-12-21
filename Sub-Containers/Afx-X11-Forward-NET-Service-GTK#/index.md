@@ -6,7 +6,7 @@ RefPages:
 
 
 # What
-Sub container for the ***'APP-X11-Forward-Development-Template-Stack'*** development stack. Containing a project template for **.NET Core 8.x** in combination with **GTK 4.0**
+Sub container for the ***'APP-X11-Forward-Development-Template-Stack'*** development stack. Containing a project template for **.NET Core 8.x** in combination with **GTK 3.24.24**
 
 > For more information about setting up this stack and/or this sub-container , visit the [main documentation page](https://nicojane.github.io/APP-X11-Forward-Development-Template-Stack/). You can find other Docker Template Stack (DTS) containers  [here.](https://nicojane.github.io/Docker-Template-Stacks-Home/)
 >
@@ -75,7 +75,7 @@ You can use the following tasks in Visual Studio Code:
  >***Remark 1***{: style="color: green;font-size:14px; "} <small> <br>Make sure the class library start with: **'cl_'** followed by a descriptive name. This makes sure:
  <br><span class="nje-ident" style="--nje-number-of-spaces: 30px;"></span> * That the class libraries are created in a **folder** with that name on **src\backend\cl_yourname***
  <br><span class="nje-ident" style="--nje-number-of-spaces: 30px;"></span> * During the build process the **cl_** is replaced with with **'lib_'**  resulting into library: ***lib_yourname***
-<br><span class="nje-ident" style="--nje-number-of-spaces: 3px;"></span> * The **clean tasks 4.x** wil work properly, because they act on these names!
+<br><span class="nje-ident" style="--nje-number-of-spaces: 30px;"></span> * The **clean tasks 4.x** wil work properly, because they act on these names!
  </small> 
 
 <br>

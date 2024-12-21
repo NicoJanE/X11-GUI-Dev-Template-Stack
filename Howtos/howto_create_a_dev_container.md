@@ -396,7 +396,7 @@ This feature for XAML development and auto complete features (Requires .NET Core
 <br>
 
 ### 3.3 Creating an .NET GTK Sub Container (Afx-X11-Forward-NET-Service-GTK#)
-This is a shorted instruction set, to install the .NET GTK Sub Container
+This is a shorted instruction set, to install the .NET GTK sharp Sub Container, based on GTK 3.24.24.
 
 1) ***Create the sub container***{: style="color:green; "} <br>
 Create the .NET GTK Sub container (folder: 'Afx-X11-Forward-NET-Service-GTK#'): 
