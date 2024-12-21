@@ -72,13 +72,13 @@ You can use the following tasks in Visual Studio Code:
 |<small>4.2 AFX Clean the application </small>                                | <small>Cleans the frontend application  </small>
 |<small>4.3 AFX Clean ALL </small>                                            | <small>Clean all libraries and frontend application </small>
 
- ><span class="nje-ident"></span> ***Remark 1***{: style="color: green;font-size:14px; "} <small> <br>Make sure the class library start with: **'cl_'** followed by a descriptive name. This makes sure:
- <br><span class="nje-ident" style="--nje-number-of-spaces: 80px;"></span> * That the class libraries are created in a **folder** with that name on **src\backend\cl_yourname***
- <br><span class="nje-ident" style="--nje-number-of-spaces: 80px;"></span> * During the build process the **cl_** is replaced with with **'lib_'**  resulting into library: ***lib_yourname***
-<br><span class="nje-ident" style="--nje-number-of-spaces: 80px;"></span> * The **clean tasks 4.x** wil work properly, because they act on these names!
+ >***Remark 1***{: style="color: green;font-size:14px; "} <small> <br>Make sure the class library start with: **'cl_'** followed by a descriptive name. This makes sure:
+ <br><span class="nje-ident" style="--nje-number-of-spaces: 30px;"></span> * That the class libraries are created in a **folder** with that name on **src\backend\cl_yourname***
+ <br><span class="nje-ident" style="--nje-number-of-spaces: 30px;"></span> * During the build process the **cl_** is replaced with with **'lib_'**  resulting into library: ***lib_yourname***
+<br><span class="nje-ident" style="--nje-number-of-spaces: 3px;"></span> * The **clean tasks 4.x** wil work properly, because they act on these names!
  </small> 
 
-
+<br>
 
 <details closed>  
   <summary class="clickable-summary">
