@@ -23,7 +23,7 @@ This container consists of a **Base Container** and several **Sub Containers**. 
 |:-----------------                   |:----------------|
 | Afx-X11-Forward-NET-Service         | . |
 | Afx-X11-Forward-Avalonia-Service    | . |
-| Afx-X11-Forward-NET-Service-GTK#    | [Specific quick setup](Sub-Containers\Afx-X11-Forward-NET-Service-GTK#\index)  |
+| Afx-X11-Forward-NET-Service-GTK#    | [Specific quick setup](https://nicojane.github.io/APP-X11-Forward-Development-Template-Stack/Sub-Containers/Afx-X11-Forward-NET-Service-GTK%23/index.html)  |
 
 
 
