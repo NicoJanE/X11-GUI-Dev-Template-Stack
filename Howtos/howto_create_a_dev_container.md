@@ -423,7 +423,7 @@ code --install-extensionms-dotnettools.vscode-dotnet-runtime
 
 #### 3.3.1 The project Template and specific tasks in VSC
 **Project structure** <br>
-After opening your project you find a **'src'** folder with the following structure: <br>
+After opening your GTK3 .NET project you find a **'src'** folder with the following structure: <br>
 - **src** -->> *root source folder*
   - **backend** -->> *.NET class libraries*. <small>**See VSC task: '2.1 AFX ...' below**</small>
     - **cl_example** -->> *simple sample class library*
@@ -444,8 +444,8 @@ You can use the following tasks in Visual Studio Code:
 |<small>4.2 AFX Clean the application </small>                                | <small>Cleans the frontend application  </small>
 |<small>4.3 AFX Clean ALL </small>                                            | <small>Clean all libraries and frontend application </small>
 
- ><span class="nje-ident"></span> ***Remark 1***{: style="color: green;font-size:14px; "} <small> <br>Make sure the class library start with: **'cl_'** followed by a descriptive name. This makes sure:
- <br><span class="nje-ident" style="--nje-number-of-spaces: 80px;"></span> * That the class libraries are created in a **folder** with that name on **src\backend\cl_yourname***
+ >***Remark 1***{: style="color: green;font-size:14px; "} <small> <br>Make sure the class library start with: **'cl_'** followed by a descriptive name. This makes sure:
+ <br><span class="nje-ident" style="--nje-number-of-spaces: 80px;"></span> * That the class libraries are created in a **folder** with that name on **src\backend\cl_yourname**
  <br><span class="nje-ident" style="--nje-number-of-spaces: 80px;"></span> * During the build process the **cl_** is replaced with with **'lib_'**  resulting into library: ***lib_yourname***
 <br><span class="nje-ident" style="--nje-number-of-spaces: 80px;"></span> * The **clean tasks 4.x** wil work properly, because they act on these names!
  </small> 
