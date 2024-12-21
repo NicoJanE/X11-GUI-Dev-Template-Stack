@@ -29,8 +29,20 @@ RUN apt-get update && apt-get install -y \
 # Install GTK dependencies
 RUN apt-get update && apt-get install -y \
     libgtk-3-dev \
+    libgtk-4-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+
+
+# To prevent GTK build errors like: "Gtk-WARNING **: 15:04:48.547: Locale not supported by C library. Using the fallback 'C' locale."
+# We need to install the system locals and set the environment variables
+RUN apt-get update && apt-get install -y locales \
+    && locale-gen en_US.UTF-8 \
+    && update-locale LANG=en_US.UTF-8
+
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
 
 
 # Install the VS Code debugger
@@ -80,6 +92,7 @@ WORKDIR ${PRJ_NAME_ARG}
 RUN mkdir ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/src
 COPY Project-Templates/gtk#/*.* ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/
 COPY Project-Templates/gtk#/src/backend/*.* ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/src/backend/
+COPY Project-Templates/gtk#/src/backend/cl_example_rest/*.* ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/src/backend/cl_example_rest/
 COPY Project-Templates/gtk#/src/backend/cl_example/*.* ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/src/backend/cl_example/
 COPY Project-Templates/gtk#/src/frontend/*.* ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/src/frontend/
 
@@ -89,4 +102,4 @@ COPY Project-Templates/gtk#/src/frontend/*.* ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/src
 RUN dotnet restore
 
 # Build the project
-RUN dotnet build
+RUN dotnet build -p:CustomOutputName=GTK_app

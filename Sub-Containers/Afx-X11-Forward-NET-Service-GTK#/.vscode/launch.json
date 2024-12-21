@@ -2,15 +2,16 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": ".NET Core Launch GTKApp(Debug)",
+      "name": ".NET Core Launch GTK App (Debug Windows)",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "Build GTK App (Debug)",
-      "program": "${workspaceFolder}/bin/Debug/net8.0-windows/app.dll",
+      "preLaunchTask": "1.1 AFX Build GTK App (Debug Windows)",
+      "program": "${workspaceFolder}/bin/Debug/net8.0-windows/GTK_app.dll",
       "args": [],
       "cwd": "${workspaceFolder}",
       "stopAtEntry": false,
-      "console": "internalConsole",        
+      "justMyCode": false,
+      "console": "integratedTerminal",        
       "env": {
         "XDG_RUNTIME_DIR": "/tmp/runtime-dir",
       },

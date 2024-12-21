@@ -49,6 +49,36 @@ code --install-extension ms-dotnettools.csdevkit
 </pre>
 <br><br>
 
+### The project Template and specific tasks in VSC
+**Project structure** <br>
+After opening your project you find a **'src'** folder with the following structure: <br>
+- **src** -->> *root source folder*
+  - **backend** -->> *.NET class libraries*. <small>**See VSC task: '2.1 AFX ...' below**</small>
+    - **cl_example** -->> *simple sample class library*
+    - **cl_example** -->> *other sample class library, with simple Rest example*
+  - **frontend** -->> *GTK3 csharp code*
+    - **Program.cs** -->> main program using the sample libraries
+
+**VSC Tasks** <br>
+You can use the following tasks in Visual Studio Code: 
+
+| Tasks                                                                       | Used for                                  |
+|:-----                                                                       |:--------                                  |
+|<small>1.1 AFX Build GTK App (Debug Windows)</small>                         | <small>Debug Build all for the Windows platform </small> |
+|<small>1.2 AFX Build Release GTK App (Windows & Linux)</small>&nbsp; | <small>Release build ofr Linux and Windows Platforms </small>
+|<small>2.1 AFX CREATE: Class Source Library </small>                         | <small>Creates a class library in the directory: src/backend/ see **Remark 1** </small>
+|<small>3.1 AFX Run GTKApp (Windows Release) </small>                         | <small>Run the app in release mode </small>
+|<small>4.1 AFX Clean a specific Library </small>                             | <small>Cleans a specific class library </small>
+|<small>4.2 AFX Clean the application </small>                                | <small>Cleans the frontend application  </small>
+|<small>4.3 AFX Clean ALL </small>                                            | <small>Clean all libraries and frontend application </small>
+
+ ><span class="nje-ident"></span> ***Remark 1***{: style="color: green;font-size:14px; "} <small> <br>Make sure the class library start with: **'cl_'** followed by a descriptive name. This makes sure:
+ <br><span class="nje-ident" style="--nje-number-of-spaces: 80px;"></span> * That the class libraries are created in a **folder** with that name on **src\backend\cl_yourname***
+ <br><span class="nje-ident" style="--nje-number-of-spaces: 80px;"></span> * During the build process the **cl_** is replaced with with **'lib_'**  resulting into library: ***lib_yourname***
+<br><span class="nje-ident" style="--nje-number-of-spaces: 80px;"></span> * The **clean tasks 4.x** wil work properly, because they act on these names!
+ </small> 
+
+
 
 <details closed>  
   <summary class="clickable-summary">

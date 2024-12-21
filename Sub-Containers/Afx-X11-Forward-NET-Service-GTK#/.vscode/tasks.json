@@ -2,62 +2,46 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Build GTK App (Debug)",
+      "label": "1.1 AFX Build GTK App (Debug Windows)",
       "type": "process",
       "command": "dotnet",
       "args": [
         "build",
+        "-f",              // These 2 are neede to enter breakpoint in the Windows Host environment, with 'net8' program runs but does not hit break points,
+        "net8.0-windows",  // this is why we have multi-targeting in the project files: <TargetFrameworks>net8;net8.0-windows</TargetFrameworks>
         "${workspaceFolder}",
-         "--configuration",
-      "Debug"
+        "--configuration","Debug",
+        "-p:CustomOutputName=GTK_app"   // Defines custom output name, also change launch.json!
       ],
       "problemMatcher": "$msCompile",
       "group": {
         "kind": "build",
         "isDefault": true
       },
-      "detail": "Builds the GTK App project in debug mode."
+      "detail": "Builds the GTKApp project in debug mode, Window only."
     },
 
     {
-      "label": "Build Release",
+      "label": "1.2 AFX Build Release GTK App (Release Windows & Linux)",
       "type": "process",
       "command": "dotnet",
       "args": [
         "build",
         "${workspaceFolder}/",
-        "--configuration",
-        "Release"
+        "--configuration", "Release",   // Note no  "-f" Means both will be build(Windows and Linux)
+        "-p:CustomOutputName=GTK_app"   // Defines custom output name, also change launch.json!
       ],
       "problemMatcher": "$msCompile",
       "group": {
         "kind": "build",
         "isDefault": false
       },
-      "detail": "Builds the HelloGtkSharp project in Release mode."
+      "detail": "Builds the GTKApp project in Release mode for Windows and Linux."
     },
 
-    {
-      "label": "GTK App (Release)",
-      "type": "process",
-      "command": "dotnet",
-      "args": [
-        "run",
-        "--project",
-        "${workspaceFolder}"
-      ],
-      "group": {
-        "kind": "test",
-        "isDefault": true
-      },
-      "detail": "Runs the GTK App  project."
-    },
-
-
-
-    // Task to create a .NET classlib in the src/backend directory, operator must provide the new library name 
+    // Task to create a .NET classlib in the src/backend directory, operator must provide the new library name   
     {        
-      "label": "AFX CREATE: Class Library (source)",
+      "label": "2.1 AFX CREATE: Class Source Library",
       "type": "shell",
       
       "command": "bash",
@@ -75,28 +59,149 @@
           "kind": "build",
           "isDefault": true
       },
-      "detail": "Task to create a .NET classlib in the src/backend directory, operator must provide the new library name ",
+      "detail": "Task to create a .NET classlib in the src/backend directory. Start a classlin with the name cl_ (stick to the name conventions, tasks depend on it) ",
+      "problemMatcher": ["$msCompile"],
+      
+    },
+
+    {
+      "label": "3.1 AFX Run GTKApp (Windows Release)",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "run",
+        "--project",
+        "${workspaceFolder}",
+        "-f",             
+        "net8.0-windows",
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "detail": "Runs the GTKApp project in release mode."
+    },
+
+
+    // Task to remove the artifacts of a specific .NET classlib. User must specify name, type (Debug/Release) and platform (Linux/Windows)
+    {        
+      "label": "4.1 AFX Clean a specific Library",
+      "type": "shell",
+      
+      "command": "bash",
+      "args": [
+          "-c",
+          // Escape the quotes and add ANSI color codes! so escape code: \033[0m  becomes: \\033[0m but it must be contained in an escaped string. Example:   \" .....bla bla escape code \"               
+          "clear && rm -f bin/${input:libName_OS_build}/${input:libName_OS_dir}/${input:libName_to_clean}.* && rm -f src/backend/bin/${input:libName_OS_build}/${input:libName_OS_dir}/${input:libName_to_clean}.* && alias=$(echo ${input:libName_to_clean} | sed 's/lib/cl/') && rm -rf src/backend/$alias/obj/ &&  echo -e \"\n \\033[1;32m Removed Classlib:  ${input:libName_to_clean}, Type: ${input:libName_OS_build}, Platform: ${input:libName_OS_dir} \\033[0m \n\n  \"  " 
+      ],
+      
+      "options": {
+          "cwd": "${workspaceFolder}",
+      },
+      "group": {
+          "kind": "build",
+          "isDefault": true
+      },
+      "detail": "Removes a specific library, WARNING! stick with the suggested file names! (a classlib directorie start with 'cl_' whih results in a for output library starting with 'lib_') ",
       "problemMatcher": ["$msCompile"],
       
     },
 
 
+    // Task to remove the artifacts ofthe app. User must specify, type (Debug/Release) and platform (Linux/Windows)
+    {        
+      "label": "4.2 AFX Clean the application",
+      "type": "shell",
+      
+      "command": "bash",
+      "args": [
+          "-c",
+          // Escape the quotes and add ANSI color codes! so escape code: \033[0m  becomes: \\033[0m but it must be contained in an escaped string. Example:   \" .....bla bla escape code \"                 
+          "clear && rm -rf bin/${input:libName_OS_build}/${input:libName_OS_dir}/ && rm -rf obj/${input:libName_OS_build}/${input:libName_OS_dir}/ && echo -e \"\n \\033[1;32m Removed the application build artifacts:  Type: ${input:libName_OS_build}, Platform: ${input:libName_OS_dir} \\033[0m \n\n  \"  " 
+      ],
+      
+      "options": {
+          "cwd": "${workspaceFolder}",
+      },
+      "group": {
+          "kind": "build",
+          "isDefault": true
+      },
+      "detail": "Task to remove a specific application artifac${defaultBuildTask} ",
+      "problemMatcher": ["$msCompile"],
+      
+    },
+
+    // Task to remove the artifacts ofthe app. User must specify, type (Debug/Release) and platform (Linux/Windows)
+    {        
+      "label": "4.3 AFX Clean ALL",
+      "type": "shell",
+      
+      "command": "bash",
+      "args": [
+          "-c",
+          // Escape the quotes and add ANSI color codes! so escape code: \033[0m  becomes: \\033[0m but it must be contained in an escaped string. Example:   \" .....bla bla escape code \"                 
+          "clear && rm -rf bin/ && rm -rf obj/ && rm -rf src/backend/bin/  && find src/backend -mindepth 2 -maxdepth 2 -type d -name \"obj\" -exec rm -rf {} + &&  echo -e \"\n \\033[1;32m Removed all  build artifacts!  \\033[0m \n\n  \"  " 
+      ],
+      
+      "options": {
+          "cwd": "${workspaceFolder}",
+      },
+      "group": {
+          "kind": "build",
+          "isDefault": true
+      },
+      "detail": "Task to removes all binaries and intermediate files from the app and the libraries ",
+      "problemMatcher": ["$msCompile"],
+      
+    },
+
+    
+
 
   ],
 
-
-
-  // separated  input selections
+  // Input selections
   "inputs": 
-  [
-
-      // "AFX Build 5: Client Library Tester (Rust LINUX)
-      // User can define name of the 'class library' her
+  [      
+      // User can create a new 'class library' here. The name must start with 'cl_' (folder name)
       {
           "id": "libName",
           "type": "promptString",
-          "description": "Enter the name of the new class  library",
-          "default": "my_test_lib"
-      }
-  ],
+          "description": "New class library name. MAKE SURE to  start with: cl_",
+          "default": "cl_my_test"
+      },
+
+      // Clean a specific library. Note library names start with lib_
+      {
+          "id": "libName_to_clean",
+          "type": "pickString",
+          "description": "Select the library to clean (without extension!",
+          "options": [
+            "lib_example",
+            "lib_example_rest",          
+        ],
+        "default": "lib_example"
+      },
+      {
+          "id": "libName_OS_dir",
+          "type": "pickString",
+          "description": "Select the Os for which to delete the library",
+          "options": [
+            "net8",           // clean in Linux directory
+            "net8.0-windows", // clean in Windows directory, most used because this enables breakpoints and debugging
+        ],
+        "default": "net8.0-windows"
+      },
+      {
+        "id": "libName_OS_build",
+        "type": "pickString",
+        "description": "Which Build?, Debug or Release",
+        "options": [
+          "Debug",  
+          "Release",
+      ],
+      "default": "Debug"
+    } ,
+  ]
 }

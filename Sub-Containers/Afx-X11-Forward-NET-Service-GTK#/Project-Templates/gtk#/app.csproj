@@ -1,10 +1,45 @@
-<!-- app.csproj -->
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk"> 
+
+  <!--  When running the app(executing) and the 'libhostpolicy.so' shows the json file is not generated
+        copy this 'GTK_app.runtimeconfig.json' to: bin/Debug/net8.0-windows/ to fix this -->
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    
+      <!-- ***SET THIS TO THE OUTPUT NAME*** -->
+      <!--  Use CustomOutputName if provided (tasks.json -> -p:CustomOutputName=MyCustomLibrary ) otherwise, fallback to AssemblyName 
+            Make sure the assemble name and output have the same name! otherwish the r'untimeconfig.json'  can not be found -->
+      <AssemblyName>Library_default</AssemblyName>
+      <AssemblyName Condition="'$(CustomOutputName)' != ''">$(CustomOutputName)</AssemblyName>
+      <TargetName Condition="'$(CustomOutputName)' != ''">$(CustomOutputName)</TargetName>
+      <TargetName Condition="'$(CustomOutputName)' == ''">$(AssemblyName)</TargetName>
+      
+
+      <!--  1. Source Detection Strategy 
+              Implicit includes are enabled by default for simplicity (to keep simple programs simple and more complicated ones, more complicated). 
+              This means that every source file the compiler finds will be compiled, including source files found in subfolders that belong to 
+              another class library, which may already be compiled for another DLL library. As a result, when the main program compiles, it will 
+              compile the source of this subproject again, potentially leading to a 'duplicate implementation' error.
+
+              A ***solution*** to this (with 'EnableDefaultCompileItems' set to 'true' — the default) is to exclude the project files from this subproject
+              in the other project file(s), like this:
+                  <ProjectReference Include="src\backend\cl_example\cl_example.csproj" />
+
+              This method, while functional, can feel cumbersome.
+
+              A ***better solution*** is to take control and explicitly define which files need to be compiled. This can be done with the following line, 
+              where you define the files to compile using the `<Compile Include=...>` command within the ItemGroup section:
+      -->
+      <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+
+
+
+    <OutputType>Exe</OutputType>    
+    <TargetFrameworks>net8;net8.0-windows</TargetFrameworks>
+    <!--
+    <PublishSingleFile>false</PublishSingleFile>   
+    <SelfContained>false</SelfContained>           
+    -->
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>                              <!-- Causes multiple definitions-->
      <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
 
     <AssemblyTitle>Your App Name</AssemblyTitle>
@@ -12,12 +47,43 @@
     <AssemblyFileVersion>1.0.0.0</AssemblyFileVersion>
   </PropertyGroup>
   
-  <!--or use CMD command: dotnet add package GtkSharp __version 3.* --> 
+  
    <ItemGroup>       
-       <PackageReference Include="GtkSharp" Version="3.*" />
-   </ItemGroup> 
-   <ItemGroup>
-     <ProjectReference Include="src\backend\cl_example\cl_example.csproj" />
+      <!-- Define external NuGet packages, GtkSharp (GTK3 0in this case--> 
+      <PackageReference Include="GtkSharp" Version="3.*" />                    <!-- or use CMD command: dotnet add package GtkSharp __version 3.* to generate this. -->
+      <!-- <PackageReference Include="GtkSharp" Version="3.24.24" /> -->       <!-- Based on GTK version 3.24.24.117 Jam 2021 ***MAINTENANCE MODE**  -->                 
+
+      <!-- <PackageReference Include="GtkSharp.GTK4" Version="4.*" /> -->     <!--  As of dec 2024. GTK 4 is not suppored on GTKSharp  -->
+      
+            <!--       Alternative, use gir.core NuGet packages: -->
+            <!--       Could not make this work, so I used the GTKSharp (GTK3) package instead. 
+                       BIndings support see: https://en.wikipedia.org/wiki/List_of_language_bindings_for_GTK
+
+            <PackageReference Include="GirCore.Gio-2.0" Version="0.*" />
+            <PackageReference Include=" GirCore.Gtk-4.0" version="0.*" />
+            <PackageReference Include=" GirCore.GLib-2.0" version="0.*" />
+            <PackageReference Include=" GirCore.GObject-2.0" version="0.*" />
+            <PackageReference Include="GirCore.Pango-1.0" Version="0.*" />
+            <PackageReference Include="GirCore.Cairo-1.0" Version="0.*" />
+             <PackageReference Include="GirCore.GdkPixbuf-2.0" Version="0.*" />  
+             -->
+            
+   
+      <!--  Define other class libraries to include these DLLs. Note that artifacts are automatically copied to the main bin directory. 
+            Use <CopyLocal>false</CopyLocal> to prevent this.     
+            - The syntax will ensure that the sub-projects are always rebuilt. You can also reference the DLLs directly to prevent rebuilds.
+              but then the DLL must exist
+            - Example: <Reference Include="lib_example"> <HintPath>$(OutputPath)\net8.0-windows\lib_example.dll</HintPath>
+       -->            
+      <ProjectReference Include=".\src\backend\cl_example\cl_example.csproj" />       
+      <ProjectReference Include=".\src\backend\cl_example_rest\cl_example_rest.csproj" />   <!-- rebuilds classlibrary -->
+       
+      <!-- Define what to compile. See: 1. Source detection strategy .-->       
+      <Compile Include="src/frontend/**/*.cs" />                                            <!-- includes file in current folder: 'frontend'  and in all (future) sub folders -->    
+      <Compile Remove="obj\**\*.AssemblyAttributes.cs" />                                   <!-- Causes duplicated errors-->
+  
+     
    </ItemGroup>
 
 </Project>
+
