@@ -23,14 +23,14 @@ This container consists of a **Base Container** and several **Sub Containers**. 
 |:-----------------                   |:----------------|
 | Afx-X11-Forward-NET-Service         | . |
 | Afx-X11-Forward-Avalonia-Service    | . |
-| Afx-X11-Forward-NET-Service-GTK#    | [Specific quick setup](Sub-Containers\PyCRust-Project-Service\index)  |
+| Afx-X11-Forward-NET-Service-GTK#    | [Specific quick setup](Sub-Containers\Afx-X11-Forward-NET-Service-GTK#\index)  |
 
 
 
-### Quick setup
+### Quick setup (general)
 This is the general quick setup procedure. In the sub-container project you may find index.md file with specific quick setup instruction in case these instruction make you feel insecure.
 
-If you have previously installed this (or a similar) AFX Forward container, you can use the quick setup steps below. Otherwise please first read the **main documentation page**. or refer to one of the 'index.md' files in the sub-container, when available it contains detailed instructions for the specific sub-container  
+If you have previously installed this (or a similar) AFX Forward container, you can use the quick setup steps below. Otherwise please first read the main documentation page [howto_create_a_dev_container](Howtos/howto_create_a_dev_container.md). or refer to one of the 'index.md' files in the sub-container, when available it contains detailed instructions for the specific sub-container  
 
 
 1) **Create the WSLs**{: style="color:green; "} <br>
