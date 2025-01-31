@@ -1,0 +1,4 @@
+Use this to exchange files between the host and container.
+For example, use it to copy your project to the host as a means of backup:
+
+	-cp -r /projects/nextjs/myproject /shared-host/project-bak

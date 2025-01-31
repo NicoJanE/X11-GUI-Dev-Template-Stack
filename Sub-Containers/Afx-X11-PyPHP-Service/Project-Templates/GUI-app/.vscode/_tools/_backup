@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Define the source and destination directories
+#SOURCE_DIR="$(pwd)"
+SOURCE_DIR="../../"
+DEST_DIR="/shared-host/backup-project_date"
+
+# Check if the destination directory exists
+if [ ! -d "$DEST_DIR" ]; then
+  echo "Destination directory does not exist. Creating it..."
+  mkdir -p "$DEST_DIR"
+fi
+
+# Copy all files and directories from the source to the destination
+cp -r "$SOURCE_DIR/"* "$SOURCE_DIR/".* "$DEST_DIR/"
+
+echo "Files and directories copied from $SOURCE_DIR to $DEST_DIR"

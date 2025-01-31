@@ -1,0 +1,23 @@
+{
+    "name": "AFX Project extensions",    
+    "customizations": {
+        "vscode": {
+            "settings": {},
+            "extensions": ["ms-vscode.makefile-tools",
+            "ms-python.vscode-pylance",
+            "ms-vscode.cpptools",
+            "ms-vscode.cmake-tools",
+            "ms-vscode.cpptools-extension-pack",
+            "ms-vscode.makefile-tools",
+            "ms-python.python",
+            "ms-python.debugpy",
+            "xyz.local-history",
+            "vadimcn.vscode-lldb",
+            "rust-lang.rust-analyzer"]
+        }        
+    },
+    "workspaceFolder": "__NJE-1970__",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/projects/pycrust,type=bind",
+    "overrideCommand": false,
+    "remoteUser": "vscode"
+}

@@ -1,0 +1,2 @@
+Using generic WSL at:
+D:\WSL\AFX WSL\wsl2-afx-distro

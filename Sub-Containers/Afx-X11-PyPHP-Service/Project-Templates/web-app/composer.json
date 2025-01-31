@@ -1,0 +1,10 @@
+{
+    "name": "lekker/my-php-app",
+    "description": "A simple PHP application template.",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "require": {}
+}

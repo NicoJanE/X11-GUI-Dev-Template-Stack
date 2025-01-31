@@ -1,0 +1,341 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+       
+        
+        // Controller task to build all rust libraries (Debug or release choice)
+        {
+            "label": "AFX BUILD 1: Libraries (Rust,LINUX)",
+            "type": "shell", 
+            "dependsOrder": "sequence",    
+            "presentation": 
+            {
+                "reveal": "always",
+                "revealProblems": "onProblem",
+                "clear": true,
+                "echo": false
+            },
+            "detail": "Task to build all Rust libraries for Linux (Debug or release choice)",
+            "dependsOn": [
+              "_AFX Build: Libraries (Rust,LINUX)",
+              "_AFX POST_MSG_LINUX"
+            ], 
+            "problemMatcher": {
+                "base": "$rustc",
+                "fileLocation": ["relative", "${workspaceFolder}"]
+            },
+            
+        },
+
+        // The actual task too build the Rust libraries for Linux   // OK
+        {
+            "label": "_AFX Build: Libraries (Rust,LINUX)",           
+            "hide": true,                       // Implementation task, can not be selected by user                 
+            "type": "shell",
+            "command": "cargo",
+            "args": [
+                "build",       
+                "--workspace",                   // Include the whole workspace by default, thus also the Test project created      
+                //  "--exclude",                 // Define below whihc to exclude (test for example)
+                //  "",                          // Define here the exclude project, COMMENT both lineso not exclude anything 
+                "--target",
+                "x86_64-unknown-linux-gnu",
+                "--profile",
+                "${input:buildType}",                
+                //  "--verbose"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },            
+            "detail": "Implementation tasks used by: 'AFX Build: Libraries (Rust,LINUX)' to build all Rust libraries for Linux",
+            "options": 
+            {
+                "cwd": "${workspaceFolder}/src_backend",
+                "env":  {
+                        "CXX": "g++",   //   FIX    More than 2 days  searching for this. Without it it might select the MingW compiler 
+                                        //          with the result many many dangerous relocation errors and other errors due to the wrong binary generation (win)
+                                        //          **TIP** for future: Also\First test with command line command (don't trust VSC)
+                        "LIBRARY_BUILD_TYPE":  "${input:buildType}",   // Example parameter 1
+                        "LIBRARY_TARGET": "x86_64-unknown-linux-gnu"  // Example parameter 2
+                        }                
+             },
+             
+
+        },
+
+        
+        // Controller task to build all rust libraries Windows (Debug or release choice)
+        {
+            "label": "AFX BUILD 2: Libraries (Rust,WINDOWS)",
+            "type": "shell",
+            "dependsOrder": "sequence",    
+            "detail": "Task to build all Rust libraries for Windows (Debug or release choice)",
+            "presentation": 
+            {
+                "reveal": "always",
+                "revealProblems": "onProblem",
+                "clear": true,
+                "echo": false
+            },
+            "dependsOn": [
+            "_AFX Build: Libraries (Rust,WINDOWS)",
+            "_AFX POST_MSG_WINDOWS"
+            ],
+            "problemMatcher": {
+                "base": "$rustc",
+                "fileLocation": ["relative", "${workspaceFolder}"]
+            },
+            
+        },
+
+        // The actual task too build the Rust libraries for Windows AFX Build: Libraries (Rust,LINUX)  // OK
+        {
+            "label": "_AFX Build: Libraries (Rust,WINDOWS)",
+            "hide": true,                       // Implementation task, can not be selected by user                
+            "type": "shell",
+            "command": "cargo",
+            "args": [
+                "build",
+                "--target",
+                "x86_64-pc-windows-gnu",
+                "--profile",
+                "${input:buildType}"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },            
+            "detail": "Implementation tasks used by: 'AFX Build: Libraries (Rust,WINDOWS)' to build all Rust libraries for Windows",
+            "options": {
+                "cwd": "${workspaceFolder}/src_backend"
+            }
+        },
+
+    
+        // Removes all generated code (binaries) for the Linux Debug plartform
+        {
+            "label": "AFX CLEAN 6: Rust Libraries (LINUX Debug,release)",
+            "type": "shell",
+            "command": "rm",
+            "args": [
+                "-rf",
+                "${workspaceFolder}/src_backend/target/x86_64-unknown-linux-gnu/"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "detail": "Removes all generated code (binaries) for the Linux Debug and Release plartform",
+            "problemMatcher": []
+        },
+
+                
+        // Removes all generated code (binaries) for the Linux Debug plartform
+        {
+            "label": "AFX CLEAN 7: Rust Libraries (WINDOWS Debug,release)",
+            "type": "shell",
+            "command": "rm",
+            "args": [
+                "-rf",
+                "${workspaceFolder}/src_backend/target/x86_64-pc-windows-gnu/"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "detail": "Removes all generated code (binaries) for the Windows Debug and Release plartform",
+            "problemMatcher": []
+        },
+
+
+        // Task to create a new  Rust library with a user-specified name in:  ./src_backend/api_interface_rust OK
+        {
+            "label": "AFX Create 4: business Library (Rust)",
+            "type": "shell",
+            "command": "make",
+            "args": ["-f", "./.vscode/_tools/create-rust-lib.mak", "create-lib"],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },            
+            "presentation": 
+            {
+                "reveal": "always",
+                "revealProblems": "onProblem",
+                "clear": true,
+                "echo": false
+            },
+            "problemMatcher": ["$rustc"],
+            "detail": "Task to create a new  Rust library with a user-specified name in:  ./src_backend/api_interface_rust",
+            "options": 
+            {
+                "env": { "DIR": "${workspaceFolder}" }
+            }
+        }, 
+
+        // Task to create new Rust client application (./src_backend/api_interface_rust/tests/ ) to test a Rust library OK
+        {
+            "label": "AFX Create 5: Client Library Tester (Rust LINUX)",
+            "type": "shell",
+            "command": "make",
+            "args": ["-f", "./.vscode/_tools/create-rust-lib.mak", "create-test_lib"],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "presentation": 
+            {
+                "reveal": "always",
+                "revealProblems": "onProblem",
+                "clear": true,
+                "echo": false
+            },
+            "problemMatcher": ["$rustc"],
+            "detail": "Task to create new Rust client application (./src_backend/api_interface_rust/tests/ ) to test a Rust library ",
+            "options":
+            {
+                "env": { "DIR": "${workspaceFolder}" }
+                
+            }
+        },   
+        
+        
+        
+        // Task to build a Rust client application (./src_backend/api_interface_rust/tests/ ) to test a Rust library, test library must be given as input
+        {        
+            "label": "AFX BUILD 3: Client Library Tester (Rust LINUX, debug)",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                // Escape the quotes and add ANSI color codes! so escape code: \033[0m  becomes: \\033[0m but it must be contained in an escaped string. Example:   \" .....bla bla escape code \"
+                // Simple example:  "cargo build --package test_lib_core && echo  \"\n\nBuild complete! \" && echo \"\t- hello there \n\n \""
+                //"clear && cargo build --package test_core_lib &&  echo -e \"\n\n\\033[1;32mBuild complete!\\033[0m \" && echo -e \"\t- \\033[1;33mOutput Binary: $(find ${workspaceFolder}/src_backend/target/debug -type f -name test_core_lib)\\033[0m\n\n\"" 
+                "clear && cargo build --package ${input:libName} &&  echo -e \"\n\n\\033[1;32mBuild complete!\\033[0m \" && echo -e \"\t- \\033[1;33mOutput Binary Application: $(find ${workspaceFolder}/src_backend/target/debug -type f -name ${input:libName}) \\033[0m\n\n\""             
+            ],
+            
+            "options": {
+                "cwd": "${workspaceFolder}/src_backend/api_interface_rust/tests/${input:libName}",
+                "env": {
+                    "CXX": "g++"}   //   FIX    More than 2 days  searching for this. Without it it might select the MingW compiler 
+                                    //          with the result many many dangerous relocation errors and other errors due to the wrong binary generation (win)
+                                    //          **TIP** for future: Also\First test with command line command (don't trust VSC)
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Task to build a Rust client application (./src_backend/api_interface_rust/tests/ ) to test a Rust library test library must be given as input ",
+            "problemMatcher": ["$rustc"],
+            
+        },
+        
+
+
+        // Helper task
+        // ==============================================================================================================
+
+        // Displays generated resource for Linux builds
+        {
+            "label": "_AFX POST_MSG_LINUX",
+            "type": "shell",
+            "hide": true,                       // Implementation task, can not be selected by user                
+            "command": "bash",
+            "args": [
+                "-c",
+                // Escape the quotes and add ANSI color codes! so escape code: \033[0m  becomes: \\033[0m but it must be contained in an escaped string. Example:   \" .....bla bla escape code \"
+                //" echo  \"\n\nBuild complete! \" && echo \"\t- hello there \n\n \""
+                // "printf \" \n\n\\033[1;32mBuild completess!\\033[0m \n \""
+                //" tput setaf 2; echo \"Build complete!\" ; tput sgr0 "                
+                //" echo -e \"\n\n\\033[1;32mBuild complete!\\033[0m \n \" && echo -e \" \\033[1;33mOutput Binary:\n\\033[1;32m$(find ${workspaceFolder}/src_backend/target/x86_64-unknown-linux-gnu  -maxdepth 2 -type f -name 'lib*_lib.*')\\033[0m\n\n\"" ,
+                // Horror, yes but al must be on one line.
+                " echo -e \"\n\n\\033[1;32mBuild complete!\\033[0m \n \" && echo -e \" \\033[1;33mOutput Primary Binary:\n\\033[1;32m$(find ${workspaceFolder}/src_backend/target/x86_64-unknown-linux-gnu  -maxdepth 2 -type f -name 'lib*_lib.so')\\033[0m\n\n \" && echo -e \" \\033[1;33mOutput Other Binaries:\n\\033[1;32m$(find ${workspaceFolder}/src_backend/target/x86_64-unknown-linux-gnu  -maxdepth 2 -type f -name 'lib*_lib.*')\\033[0m\n\n \" " 
+              
+            ],
+            "presentation": 
+            {
+                "reveal": "always",
+                "revealProblems": "onProblem",
+                "echo": false,                    // This makes sure  the command is not echod to the terminal ('Executing task:...')   
+                "showReuseMessage": false         // hiddes the msg:  ' Terminal will be reused by ...'                                 
+            },
+            "group": {
+              "kind": "build",
+              "isDefault": false
+              
+            },
+          },
+
+
+        // Displays generated resource for Windows builds
+        {
+            "label": "_AFX POST_MSG_WINDOWS",
+            "type": "shell",
+            "hide": true,                       // Implementation task, can not be selected by user                
+            "command": "bash",
+            "args": [
+                "-c",
+                // Escape the quotes and add ANSI color codes! so escape code: \033[0m  becomes: \\033[0m but it must be contained in an escaped string. Example:   \" .....bla bla escape code \"
+                //  " echo -e \"\n\n\\033[1;32mBuild complete!\\033[0m \n \" && echo -e \" \\033[1;33mOutput Primary Binary:\n\\033[1;32m$(find ${workspaceFolder}/src_backend/target/x86_64-pc-windows-gnu  -maxdepth 2 -type f -name '*_lib.dll')\\033[0m\n\n \";" ,
+                // Horror, yes but al must be on one line.
+                " echo -e \"\n\n\\033[1;32mBuild complete!\\033[0m \n \" && echo -e \" \\033[1;33mOutput Primary Binary:\n\\033[1;32m$(find ${workspaceFolder}/src_backend/target/x86_64-pc-windows-gnu  -maxdepth 2 -type f -name '*_lib.dll')\\033[0m\n\n \" && echo -e \" \\033[1;33mOutput Other Binaries:\n\\033[1;32m$(find ${workspaceFolder}/src_backend/target/x86_64-pc-windows-gnu  -maxdepth 2 -type f -name 'lib*_lib.*')\\033[0m\n\n \" " 
+                
+              
+            ],
+            "presentation": 
+            {
+                "reveal": "always",
+                "revealProblems": "onProblem",
+                "echo": false,                    // This makes sure  the command is not echod to the terminal ('Executing task:...')   
+                "showReuseMessage": false         // hiddes the msg:  ' Terminal will be reused by ...'                                 
+            },
+            "group": {
+              "kind": "build",
+              "isDefault": false
+              
+            },
+          },
+
+
+          //
+          {
+            "label": "_AFX Touch bridge.rs",    // See comments in bridge.rs for the reason  
+            "hide": true,                       // Implementation task, can not be selected by user                
+            "type": "shell",
+            "command": "touch",
+            "args": [
+                "${workspaceFolder}/src_backend/api_interface/lib_core/src/bridge.rs"
+            ],
+            "detail": "Updates the timestamp of bridge.rs to trigger build.rs",
+            "problemMatcher": []
+        }, 
+         
+
+    ],
+
+
+
+    // Lose input selection definition
+    "inputs": 
+    [
+        {
+            "id": "buildType",
+            "type": "pickString",
+            "description": "Select build type",
+            "options": [ "dev", "release" ],
+            "default": "dev"
+        },
+
+        // "AFX Build 5: Client Library Tester (Rust LINUX)
+        // To indicate which test library should be build
+        {
+            "id": "libName",
+            "type": "promptString",
+            "description": "Enter the name of the test library (e.g., test_core_lib)",
+            "default": "test_core_lib"
+        }
+    ],
+
+    
+}

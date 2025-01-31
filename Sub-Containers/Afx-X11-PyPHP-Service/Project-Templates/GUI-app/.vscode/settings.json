@@ -1,0 +1,7 @@
+{
+    "python.analysis.extraPaths": [
+        "/opt/python-env/lib/python3.12/site-packages"
+      ],
+    "python.pythonPath": "/opt/python-env/bin/python"
+}
+  

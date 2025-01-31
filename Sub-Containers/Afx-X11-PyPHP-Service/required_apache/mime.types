@@ -1,0 +1,59 @@
+# Default mime.types file for Apache
+# Add MIME types as needed
+
+# Text files
+text/plain                             txt
+text/html                             html htm
+text/css                              css
+application/javascript                js
+application/json                      json
+
+# Image files
+image/jpeg                            jpeg jpg
+image/png                             png
+image/gif                             gif
+image/webp                            webp
+image/svg+xml                         svg
+
+# Audio and Video
+audio/mpeg                            mp3
+audio/wav                             wav
+audio/ogg                             ogg
+video/mp4                             mp4
+video/webm                            webm
+video/ogg                             ogg
+
+# Application files
+application/xml                       xml
+application/pdf                       pdf
+application/zip                       zip
+application/x-tar                     tar
+application/gzip                      gz
+application/x-bzip2                   bz2
+application/x-rar-compressed          rar
+
+# Font files
+font/woff                             woff
+font/woff2                            woff2
+application/font-woff                 woff
+application/font-woff2                woff2
+
+# Microsoft Office documents
+application/msword                    doc
+application/vnd.ms-excel              xls
+application/vnd.ms-powerpoint         ppt
+application/vnd.openxmlformats-officedocument.wordprocessingml.document docx
+application/vnd.openxmlformats-officedocument.spreadsheetml.sheet xlsx
+application/vnd.openxmlformats-officedocument.presentationml.presentation pptx
+
+# OpenDocument files
+application/vnd.oasis.opendocument.text odt
+application/vnd.oasis.opendocument.spreadsheet ods
+application/vnd.oasis.opendocument.presentation odp
+
+# Miscellaneous
+application/x-shockwave-flash          swf
+application/octet-stream               bin exe dll
+
+# Deprecated
+application/x-httpd-php                php
