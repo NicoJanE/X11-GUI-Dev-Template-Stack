@@ -9,8 +9,14 @@
             "type": "php",
             "request": "launch",
             "port": 9003,
-            "pathMappings": {                
+            "pathMappings": 
+            {                
                 "/projects/pyphp/__NJE-1970__/web-rest": "${workspaceFolder}"
+            },
+            "env":
+            {
+               // Make sure to use differsnt sessions ID's for each project,otherwise breakpoints and debbuging may fail after switching between projects
+                "XDEBUG_SESSION": "project2, PHP(R): Xdebug AFX"
             }
         },
         /*

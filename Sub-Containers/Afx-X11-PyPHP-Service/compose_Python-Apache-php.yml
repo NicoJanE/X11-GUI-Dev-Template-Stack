@@ -62,11 +62,11 @@ services:
 # TEST
 # phpunit --version		  # Should return version of Phpunit
 # composer -V		        # Should return version of Composer
-# http://localhost:8071/web-app/phpinfo.php
-# http://localhost:8071/web-app/home/index.html2
-# http://localhost:8071/web-app/home/index.php
-# http://localhost:8071/web-rest/wr-api.php?name=John
-# http://localhost:8071/web-rest/test-client/client.php
+#     http://localhost:8071/web-app/phpinfo.php
+#     http://localhost:8071/web-app/home/index.html2
+#     http://localhost:8071/web-app/home/index.php
+#     http://localhost:8071/web-rest/wr-api.php?name=John
+#     http://localhost:8071/web-rest/test-client/client.php
 #
 # Creat additional command prompt:
 #   docker ps # gets the docker container name or ID
@@ -79,6 +79,7 @@ services:
 
 
 # CONFIG
+# Create links in /opt/www/log
 # httpd.conf    ->  /opt/apache2/conf
 # php.ini       ->  /etc/php/8.2/fpm/
 # Root www      ->  /opt/www/public

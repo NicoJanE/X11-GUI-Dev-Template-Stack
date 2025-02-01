@@ -169,10 +169,12 @@ RUN chmod -R 777 /opt/www/public
 
 # 4.4   Define Apache2 loging
 RUN mkdir -p /opt/www/log/
-RUN chown -R root:www-data /opt/www/log
-RUN chmod -R 777 /opt/www/log
 RUN touch /opt/www/log/localhost_error.log
 RUN touch /opt/www/log/localhost_access.log
+#RUN chown -R root:www-data /opt/www/log
+RUN chown -R www-data:www-data /opt/www/log/*
+#RUN chmod -R 777 /opt/www/log
+RUN chmod -R 644 /opt/www/log/*
 
 
 # 4.5   Copy the Python desktop GUI template files (NOT SURE WHAT TO DO WITH THIS)
@@ -231,6 +233,10 @@ RUN echo '{ \
     { \ 
         "name": "About this Project and Doc)", \
         "path": "about and doc" \ 
+    }, \
+    { \ 
+        "name": "Logs", \
+        "path": "/opt/www/log/" \ 
     } \
   ], \
   "settings": \
