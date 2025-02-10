@@ -6,7 +6,7 @@ RefPages:
 
 <small>
 <br>
-# This file is part of: APP-Forward-X11-Development-Template-Stack
+_ This file is part of: APP-Forward-X11-Development-Template-Stack_
 _Copyright (c) 2025 Nico Jan Eelhart_
 _This source code is licensed under the MIT License found in the  'LICENSE.md' file in the root directory of this source tree._
 </small>
