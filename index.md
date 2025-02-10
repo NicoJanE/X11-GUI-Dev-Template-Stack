@@ -24,6 +24,7 @@ This container consists of a **Base Container** and several **Sub Containers**. 
 | Afx-X11-Forward-NET-Service         | . |
 | Afx-X11-Forward-Avalonia-Service    | . |
 | Afx-X11-Forward-NET-Service-GTK#    | [Specific quick setup](https://nicojane.github.io/APP-X11-Forward-Development-Template-Stack/Sub-Containers/Afx-X11-Forward-NET-Service-GTK%23/index.html)  |
+| Afx-X11-Forward-PHP-Python-Rust#    | [Specific quick setup](https://github.com/NicoJanE/APP-X11-Forward-Development-Template-Stack/blob/master/Sub-Containers/Afx-X11-PyPHP-Service/quick-setup.md)  |
 
 
 
