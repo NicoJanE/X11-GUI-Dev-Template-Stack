@@ -452,6 +452,12 @@ You can use the following tasks in Visual Studio Code:
 
 <br>
 
+### 3.4 - A PHP/Python/Rust Sun container
+General purpose container for PHP, Python and Rust development, contains a default project template with all this languages.
+More (setup) information here: [Quick Setup](./../Sub-Containers/Afx-X11-PyPHP-Service/quick-setup)
+
+<br>
+
 # 4 Develop with VSC in the host
 To develop in **V**isual **S**tudio **C**ode we advice the following instructions. Note that this is a general instruction applicable for all sub containers, any specific issue will  be described in the **'README.md'** in the root directory of the sub container, this all includes specific VSC task and project structure.
 

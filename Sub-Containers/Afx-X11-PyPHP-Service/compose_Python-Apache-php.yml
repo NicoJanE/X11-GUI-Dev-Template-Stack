@@ -58,28 +58,3 @@ services:
 #
 # (MAKE SURE the following are installed first: compose_apache_php_cont.yml, compose_UnitTest_Addon.yml)
 # docker  compose -f compose_Python-Apache-php.yml up -d  --remove-orphans --build --force-recreate
-
-# TEST
-# phpunit --version		  # Should return version of Phpunit
-# composer -V		        # Should return version of Composer
-#     http://localhost:8071/web-app/phpinfo.php
-#     http://localhost:8071/web-app/home/index.html2
-#     http://localhost:8071/web-app/home/index.php
-#     http://localhost:8071/web-rest/wr-api.php?name=John
-#     http://localhost:8071/web-rest/test-client/client.php
-#
-# Creat additional command prompt:
-#   docker ps # gets the docker container name or ID
-#   docker exec -it my_container /bin/bash    xdebug.php-debug
-# docker exec -it 58ad361d4182 /bin/bash 
-# From shell:  	
-#       docker exec -it 1be9f9efb6d6 /bin/bash # or /bin/sh /projects/pyphp/project1c
-
-
-
-
-# CONFIG
-# Create links in /opt/www/log
-# httpd.conf    ->  /opt/apache2/conf
-# php.ini       ->  /etc/php/8.2/fpm/
-# Root www      ->  /opt/www/public
