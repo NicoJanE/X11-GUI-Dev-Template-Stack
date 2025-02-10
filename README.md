@@ -7,7 +7,7 @@ This is a Docker Linux (Ubuntu 24.04) template container with GUI output to an X
 - A generic .NET base container with basic software .
 - An Avalonia project template sub container, with Avalonia GUI project template, forwards X11 GUI to Windows host
 - A .NET GTK# project template sub container, forwards X11 GUI to Windows host
-- A PHP (backend) Python/Rust (frontend) template  project application [Quick Setup](./Sub-Containers/Afx-X11-PyPHP-Service/quick-setup)
+- A PHP (backend) Python/Rust (frontend) template  project application [Quick Setup](https://github.com/NicoJanE/APP-X11-Forward-Development-Template-Stack/blob/master/Sub-Containers/Afx-X11-PyPHP-Service/quick-setup.md)
 
 
 For more information, visit the [main documentation page](https://nicojane.github.io/APP-X11-Forward-Development-Template-Stack/). You can find other Docker Template Stack (DTS) containers  [here.](https://nicojane.github.io/Docker-Template-Stacks-Home/)

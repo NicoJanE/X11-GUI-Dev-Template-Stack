@@ -454,7 +454,7 @@ You can use the following tasks in Visual Studio Code:
 
 ### 3.4 - A PHP/Python/Rust Sun container
 General purpose container for PHP, Python and Rust development, contains a default project template with all this languages.
-More (setup) information here: [Quick Setup](./../Sub-Containers/Afx-X11-PyPHP-Service/quick-setup)
+More (setup) information here: [Quick Setup](https://github.com/NicoJanE/APP-X11-Forward-Development-Template-Stack/blob/master/Sub-Containers/Afx-X11-PyPHP-Service/quick-setup.md)
 
 <br>
 
