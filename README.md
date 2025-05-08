@@ -12,7 +12,7 @@
 <hr>
 
 # What
-This is a Docker Linux (Ubuntu 24.04) template container with GUI output to an X11 server on a Windows host. The container is **designed** for use on a Windows Docker Desktop host, enabling the **development** of **GUI applications** within a **Docker container**. Additionally, the container can be used to run other Linux GUI applications.
+This is a Docker Linux (Ubuntu 24.04) general purpose template container with GUI output to an X11 server on a Windows host. The container is **designed** for use on a Windows Docker Desktop host, enabling the **development** of **GUI applications** within a **Docker container**. Additionally, the container can be used to run other Linux GUI applications.
 
 This container consists of a **Base Container** and several **Sub Containers**. **The Base Container** is *required*{: style="color: red"} for any **Sub Container** and provides the infrastructure for outputting GUI data from the Linux application to the X11 server on Windows. The **Sub Containers** contain development environments for GUI application running on Linux. 
 

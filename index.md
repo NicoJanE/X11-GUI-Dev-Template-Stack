@@ -12,19 +12,19 @@ _This source code is licensed under the MIT License found in the  'LICENSE.md' f
 </small>
 <br><br>
 
-> **Announcement:**{: style="color: blue;font-size:12px; "} <br>
-*This container stack replaces the stack **App X11 Forward GUI**, which is now deprecated and will be removed on **June 1, 2025.***{: style="color: Darkgray;font-size:12px; "}   <br><br>
-**What is new:**{: style="color: Darkgray;font-size:12px; "} <br>
-<small>🌟</small> *This new stack includes all the sub-containers previously available in App X11 Forward GUI.*{: style="color: Darkgray;font-size:12px; "} <br>
-<small>🌟</small> *The documentation has been simplified.*{: style="color: Darkgray;font-size:12px; "} <br>
-<small>🌟</small> *Irrelevant actions have been removed.*{: style="color: Darkgray;font-size:12px; "}<br>
-<small>🌟</small> *Names have been shortened.*{: style="color: Darkgray;font-size:12px; "} <br>
-<small>🌟</small> *Instructions have been improved for clarity and usability.*{: style="color: Darkgray;font-size:12px; "} <br>
+> **Announcement:**{: style="color: blue;font-size:13px; "} <br>
+*This container stack replaces the stack **App X11 Forward GUI**, which is now deprecated and will be removed on **June 1, 2025.***{: style="color: Darkgray;font-size:13px; "}   <br><br>
+**What is new:**{: style="color: Darkgray;font-size:13px; "} <br>
+<small>🌟</small> *This new stack includes all the sub-containers previously available in App X11 Forward GUI.*{: style="color: Darkgray;font-size:13px; "} <br>
+<small>🌟</small> *The documentation has been simplified.*{: style="color: Darkgray;font-size:13px; "} <br>
+<small>🌟</small> *Irrelevant actions have been removed.*{: style="color: Darkgray;font-size:13px; "}<br>
+<small>🌟</small> *Names have been shortened.*{: style="color: Darkgray;font-size:13px; "} <br>
+<small>🌟</small> *Instructions have been improved for clarity and usability.*{: style="color: Darkgray;font-size:13px; "} <br>
 
 <hr>
 
 # What
-This is a Docker Linux (Ubuntu 24.04) template container with GUI output to an X11 server on a Windows host. The container is **designed** for use on a Windows Docker Desktop host, enabling the **development** of **GUI applications** within a **Docker container**. Additionally, the container can be used to run other Linux GUI applications.
+This is a Docker Linux (Ubuntu 24.04) general purpose template container with GUI output to an X11 server on a Windows host. The container is **designed** for use on a Windows Docker Desktop host, enabling the **development** of **GUI applications** within a **Docker container**. Additionally, the container can be used to run other Linux GUI applications.
 
 This container consists of a **Base Container** and several **Sub Containers**. **The Base Container** is *required*{: style="color: red"} for any **Sub Container** and provides the infrastructure for outputting GUI data from the Linux application to the X11 server on Windows. The **Sub Containers** contain development environments for GUI application running on Linux. 
 
