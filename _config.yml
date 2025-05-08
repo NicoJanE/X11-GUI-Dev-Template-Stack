@@ -1,7 +1,7 @@
 # A change in this file, NEEDS a Jekyll restart!
 #
 
-title: <font size="6"><span style="color:#FFD700">D</span>ocker <span style="color:#FFA500">T</span>emplate <span style="color:#FF7F50">S</span>tack App Forward X-11
+title: <font size="6"><span style="color:#FFD700">D</span>ocker <span style="color:#FFA500">T</span>emplate <span style="color:#FF7F50">S</span>tack X11-GUI
 description: <b><i><font size="3">A DTS container for Desktop GUI Projects</span></font></i></b>
 
 
@@ -45,7 +45,7 @@ home_site_url:
 #	- ss
 #  
 ### A subtitle
-#More usefull information...
+#More useful information...
 # 
 #  # Indention is parsing failure (space)
 #	# Indention is parsing failure (tab>

@@ -1,0 +1,72 @@
+# This file is part of: PHP Development Template Stack 
+# Copyright (c) 2025 Nico Jan Eelhart
+#
+# This source code is licensed under the MIT License found in the  'LICENSE.md' file in the root directory of this source tree.
+#
+#	Extending/Chaining 
+#	Installs PHPunit test environment in the docker image:''
+#
+#   Some notes regarding chaining:
+#   NOTE 1
+#   - Bind mounts don't carry over, you have to specify them again
+#   - same counts for network and pretty much all items
+#   - So better to use a common compose file and let the other compose files extend from the items (like we done see extends: )
+
+#networks: 
+#    x11_forward-network-fixed:  
+#        external: true 
+#        name: ext_x11_forward-network-fixed
+
+# 1.2 Here we are defining and using an external network
+networks:
+  network_common_X11_gui:			# Define a network
+    external: true			  		# Use external network
+    name: network_common_X11_gui
+    driver: bridge 
+    ipam:
+      config:
+        - subnet: ${FIXED_SUBNET}
+
+
+
+services:
+  x11-gui-python-apache-php:                    
+    extends: 
+      file: ../../Base-Container/X11-Gui-Base-Service/compose_x11_gui_base.yml    # Relative path to the base compose file      # our base compose file, see NOTE 1. WARNING we depend on the PHP unit test image (install first)
+      service: x11-gui-basic-service            # Same name as base file!
+    build:
+      context: .
+      dockerfile: Dockerfile_Python-Apache-php
+      args:
+              PRJ_NAME_ARG: ${PRJ_NAME_ARG}             # Set PRJ_NAME_ARG with the.env file variable. Define PRJ_NAME_ARG also in Dockerfile 
+              PRJ_BASE_ARG: ${PRJ_BASE_ARG}
+              PRJ_TYPE_ARG: ${PRJ_TYPE_ARG}
+              PRJ_TYPE_USE_CUSTOM_APP: ${PRJ_TYPE_USE_CUSTOM_APP}
+              FIXED_IP: ${FIXED_IP5}
+    image: eelhart/afx-apachephp-python-desk:latest      # Specific name for  this image. This name can be used to extend or chain this image.
+    ports:
+    - target: 80                        # Port used internally in the Docker container
+      published: 8071                   # Port to access from external (Host)        
+    - "9003:9003"  
+    environment:
+            - DISPLAY=host.docker.internal:0    # THIS relays the Linux output to vcxsrv(Xlaunch) Also added in the Docker file!   
+                                                
+    working_dir: ${PRJ_BASE_ARG}/$PRJ_NAME_ARG
+    networks:
+      network_common_X11_gui:
+        ipv4_address: ${FIXED_IP5}         # Use a fixed IP address for this container
+    volumes:
+      - ./shared-host:/shared-host        # Bind volume to and from our host
+      - /tmp/.X11-unix:/tmp/.X11-unix     # MOUNTS the X11 socket GUI directory      
+    stdin_open: true                      # Keep STDIN open for `docker exec -it`
+    tty: true
+    command: ["/bin/bash", "/opt/apache2/start.sh"]                       # Run the custom script
+#    command: ["/bin/sh", "-c", "while sleep 1000; do :; done"]  # use this in case of err, let's you get in(CMD)
+
+# End compose file 
+
+
+# build with:
+#
+# (MAKE SURE the following are installed first: compose_apache_php_cont.yml, compose_UnitTest_Addon.yml)
+# docker  compose -f compose_Python-Apache-php.yml up -d  --remove-orphans --build --force-recreate

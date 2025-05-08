@@ -1,0 +1,112 @@
+# This file is part of: APP-Forward-X11-Development-Template-Stack
+# Copyright (c) 2024 Nico Jan Eelhart
+#
+# This source code is licensed under the MIT License found in the  'LICENSE.md' file in the root directory of this source tree.
+#
+
+# *** Extending/Chaining ***
+# This requires that the base image is build()        
+#        - In the folder: '../../App-X11-Forward-BASE-Service'  Execute:   
+#          docker build -t eelhart/appforwardx11-base:latest -f Dockerfile_App-Forward-X11_Base .
+#
+#           This will create the image but ***NOT*** the network. So it is better to build and create  
+#           the whole container with:
+#               docker-compose -f compose_net_x11_base.yml up -d --build
+#           After that the image is present and the container,you can delete the container after this
+#
+FROM eelhart/x11-gui-base:latest
+
+
+
+# For GUI forwarding
+ENV DISPLAY=host.docker.internal:0
+
+# Install necessary packages for .NET and X11
+RUN apt-get update && apt-get install -y \
+    && wget https://packages.microsoft.com/config/ubuntu/24.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb \
+    && dpkg -i packages-microsoft-prod.deb \
+    && apt-get update && apt-get install -y dotnet-sdk-8.0 \
+    && apt-get install -y rsync \
+    && apt-get install -y nano
+    
+
+# Install the VS Code debugger
+RUN curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg
+
+
+# Install Avalonia, Install the specific templates within the .NET.SDK
+RUN dotnet new install Avalonia.Templates
+
+# Create the file: 'dotnet-tools.json' To manage local (project-specific) .NET tools
+RUN dotnet new tool-manifest  --name local-tools  --force
+#
+# Add a tool to check/update your central package avolonia Packages (file 'Directory.Packages.props')
+# commands: dotnet outdated
+# commands: dotnet outdated --upgrade
+RUN  dotnet tool install dotnet-outdated-tool 
+
+
+# 1) Set the working directory
+WORKDIR /projects
+
+# 2) Set arguments, MAKE SURE the environment variables are assigned here (file:.env) so there available.
+ARG PRJ_NAME_ARG
+ENV PRJ_NAME_ARG=${PRJ_NAME_ARG}
+ARG PRJ_BASE_ARG
+ENV PRJ_BASE_ARG=${PRJ_BASE_ARG}
+
+ENV DISPLAY=host.docker.internal:0
+ARG PRJ_TYPE_ARG
+ARG PRJ_TYPE_USE_CUSTOM_APP
+
+# Flip to the base directory
+RUN mkdir -p ${PRJ_BASE_ARG}
+WORKDIR ${PRJ_BASE_ARG}
+
+
+# Copy the necessary files from the build context into the Docker image
+# Otherwise we can not reach the files via the script below
+COPY Project-Templates/ ${PRJ_BASE_ARG}/Project-Templates/
+
+# Use conditional logic to handle different scenarios.
+RUN if [ "$PRJ_TYPE_USE_CUSTOM_APP" = "Yes" ]; then \
+       echo "Custom app mode is enabled, do copy"; \       
+       mkdir -p  ${PRJ_NAME_ARG}/src/Assets; \
+       mkdir ${PRJ_NAME_ARG}/src/Models; \
+       mkdir ${PRJ_NAME_ARG}/src/ViewModels; \
+       mkdir ${PRJ_NAME_ARG}/src/Views; \
+       mkdir ${PRJ_NAME_ARG}/src/Views/UserControls; \
+       cp ${PRJ_BASE_ARG}/Project-Templates/GUI-Application/Views/UserControls/*.* ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/src/Views/UserControls;  \
+       cp ${PRJ_BASE_ARG}/Project-Templates/GUI-Application/Views/*.* ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/src/Views;  \
+       cp ${PRJ_BASE_ARG}/Project-Templates/GUI-Application/ViewModels/*.* ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/src/ViewModels;  \
+       cp ${PRJ_BASE_ARG}/Project-Templates/GUI-Application/Models/*.* ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/src/Models;  \
+       cp ${PRJ_BASE_ARG}/Project-Templates/GUI-Application/Assets/*.* ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/src/Assets;  \
+       cp ${PRJ_BASE_ARG}/Project-Templates/GUI-Application/*.axaml ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/src; \
+       cp ${PRJ_BASE_ARG}/Project-Templates/GUI-Application/*.cs ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/src; \
+       cp ${PRJ_BASE_ARG}/Project-Templates/GUI-Application/*.manifest ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}; \
+       cp ${PRJ_BASE_ARG}/Project-Templates/GUI-Application/*.csproj ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}; \
+       cp ${PRJ_BASE_ARG}/Project-Templates/GUI-Application/backup ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}; \
+    else \
+       if [ -n "$PRJ_TYPE_ARG" ]; then \
+           echo "    - .NET AVALONIA project Name: ${PRJ_BASE_ARG}/${PRJ_NAME_ARG} GUI based application (${PRJ_TYPE_ARG})"; \
+           # Create the AVALONIA .NET project -lang F# or C# (default) -o # output name -f # framework: net6.0, net7.0, net8.0 \
+           dotnet new ${PRJ_TYPE_ARG} -o ${PRJ_NAME_ARG} -f net8.0; \
+           # Change the *.csproj to a generic fixed name, this makes it possible to create generic build tasks and Launch files for VSC. \
+           mv ${PRJ_NAME_ARG}/${PRJ_NAME_ARG}.csproj ${PRJ_NAME_ARG}/project-file.csproj; \
+       else \
+           echo "PRJ_TYPE_ARG is not set or empty and PRJ_TYPE_USE_CUSTOM_APP is also not used. Nothing to do"!!; \
+       fi \
+    fi
+
+
+# Visual Studio Code Settings
+COPY .vscode/ ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}/.vscode/
+
+# Navigate to the project directory and build
+WORKDIR ${PRJ_NAME_ARG}
+RUN dotnet build
+
+
+
+
+

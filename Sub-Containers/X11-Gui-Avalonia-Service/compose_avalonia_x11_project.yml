@@ -1,0 +1,54 @@
+# This file is part of: APP-X11-Forward-Development-Template-Stack
+# Copyright (c) 2024 Nico Jan Eelhart
+#
+# This source code is licensed under the MIT License found in the  'LICENSE.md' file in the root directory of this source tree.
+#
+         
+#networks: 
+#    x11_forward-network-fixed:  
+#        external: true 
+#        name: ext_x11_forward-network-fixed
+
+
+# 1.2 Here we are defining and using an external network
+networks:
+  network_common_X11_gui:			# Define a network
+    external: true			  		# Use external network
+    name: network_common_X11_gui
+    driver: bridge 
+    ipam:
+      config:
+        - subnet: ${FIXED_SUBNET}        
+ 
+
+volumes:
+  vol_wpf:  
+
+  
+services:               
+    x11-gui-avalonia-dotnet:
+        extends:
+            file: ../../Base-Container/X11-Gui-Base-Service/compose_x11_gui_base.yml        # Relative path to the base compose file
+            service: x11-gui-basic-service                                                  # Same service name as base file
+        build:
+            context: .  
+            dockerfile: Docker_Avalonia-X11_Project # Docker command to execute for this compose
+            args:
+                PRJ_NAME_ARG: ${PRJ_NAME_ARG}       # Set PRJ_NAME_ARG with the.env file variable. Define PRJ_NAME_ARG also in Dockerfile 
+                PRJ_BASE_ARG: ${PRJ_BASE_ARG}
+                PRJ_TYPE_ARG: ${PRJ_TYPE_ARG}
+                PRJ_TYPE_USE_CUSTOM_APP: ${PRJ_TYPE_USE_CUSTOM_APP}
+        image: eelhart/appforwardx11-base:latest    # This name can be used to extend or chain this image.
+        environment:
+            - DISPLAY=host.docker.internal:0    # THIS relays the Linux output to vcxsrv(Xlaunch) Also added in the Docker file!   
+                                                
+        working_dir: ${PRJ_BASE_ARG}/$PRJ_NAME_ARG
+        networks:
+            network_common_X11_gui:
+              ipv4_address: ${FIXED_IP3}         # Use a fixed IP address for this container
+        volumes:
+            - ./shared-host:/shared-host        # Bind volume to and from our host
+            - /tmp/.X11-unix:/tmp/.X11-unix     # MOUNTS the X11 socket GUI directory
+        command: ["/bin/sh", "-c", "while sleep 1000; do :; done"]  # use this in case of err, let's you get in(CMD)
+        
+# docker-compose -f compose_avalonia_x11_project.yml up -d  --remove-orphans --build --force-recreate  

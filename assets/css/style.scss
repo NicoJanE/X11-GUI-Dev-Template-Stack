@@ -11,7 +11,10 @@
   --nje-number-of-spaces: 20px;
   --nje-color:black;
   --nje-size: 12px;
+  --nje-offset: 16px;
+  --nje-vmove2: -20px;
 }
+
 #content-wrapper {
   display: flex;  
   justify-content:flex-start;
@@ -322,6 +325,7 @@ Or
 	
 }
 
+
 */
 
 /* Call: 
@@ -332,5 +336,29 @@ Or
 .nje-ident {
   display: inline-block;
   width:  var(--nje-number-of-spaces);  
-  
 }
+
+
+
+/* Create a colored block section(text color and background)  that closes after the closing div (/div)
+
+    Call 1: <div class="nje-colored-block">
+    Call 2: <div class="nje-colored-block" style="--nje-bgcolor:red; --nje-textcolor:black;--nje-offset:55px">
+*/
+.nje-colored-block{
+  background-color: var(--nje-bgcolor, lightgray);
+  color: var(--nje-textcolor, #32312c);
+  
+  font-size: 96%;
+  padding-top:1px; 
+  padding-left:10px;
+  padding-right:14px;
+  padding-bottom: 1px;
+  border-radius: 6px;
+  margin: 10px 0;
+  line-height: 1.5;
+  font-family: sans-serif;
+  transform: translateX(var(--nje-offset)) translateY(var(--nje-vmove2));
+}
+
+  

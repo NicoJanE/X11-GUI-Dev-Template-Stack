@@ -1,19 +1,35 @@
 
 
+> **Announcement:**{: style="color: blue;font-size:12px; "} <br>
+*This container stack replaces the stack **App X11 Forward GUI**, which is now deprecated and will be removed on **June 1, 2025.***{: style="color: Darkgray;font-size:12px; "}   <br><br>
+**What is new:**{: style="color: Darkgray;font-size:12px; "} <br>
+<small>🌟</small> *This new stack includes all the sub-containers previously available in App X11 Forward GUI.*{: style="color: Darkgray;font-size:12px; "} <br>
+<small>🌟</small> *The documentation has been simplified.*{: style="color: Darkgray;font-size:12px; "} <br>
+<small>🌟</small> *Irrelevant actions have been removed.*{: style="color: Darkgray;font-size:12px; "}<br>
+<small>🌟</small> *Names have been shortened.*{: style="color: Darkgray;font-size:12px; "} <br>
+<small>🌟</small> *Instructions have been improved for clarity and usability.*{: style="color: Darkgray;font-size:12px; "} <br>
+
+<hr>
+
 # What
-This is a Docker Linux (Ubuntu 24.04) template container with GUI output to an X11 server on a Windows host. The container is **designed** for use on a Windows Docker Desktop host, enabling the **development** of **GUI applications** within a **Docker container**.  Note that the container can also be used to run any other Linux GUI applications in a container.
+This is a Docker Linux (Ubuntu 24.04) template container with GUI output to an X11 server on a Windows host. The container is **designed** for use on a Windows Docker Desktop host, enabling the **development** of **GUI applications** within a **Docker container**. Additionally, the container can be used to run other Linux GUI applications.
 
-**Available Sub Containers**
-- A generic .NET base container with basic software .
-- An Avalonia project template sub container, with Avalonia GUI project template, forwards X11 GUI to Windows host
-- A .NET GTK# project template sub container, forwards X11 GUI to Windows host
-- A PHP (backend) Python/Rust (frontend) template  project application [Quick Setup](https://github.com/NicoJanE/APP-X11-Forward-Development-Template-Stack/blob/master/Sub-Containers/Afx-X11-PyPHP-Service/quick-setup.md)
+This container consists of a **Base Container** and several **Sub Containers**. **The Base Container** is *required*{: style="color: red"} for any **Sub Container** and provides the infrastructure for outputting GUI data from the Linux application to the X11 server on Windows. The **Sub Containers** contain development environments for GUI application running on Linux. 
 
+### Available containers
 
-For more information, visit the [main documentation page](https://nicojane.github.io/APP-X11-Forward-Development-Template-Stack/). You can find other Docker Template Stack (DTS) containers  [here.](https://nicojane.github.io/Docker-Template-Stacks-Home/)
+| ***Base-container name***            | ***Reference*** |
+|:-----------------                   |:----------------|
+| Required Base container instructions         | [here](./Howtos/howto_create_a_dev_container#the-basic-container-setup) |
 
-<sub> &nbsp;&nbsp;&nbsp;&nbsp; *Is this a local repository project? If so, use this local link to access the [main page](./index) file. <sub>
-<br><br>
+<br>
+
+| ***Sub-container name***            | ***Reference*** |
+|:-----------------                   |:----------------|
+| Afx-X11-Forward-NET-Service         | [here](./Howtos/howto_create_a_dev_container#31-creating-the-net-sub-container-afx-x11-forward-net-service) |
+| Afx-X11-Forward-Avalonia-Service    | [here](./Howtos/howto_create_a_dev_container#32-creating-an-avalonia-net-sub-container-afx-x11-forward-avalonia-service)|
+| Afx-X11-Forward-NET-Service-GTK#    | [here](./Howtos/howto_create_a_dev_container#33-creating-an-net-gtk-sub-container-afx-x11-forward-net-service-gtk)  |
+| Afx-X11-Forward-PHP-Python-Rust#    | [here](./Howtos/howto_create_a_dev_container#34---a-phppythonrust-sub-container)  |
 
 <details closed>  
   <summary class="clickable-summary">
@@ -25,7 +41,7 @@ For more information, visit the [main documentation page](https://nicojane.githu
 > 
 > ### Preview Markdown Files(.md)
 >
->To preview the Markdown (.md) files in this project, one of the best solutions is to open these files in Visual Studio Code (VSC) and install the plugin: **Markdown Preview GitHub Styling** (Tested with version 2.04). Other plugins, or plugins for other programs, may not always work correctly with the file links in the documentation. I use the file link syntax supported by GitHub (Jekyll), which is also compatible with the above-mentioned plugin.
+>To preview the Markdown (.md) files in this project, one of the solutions is to open these files in Visual Studio Code (VSC) and install the plugin: **Markdown Preview GitHub Styling** (Tested with version 2.04). Other plugins, or plugins for other programs, may not always work correctly with the file links in the documentation. I use the file link syntax supported by GitHub (Jekyll), which is also compatible with the above-mentioned plugin.
 >
 > To display the Preview screen in VSC: 
 >- Ensure that you are **not** working in ***Restricted mode***.
@@ -38,4 +54,4 @@ For more information, visit the [main documentation page](https://nicojane.githu
 
 
 <br><br>
-<small>Version: 0.9 </small>
+<small>Version: 0.1 </small>
