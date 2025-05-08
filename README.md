@@ -1,8 +1,8 @@
 
 
-> **Announcement:**{: style="color: blue;font-size:12px; "} <br>
-*This container stack replaces the stack **App X11 Forward GUI**, which is now deprecated and will be removed on **June 1, 2025.***{: style="color: Darkgray;font-size:12px; "}   <br><br>
-**What is new:**{: style="color: Darkgray;font-size:12px; "} <br>
+**Announcement:** <br>
+*This container stack replaces the stack **App X11 Forward GUI**, which is now deprecated and will be removed on **June 1, 2025.***   <br><br>
+**What is new:** <br>
 <small>🌟</small> *This new stack includes all the sub-containers previously available in App X11 Forward GUI.*{: style="color: Darkgray;font-size:12px; "} <br>
 <small>🌟</small> *The documentation has been simplified.*{: style="color: Darkgray;font-size:12px; "} <br>
 <small>🌟</small> *Irrelevant actions have been removed.*{: style="color: Darkgray;font-size:12px; "}<br>
@@ -30,6 +30,8 @@ This container consists of a **Base Container** and several **Sub Containers**. 
 | Afx-X11-Forward-Avalonia-Service    | [here](./Howtos/howto_create_a_dev_container#32-creating-an-avalonia-net-sub-container-afx-x11-forward-avalonia-service)|
 | Afx-X11-Forward-NET-Service-GTK#    | [here](./Howtos/howto_create_a_dev_container#33-creating-an-net-gtk-sub-container-afx-x11-forward-net-service-gtk)  |
 | Afx-X11-Forward-PHP-Python-Rust#    | [here](./Howtos/howto_create_a_dev_container#34---a-phppythonrust-sub-container)  |
+
+> <br>> <br>
 
 <details closed>  
   <summary class="clickable-summary">
