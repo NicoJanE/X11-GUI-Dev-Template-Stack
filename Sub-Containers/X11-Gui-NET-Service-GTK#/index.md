@@ -1,9 +1,3 @@
----
-layout: default_c
-RefPages:
- - howto_create_a_dev_container   
---- 
-
 
 # What
 Sub container for the ***'X11-GUI-Dev-Template-Stack'*** development stack. Containing a project template for **.NET Core 8.x** in combination with **GTK 3.24.24**
@@ -17,16 +11,16 @@ Sub container for the ***'X11-GUI-Dev-Template-Stack'*** development stack. Cont
 If you have previously installed this (or a similar) AFX foreward sub container, you can use these 'quick setup steps'. Otherwise please first read the **main documentation page**.
 
 
-1. **Create the base container**{: style="color:green; "} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <small>*(if not yet done*) </small> <br>
+1. **Create the base container** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <small>*(if not yet done*) </small> <br>
 Create docker base container (in folder: 'Afx-Base-Service')
 <pre class="nje-cmd-one-line">docker-compose -f  compose_app_forward_x11_base.yml up -d --build --force-recreate  --remove-orphans </pre><br>
 
-2. ***Create the sub container***{: style="color:green; "} <br>
+2. ***Create the sub container*** <br>
 Create the .NET GTK Sub container (in folder: 'Afx-X11-Forward-NET-Service-GTK#'): 
 <pre class="nje-cmd-one-line">docker-compose -f compose_net_x11_gtksharp_project.yml up -d --build --force-recreate --remove-orphans  </pre><br>
  
 
-3. **Start the sub-container in Visual Studio Code**{: style="color:green; "}<br>
+3. **Start the sub-container in Visual Studio Code**<br>
 Install the following extension(s) in the container
 <pre class="nje-cmd-multi-line">code --install-extension ms-dotnettools.csharp
 code --install-extension ms-dotnettools.csdevkit
