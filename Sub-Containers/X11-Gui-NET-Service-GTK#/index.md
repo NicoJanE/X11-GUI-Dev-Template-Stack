@@ -82,4 +82,4 @@ You can use the following tasks in Visual Studio Code:
 
 
 <br><br>
-*Version: 1.0*{: style="color:gray;font-size:8px;"}
+*Version: 1.1
