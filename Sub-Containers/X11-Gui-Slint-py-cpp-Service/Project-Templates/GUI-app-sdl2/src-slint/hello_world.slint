@@ -1,0 +1,59 @@
+// Documentation:
+//      - https://docs.slint.dev/latest/docs/slint/
+//      - https://docs.slint.dev/latest/docs/slint/reference/primitive-types/
+//      - https://docs.slint.dev/latest/docs/slint/guide/language/concepts/slint-language/
+
+// Instal Slint Extension: Slint.slint
+
+// import Button abd a few other components
+import { Button, Slider, CheckBox } from "std-widgets.slint";
+
+
+export component HelloWorldWindow inherits Window 
+{    
+    callback launch_sdl();     // This callback can be hooked from C++ as on_launch_sdl (auto-generated function name)
+
+    // Windows size Properties
+    preferred-height:300px; //100%;
+    preferred-width: 150px; //100%;
+    title: "Slint with SDL is here";
+
+
+    // A custom property (used for dynamic text display) with default value
+    property<string> msg: "Press button";
+
+
+    
+    // Component button
+    //  - When clicked, update the message and trigger the callback.
+    Button 
+    {
+        
+        text: "Open SDL Window";
+        clicked => 
+        { 
+            root.msg="Hi there!";   // 'root' refers to the top-level component (similar to 'this'). 'msg' is the custom property of HelloWorldWindow.
+            root.launch_sdl();      // Triggers the callback 'launch_sdl()' to be handled in C++.    
+        }
+    }
+
+    // Component Text 1
+    Text 
+    {    
+        text: "Hello, World!";
+        x: 50px;
+        y: 16px;    
+    }
+
+    // Component Text 2
+    Text
+    { 
+        text: root.msg;     // The custom property 'root.msg' is automatically bound to the 'text' property of this component.                            
+                            // Note: A component in Slint does not have an explicit ID. Instead, the custom property ('root.msg') 
+                            // serves to identify and bind it to the component's 'text' property. 
+                            // When this custom property is updated, all components bound to it will automatically update as well.
+        x: 2px;
+        y: 2px;           
+    }
+
+}

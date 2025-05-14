@@ -24,6 +24,7 @@ _This source code is licensed under the MIT License found in the  'LICENSE.md' f
   - [Create .NET Avolonia project template sub container](#32-creating-an-avalonia-net-sub-container-afx-x11-forward-avalonia-service)<br>
   - [Create .NET GTK# project template sub container](#33-creating-an-net-gtk-sub-container-afx-x11-forward-net-service-gtk)<br>  
   - [Create Pyton/Rust/PHP sub container](#34---a-phppythonrust-sub-container)<br>
+  - [Create Slint/SDL2 C++/Python sub container ](#35---sub-container-slintsdl2-c-and-python) <br>
 
   [See also: How X11 and WSL works in Docker ](howto_x11_wsl_in_Docker)<br> <br>
   
@@ -598,10 +599,133 @@ In VSC basic actions and task can be run for the PHP web applications (***Projec
 - Press F5 again the program should run and you should see a simple program in the XLaunch Window
 
 
+<br>
+
+### 3.5 - Sub-Container: Slint/SDL2 C++ and Python
+
+This is a general-purpose container for the development of Slint applications in both Python and C++, with additional support for SDL2 (C++). Since Slint is partly implemented in Rust, Rust is also included.
+
+**Steps to Create a  Slint/SDL2 C++ and Python container and Slint Application Project:**
+
+1\. Open a Command prompt in the folder: ***.\Sub-Containers\X11-Gui-Slint-py-cpp-Service\\***
+
+2\. **Define the network**: an **External** network configuration is used by **default.** <br><br>
+***Defaults checklist:***{: style="color: #999999;font-size:12px;margin-left:20px "}
+<div class="nje-colored-block">
+1. In the file `.env` of the **sub** container make sure the **FIXED_SUBNET** is set to the **same** value, of the `.env` file in the **base** container
+2. In the file `.env` of the **sub** container make sure that a free IP address variable is used (i.e. **FIXED_IP6**), this can be taken from the `.env` file in the **base** container
+3. In the `compose` file make sure that the **same** network (name) as in the base container `compose` file is used,
+4. In the `compose` file(sub container) make sure that the IP variable, from step 2 is used.
+
+ 📍Alternatively you can use an internal network, these are commented around the same location in the compose file.
+ </div>
+
+3\. Create the **external network** if does not exists
+<pre class="nje-cmd-multi-line"> 
+docker network ls   # check if already exists (don't include in copy)
+docker network create --subnet=192.168.52.0/28 network_common_X11_gui
+
+</pre>
+
+5\. Execute the **Docker command** to create the project (folder: 'X11-Gui-PyPHP-Service')
+<pre class="nje-cmd-one-line">docker compose -f compose_Slint-py-cpp.yml -d --build --force-recreate --remove-orphans
+</pre><br>
 
 
+6\. Setup Result <br>
+***Result checklist:***{: style="color: #414141;font-size:12px;margin-left:20px "}
+
+<div class="nje-colored-block" style="--nje-bgcolor:#414141; --nje-textcolor:#efefef;">
+
+- Within **Docker Desktop**, in the container section a new container should be created with the name:<br>
+***'x11-gui-slint-py-cpp-service/x11-gui-slint-py-cpp-service-x11-gui-slint-python-cpp-1'***. <br> <br>
+- Open a terminal session in this container, navigate to directory: ***/projects/slint/project/gui-app*** <br>
+You should see at least the following file:
+  - **File**: `build.sh` to build the program with CMake
+  - Test if can build the project from here: 
+  <pre class="nje-cmd-one-line-sm-ident">./build.sh </pre>
+  - Test if the created program works, in your CLI and exceute:
+  <pre class="nje-cmd-multi-line" style="--nje-font-size:smaller;">
+
+  # 1. Change to dir
+    cd build
+
+  # 2. Make sure XLaunch is running on your host
+
+  # 3. Execute
+    ./HelloWorld
+  &nbsp;</pre>
+
+><small>📍SDL2 <br>
+Another example includes a SDL2 Window, and can be found in the directory `gui-app-sdl2`. It can be build an run in the same way
+ </small>
+
+
+ </div>
+When all this works, you should be able to open, build, and debug the project in Visual Studio Code. See paragraph 3.4.1 for details.
+
+<hr>
+
+#### 3.5.1 - Visual Studio Code Specifics
+
+This project template consists of two subprojects:
+
+- `gui-app` <br>
+Baisc Slint C++ sample
+- `gui-app-sdl2` <br>
+Baisc Slint C++ sample with integration of a SDL2 [Simple DirectMedia Layer](https://www.libsdl.org/) Window
+
+><small>📍SDL2 <br>
+Because multiple project definitions are used, a **project workspace** is defined to open all these projects: `.project.code-workspace.` </small>
+
+##### To open the project workspace
+
+- First open the folder in VSC: 'File -> Open folder' and choos `/projects/slint/project`
+- (Then open the project workspace: 'File-> open workspace from file' choose: `.project.code-workspace`)
+- This result in:
+
+<div class="nje-colored-block" style="--nje-bgcolor:#414141; --nje-textcolor:#efefef;--nje-offset:22px; --nje-vmove2:-14px">
+***Project workspace layout:***{: style="color:rgb(204, 186, 186);font-size:12px;margin-left:2px;"} <br>
+📦 ***Root*** ➜ This the root of all project, includes ./vscode(shared)<br>
+📦 ***gui-app*** ➜ A simple SDL C++ sample  <br>
+📦 ***gui-app-sdl-2*** ➜ A simple SDL C++ sample with SDL2 Window(threaded)  <br>
+</div>
+
+##### Required Extensions
+
+These extensions should be installed automatically, or at least recommended by the Visual Studio Code interface when opening the project workspace. If not, please install them manually:
+
+- `Slint.slint`
+- `ms-vscode.cpptools`
+- `ms-vscode.cmake-tools`
+- `ms-vscode.cpptools-extension-pack`
+- `ms-python.vscode-pylance`
+- `ms-python.python`
+- `ms-python.debugpy`
+
+<hr>
+
+##### 3.5.1.1 - Task for the sub project
+
+In **VSC** the following tasks can be run for the projects in the Workspace.
+
+1\. **Build Slint C++** <br>
+By default 2 task are available one to build the project in *Debug* mode and one to build it in **Release** mode. Both will give you the option two choose the project (***gui-app*** or ***gui-app-sdl2***) and follow the instructions
+
+- Terminal ➜ Run Task...
+- Choose ***SLINT Build (DEBUG)***  or ***SLINT Build (RELEASE)***
+
+2\. **Debug and Run**
+
+- Make sure XLaunch is started in the Windows host.
+- Make sure the project is build in DEBUG mode
+- Set a breakpoint in one of the project files
+- Make Sure that in the **Run and Debug** tab, the **Debug C++** is selected
+- Press F5, you should hit the breakpoint.
+- Press F5 again, the program should run and you should see a simple program in the XLaunch Window.
 
 <br>
+
 <hr><hr>
 
 # Appendix 1 Develop with VSC in the host

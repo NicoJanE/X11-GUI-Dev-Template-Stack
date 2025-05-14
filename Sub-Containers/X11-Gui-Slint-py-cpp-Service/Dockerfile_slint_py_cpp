@@ -1,0 +1,244 @@
+# This file is part of: APP-X11-GUI-Template-Stack
+# Copyright (c) 2025 Nico Jan Eelhart
+#
+# This source code is licensed under the MIT License found in the  'LICENSE.md' file in the root directory of this source tree.
+#
+
+# *** Extending/Chaining ***
+# This requires that the base image is build()        
+#        - In the folder:   ..   
+#          Execute:         docker build -t eelhart/eelhart/x11-gui-base:latest -f Dockerfile_App-Forward-X11_Base .
+#
+#           This will create the image but ***NOT*** the network. So it is better to build and create  
+#           the whole container with:
+#               docker-compose -f compose_net_x11_base.yml up -d --build
+#           After that the image is present and the container,you can delete the container after this
+#
+FROM eelhart/x11-gui-base:latest
+
+# For GUI forwarding
+ENV DISPLAY=host.docker.internal:0
+
+# Set arguments, MAKE SURE the environment variables are assigned here (file:.env) so there available.
+ARG PRJ_NAME_ARG
+ENV PRJ_NAME_ARG=${PRJ_NAME_ARG}
+ARG PRJ_BASE_ARG
+ENV PRJ_BASE_ARG=${PRJ_BASE_ARG}
+ARG FIXED_IP
+ENV FIXED_IP=${FIXED_IP}
+ARG PRJ_TYPE_USE_CUSTOM_APP
+ENV PRJ_TYPE_USE_CUSTOM_APP=${PRJ_TYPE_USE_CUSTOM_APP}
+ARG SLINT_VERSION
+
+
+
+# 1.1 INSTALL The docker Base system ---
+RUN apt-get update && apt-get install -y \
+build-essential \
+curl \
+git \
+pkg-config \
+cmake \
+libx11-dev \
+libgl1-mesa-dev \
+libwayland-dev \
+libxkbcommon-dev \
+libfontconfig1-dev \
+libfreetype6-dev \
+libssl-dev \
+python3 \
+python3-venv \
+rsync \
+ninja-build \
+file \
+libinput10 \
+gdb \
+x11-apps  # for testing/display
+
+# 1.1.2 We Also Instal SDL2 which integrates nicely with Slint, use: CMake find_package(SDL2, REQUIRED)
+RUN apt-get update && apt-get install -y \
+ libsdl2-dev \
+ libsdl2-image-dev \
+ libsdl2-ttf-dev \
+ libsdl2-mixer-dev 
+
+## additional (search others: )
+# libsdl2-net-dev \
+# libsdl2-gfx-dev \
+# libsdl2-x11-dev
+
+
+# 1.2 INSTALL  Rust (required to build Slint even for C++ bindings)
+RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
+    
+# 1.3 INSTALL Slint Viewer (optional, CLI-based viewer for .slint UI files)
+#RUN cargo install slint-viewer --version 1.4.1
+RUN cargo install slint-viewer --version ${SLINT_VERSION}
+
+# 1.4.1 BUILD
+# SLINT C/C++  Support (active in developement) CLONE and BUILD Slint (for C++ and Python bindings)
+RUN git clone --branch v${SLINT_VERSION} --single-branch https://github.com/slint-ui/slint.git /opt/slint && \
+#
+# We don't use the cargo build slint(next 2 commented lines); while this works fine it does not support CMake.
+# Instead, we build Slint using CMake and Ninja to ensure the CMake command 'find_package(Slint REQUIRED)'
+# can be used in our application's CMake file. The following CMake build will generate and install
+# the required `SlintConfig.cmake` file.
+## cd /opt/slint && \
+## cargo build --release -p slint-cpp
+    cd /opt/slint && \
+    mkdir build && cd build && \
+    cmake .. -G Ninja \
+     -DCMAKE_BUILD_TYPE=Release \
+     -DBUILD_SHARED_LIBS=ON \
+     -DSLINT_BUILD_INTERNAL_TOOLS=ON \
+     -DSLINT_BUILD_LSP=ON \
+     -DSLINT_BUILD_EXAMPLES=OFF \
+     -DSLINT_ENABLE_CXX=ON \
+     -DSLINT_BUILD_CPP=ON && \
+    cmake --build . && \
+    cmake --install . --prefix /usr/local
+
+
+# 1.4.1 Set Slint  paths, libraries and includes files for the C/C++ environment
+##ENV PATH="/opt/slint/target/release:${PATH}"
+###ENV SLINT_CPP_LIB_DIR="/opt/slint/target/release/deps"
+##ENV LD_LIBRARY_PATH="/opt/slint/target/release:${LD_LIBRARY_PATH}"
+
+#  1.4.2
+# ‼️WARNING‼️
+#    BE SURE TO INSTALL `slint-lsp` from cargo!
+#       - it will not build using the above option '-DSLINT_BUILD_INTERNAL_TOOLS=ON`
+#       - Also building from source(see commented code below will not be a success)  
+#       - we added: `libinput10` to apt because it is required for slint-lsp
+#
+# ✅  Install the `slint-lsp` tool(IDE language server) from crates.io this is a safe option
+RUN cargo install slint-lsp --version ${SLINT_VERSION} --locked --root /usr/local
+ENV PATH="/usr/local/bin:${PATH}"
+#
+#‼️DON'T‼️ do this, may mess-up the system!
+## 1.4.2 We need the language server Slint for VSC
+#RUN cd /opt/slint/tools/lsp && \
+#    cargo build --release
+#
+# 1.4.2 MANUALLY BUILD AND INSTALL THE LANGUAGE SERVER (slint-lsp)    /opt/slint/target/release/  
+#RUN cd /opt/slint/tools/lsp && \
+#    cargo build --release && \
+#    install -Dm755  /opt/slint/target/release/slint-lsp /usr/local/bin/slint-ls p
+## Ensure it’s in the PATH
+#ENV PATH="/usr/local/bin:${PATH}"
+RUN ldconfig
+
+# 1.4.3 Create and activate a virtual environment for Slint Python bindings (stable)
+# SLINT Python  Support
+RUN python3 -m venv /opt/slint-venv && \
+    /opt/slint-venv/bin/pip install --upgrade pip && \
+    /opt/slint-venv/bin/pip install slint==${SLINT_VERSION}a1
+ENV PATH="/opt/slint-venv/bin:${PATH}"
+
+# OPTIONAL tips: C/ C++ integration with Python
+#
+# 1.4.4 Install Maturin using pipx in an isolated environment.
+# Maturin is used to build Python modules from Rust (install via pip), particularly with PyO3 (cffi is an alternative).
+# 
+# C   --> To call into C from Python, use setuptools (Python build system).
+#        - Your C file should include Python.h (part of setuptools), and you'll need to create a `setup.py` 
+#          that references the C module and handles the build.
+#        - Optionally, use `cibuildwheel` to create a Python module from it (still native C code).
+#        - The result will be a shared library (`.so` on Linux, `.pyd` on Windows) that can be imported and used in Python.
+# 
+# C++ --> To call into C++ from Python, you need  **pybind11** (headers) in addition to setuptools.
+#        - Install pybind11 via `pip install pybind11` and write your C++ code including `#include <pybind11/pybind11.h>`.
+#        - Create a `setup.py` that references the C++ module and builds it using setuptools.
+#        - Use `cibuildwheel` to produce cross-platform Python wheels.
+#        - The result will still be a shared library (`.so` or `.pyd`), but it will expose your C++ code to Python using pybind11.
+# 
+#   Notes:
+#   1. The resulting module will still be **native C or C++ code** (it uses **CPython** to interface with the functions).
+#   2. This process also applies to other binding methods like cffi, ctypes, or cython.
+#   3. Both setuptools + pybind11 and setuptools for C are used to generate shared libraries, which work on **Linux**, **macOS**, and **Windows**.
+
+
+# 2 Install the template projects into the Docker Container
+# We're not using a bind mount in the host, so templates must be IN the container
+#
+# Note: rsync will automatically create the destination directory and sub Dir's 
+#       if it doesn’t exist (use '-a' and add '/'' to last target dir)
+#
+
+# 2.1 Create directories and make sure our templates are inside the container
+RUN mkdir -p ${PRJ_BASE_ARG}
+WORKDIR ${PRJ_BASE_ARG}
+RUN mkdir -p ${PRJ_NAME_ARG}
+COPY Project-Templates/ ./Project-Templates/
+
+# 2.2 create the projects
+RUN mkdir -p ${PRJ_NAME_ARG}/gui-app/ 
+RUN rsync -a ./Project-Templates/GUI-app/ ${PRJ_NAME_ARG}/gui-app/ ;
+RUN rsync -a ./Project-Templates/GUI-app-sdl2/ ${PRJ_NAME_ARG}/gui-app-sdl2/ ;
+RUN rsync -a ./Project-Templates/.vscode/ ${PRJ_NAME_ARG}/.vscode/ ;
+RUN cp ./Project-Templates/.project.code-workspace ${PRJ_NAME_ARG}/ ;
+
+RUN chmod +x ${PRJ_NAME_ARG}/gui-app/build.sh
+# 2.3 Make sure the container is opens in the correct dir when using VSC
+WORKDIR ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}
+
+# Test
+# python3 --version 
+
+
+# End Docker file 
+
+
+
+
+#To enable slint-lsp in Visual Studio Code within your Docker container, you’ll need to do a few things:
+#Step-by-Step Guide
+#
+#    Ensure slint-lsp is built
+#    First, make sure that you’ve enabled DSLINT_BUILD_INTERNAL_TOOLS=ON in your CMake configuration (as you mentioned earlier). This will ensure that slint-lsp gets built along with the rest of Slint’s tools.
+#
+#    Install Visual Studio Code (VS Code)
+#    On your local machine, make sure you have VS Code installed. If you don’t have it yet, download and install it from here.
+#
+#    Install the Slint extension for VS Code
+#    This extension will enable proper syntax highlighting and integration with the Slint language server.
+#
+#        Go to the Extensions tab in VS Code (or press Ctrl+Shift+X).
+#
+#        Search for "Slint" and install the extension named Slint.
+#
+#    Set Up the LSP Server in VS Code
+#    Now that slint-lsp is part of the build, you need to tell VS Code to use it:
+#
+#        In your Docker container, ensure the slint-lsp binary is available in your PATH.
+#
+#        You can configure VS Code to connect to the slint-lsp server by adding a settings.json configuration file.
+#
+#    VS Code Settings in the Docker Container
+#
+#    Inside your container, make sure to adjust your settings.json file for VS Code to point to slint-lsp:
+#
+#    Here’s an example of what to do:
+#
+#        Open or create the .vscode/settings.json file in your workspace (inside your Docker container).
+#
+#        Add the following configuration:
+#
+#{
+#  "slint.languageServer.path": "/path/to/slint-lsp",
+#  "slint.languageServer.enabled": true,
+#  "slint.languageServer.loggingLevel": "info"
+#}
+#
+#Replace /path/to/slint-lsp with the actual path where slint-lsp was built inside your container.
+#
+#Using VS Code with Docker Container
+#If you’re accessing your Docker container via Remote - Containers (VS Code extension), make sure to also ensure that the slint-lsp binary is in a location accessible within the container.
+#
+#You can add the appropriate command in your Dockerfile to ensure that slint-lsp is available in your PATH:
+#
+#ENV PATH="/path/to/slint-lsp:${PATH}"
+#
+#Restart VS Code
+#After the changes, restart your VS Code container workspace to allow it to properly recognize the new language server.

@@ -1,0 +1,79 @@
+// Iport Button abd a few other components
+import { Button, Slider, CheckBox } from "std-widgets.slint";
+
+// Documentation:
+//      - https://docs.slint.dev/latest/docs/slint/
+//      - https://docs.slint.dev/latest/docs/slint/reference/primitive-types/
+//      - https://docs.slint.dev/latest/docs/slint/guide/language/concepts/slint-language/
+
+// Instal Slint Extension: Slint.slint
+
+export component HelloWorldWindow inherits Window 
+{
+    // Windows size Properties
+    preferred-height:300px; //100%;
+    preferred-width: 150px; //100%;
+    title: "Slint is here";
+
+    property<bool> show_menu: false;
+    
+    //  Popup Menu (implementation)
+    //  You can modulize this by moving this code to it's own file
+    //  the import it here, with:
+    //      import MenuPanel from "MenuPanel.slint";
+    //
+    //  and call it with: 
+    //      MenuPanel x:5px; y:30px; visible: root.show_menu
+    //
+    Rectangle 
+    {
+        x: 5px;
+        y: 30px;
+        width: 100px;
+        height: 60px;
+        background: lightgray;
+        visible: root.show_menu; 
+        z: 1;                                                        //❗IMPIORTANT This ensure it's drawn over other things (z-index)
+
+        Text { text: "Option 1"; x: 5px;y: 5px; }
+        Text { text: "Option 2";x: 5px;y: 30px; }
+    }
+
+
+    GridLayout 
+    {
+        Row 
+        { 
+            //  Menu Button component for popup. In  col:1
+            Button 
+            {                
+                col:0;                                              // Starts in column 0
+                width:100px;                                        // Without a size the whole column size is taken
+                text: "☰ Menu";                 
+                clicked => { root.show_menu = !root.show_menu; }
+            }
+            // Text Component. In col:2
+            Text    
+            {
+                text: "Hello, World!";                              // Automatic goes to next column, so column:1
+                horizontal-alignment: center;
+                vertical-alignment: center;
+                color:black;
+            }
+        
+        }
+        Row 
+        {            
+             Rectangle { colspan:2;  background: red; }        
+        }
+        Row 
+        { 
+            Rectangle { colspan:2; background: white; }            
+        }
+        Row 
+        {  
+            Rectangle { colspan:2; background: blue; }            
+        }
+    }
+}
+
