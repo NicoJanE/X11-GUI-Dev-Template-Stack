@@ -22,7 +22,7 @@ _This source code is licensed under the MIT License found in the  'LICENSE.md' f
 - ***Sub Containers***
   - [Create .NET project template sub container](#31-creating-the-net-sub-container-afx-x11-forward-net-service)<br> 
   - [Create .NET Avolonia project template sub container](#32-creating-an-avalonia-net-sub-container-afx-x11-forward-avalonia-service)<br>
-  - [Create .NET GTK# project template sub container](#33-creating-an-net-gtk-sub-container-afx-x11-forward-net-service-gtk)<br>  
+  - [Create .NET GTK# project template sub container](#33-creating-a-net-gtk-sub-container-afx-x11-forward-net-service-gtk)<br>              
   - [Create Pyton/Rust/PHP sub container](#34---a-phppythonrust-sub-container)<br>
   - [Create Slint/SDL2 C++/Python sub container ](#35---sub-container-slintsdl2-c-and-python) <br>
 

@@ -30,7 +30,7 @@ The **Sub Containers** contain development environments for GUI application runn
 |:-----------------                   |:----------------|
 | X11 NET Service         | [here](https://nicojane.github.io/X11-GUI-Dev-Template-Stack/Howtos/howto_create_a_dev_container.html#31-creating-the-net-sub-container-afx-x11-forward-net-service) |
 | X11 Avalonia Service    | [here](https://nicojane.github.io/X11-GUI-Dev-Template-Stack/Howtos/howto_create_a_dev_container.html#32-creating-an-avalonia-net-sub-container-afx-x11-forward-avalonia-service)|
-| X11 NET Service GTK#    | [here](https://nicojane.github.io/X11-GUI-Dev-Template-Stack/Howtos/howto_create_a_dev_container.html#32-creating-an-avalonia-net-sub-container-afx-x11-forward-avalonia-service)  |
+| X11 NET Service GTK#    | [here](https://nicojane.github.io/X11-GUI-Dev-Template-Stack/Howtos/howto_create_a_dev_container.html#33-creating-a-net-gtk-sub-container-afx-x11-forward-net-service-gtk)  |
 | X11 PHP Python Rust     | [here]( https://nicojane.github.io/X11-GUI-Dev-Template-Stack/Howtos/howto_create_a_dev_container.html#35---sub-container-slintsdl2-c-and-python)  |
 | X11 Slint C++ Python    | [here](https://nicojane.github.io/X11-GUI-Dev-Template-Stack/Howtos/howto_create_a_dev_container#35---sub-container-slintsdl2-c-and-python)  |
 
