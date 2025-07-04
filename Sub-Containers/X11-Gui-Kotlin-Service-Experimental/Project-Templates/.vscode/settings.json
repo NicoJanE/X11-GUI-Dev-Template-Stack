@@ -1,0 +1,11 @@
+//{
+//    "python.analysis.extraPaths": [
+//        "/opt/python-env/lib/python3.12/site-packages"
+//      ],
+//    "python.pythonPath": "/opt/python-env/bin/python"
+//}
+{
+  "slint.languageServer.path": "/opt/slint/target/release/slint-lsp",
+  "slint.languageServer.enabled": true,
+  "slint.languageServer.loggingLevel": "info"
+}

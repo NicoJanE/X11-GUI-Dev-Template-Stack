@@ -1,0 +1,148 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+       
+                    
+        // Controller task DEBUG
+        {
+            "label": "SLINT Build (DEBUG) ",
+            "type": "shell", 
+            "dependsOrder": "sequence",    
+            "presentation": 
+            {
+                "reveal": "always",
+                "revealProblems": "onProblem",
+                "clear": true,
+                "echo": false,
+                "showReuseMessage": false         // hiddes the msg:  ' Terminal will be reused by ...'                                 
+            },
+            "detail": "Task to build selected Slint project in DEBUG mode  ",
+            "dependsOn": [
+              "SLINT _Build DEBUG",
+              "_AFX POST_MSG"
+            ]
+            
+        },
+
+        // Controller task RELEASE
+        {
+            "label": "SLINT Build (RELEASE) ",
+            "type": "shell", 
+            "dependsOrder": "sequence",    
+            "presentation": 
+            {
+                "reveal": "always",
+                "revealProblems": "onProblem",
+                "clear": true,
+                "echo": false,
+                "showReuseMessage": false         // hiddes the msg:  ' Terminal will be reused by ...'                                 
+            },
+            "detail": "Task to build selected Slint project in Release mode  ",
+            "dependsOn": [
+              "SLINT _Build RELEASE",
+              "_AFX POST_MSG"
+            ]
+            
+        },
+
+
+        // The actual Build task for SLINT DEBUG
+        {
+            "label": "SLINT _Build DEBUG",           
+            "hide": true,                       // Implementation task, can not be selected by user                 ${input:whichProject}
+            "type": "shell",
+            "command": "./build.sh",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },            
+            "detail": "Builds the Slint project",
+            "options": {
+                "cwd": "${workspaceFolder}/${input:whichProject}"
+            },         
+            "presentation": 
+            {
+                "reveal": "always",
+                "revealProblems": "onProblem",
+                "echo": false,                    // This makes sure  the command is not echod to the terminal ('Executing task:...')   
+                "showReuseMessage": false         // hiddes the msg:  ' Terminal will be reused by ...'                                 
+            },
+        },
+
+        // The actual Build task for SLINT RELEASE
+        {
+            "label": "SLINT _Build RELEASE",           
+            "hide": true,                       // Implementation task, can not be selected by user                 ${input:whichProject}
+            "type": "shell",
+            "command": "./build.sh release",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },            
+            "detail": "Builds the Slint project",
+            "options": {
+                "cwd": "${workspaceFolder}/${input:whichProject}"
+            },         
+            "presentation": 
+            {
+                "reveal": "always",
+                "revealProblems": "onProblem",
+                "echo": false,                    // This makes sure  the command is not echod to the terminal ('Executing task:...')   
+                "showReuseMessage": false         // hiddes the msg:  ' Terminal will be reused by ...'                                 
+            },
+        },
+
+
+
+        // Displays generated resource for Windows builds
+        {
+            "label": "_AFX POST_MSG",
+            "type": "shell",
+            "hide": true,                       // Implementation task, can not be selected by user                
+            "command": "bash",
+            "args": [
+                "-c",
+                // Escape the quotes and add ANSI color codes! so escape code: \033[0m  becomes: \\033[0m but it must be contained in an escaped string. Example:   \" .....bla bla escape code \"
+                  " echo -e \"\n\n\\033[1;32mBuild complete!\\033[0m \n \" && echo -e \"\\033[1;33mOutput Primary Binary:\n\\033[1;32m$(find ${workspaceFolder}/ -maxdepth 3 -type f -exec file {} \\; | grep \"ELF .* executable\" | cut -d: -f1)\\033[0m\n\n \";" ,
+                //  " echo -e \"\n\n\\033[1;32mBuild complete!\\033[0m \n \" && echo -e \" \\033[1;33mOutput Primary2 Binary:\n\\033[1;32m$(find ${workspaceFolder}/ -maxdepth 3 -type f -perm /u=x,g=x,o=x)\\033[0m\n\n \";" ,
+                  
+            ],
+            "presentation": 
+            {
+                "reveal": "always",
+                "revealProblems": "onProblem",
+                "echo": false,                    // This makes sure  the command is not echod to the terminal ('Executing task:...')   
+                "showReuseMessage": false         // hiddes the msg:  ' Terminal will be reused by ...'                                 
+            },
+            "group": {
+              "kind": "build",
+              "isDefault": false
+              
+            },
+          },
+
+
+    ],
+
+    // Input selection definition
+    "inputs": 
+    [
+        {
+            "id": "whichProject",
+            "type": "pickString",
+            "description": "Which project",
+            "options": [ "gui-app", "gui-app-sdl2" ],
+            "default": "gui-app"
+        },
+
+        // sample
+        {
+            "id": "libName",
+            "type": "promptString",
+            "description": "Enter the name of the test library (e.g., test_core_lib)",
+            "default": "test_core_lib"
+        }
+    ],
+    
+    
+}

@@ -42,3 +42,12 @@ RUN apt-get update && apt-get install -y \
 	libx11-dev \
     libxkbcommon-x11-0 \
     && rm -rf /var/lib/apt/lists/*
+
+
+#TEST
+## Clone your app or create files
+#git clone https://github.com/your/compose-desktop-app.git
+#cd compose-desktop-app
+#
+## Run the app
+#./gradlew run

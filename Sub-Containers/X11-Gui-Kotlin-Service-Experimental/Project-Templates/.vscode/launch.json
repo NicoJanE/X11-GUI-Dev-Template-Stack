@@ -1,0 +1,55 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+    {
+      "name": "Debug C++",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/myapp", // or wherever your binary is
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "miDebuggerPath": "/usr/bin/gdb", // path to gdb inside container
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    },
+
+
+    {
+      "name": "PY: Debugpy AFX",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/src_frontend/main.py",
+      "justMyCode": false,
+      "console": "integratedTerminal",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      },        
+      "pathMappings": [
+        {
+          "localRoot": "${workspaceFolder}",
+          "remoteRoot": "/projects/pyphp/__NJE-1970__/GUI-app"
+        }
+      ],
+      // This works while intellisense complains about it. Alternatives"
+      // 1.   use: Ctrl+Shift+P -> Python: Select Interpreter and set it
+      // 2.   use: Ctrl+Shift+P -> Python: Select Workspace Interpreter and set it
+      // 3.   Set it in the workspace serttings file (preffered)
+      //  
+      // Still this is the only way I could make it work(beside the manual options) :(
+      //
+      "pythonPath": "/opt/python-env/bin/python3"     // Make sure to use the virtual environment!
+      //
+      // Note if debugging from outside the container open map port:5678 (debugpy default) in the container
+    }
+  ]
+  }
+  

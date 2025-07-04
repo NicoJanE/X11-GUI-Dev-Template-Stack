@@ -1,0 +1,107 @@
+# This file is part of: APP-X11-GUI-Template-Stack
+# Copyright (c) 2025 Nico Jan Eelhart
+#
+# This source code is licensed under the MIT License found in the  'LICENSE.md' file in the root directory of this source tree.
+#
+
+# *** Extending/Chaining ***
+# This requires that the base image is build()        
+#        - In the folder:   ..   
+#          Execute:         docker build -t eelhart/eelhart/x11-gui-base:latest -f Dockerfile_App-Forward-X11_Base .
+#
+#           This will create the image but ***NOT*** the network. So it is better to build and create  
+#           the whole container with:
+#               docker-compose -f compose_net_x11_base.yml up -d --build
+#           After that the image is present and the container,you can delete the container after this
+#
+FROM eelhart/x11-gui-base:latest
+
+RUN apt-get update && apt-get install -y \
+    curl unzip zip git \
+    openjdk-17-jdk \
+    libx11-dev libxext-dev libxrender-dev libxtst-dev libxt-dev libfreetype6-dev \
+    libgl1-mesa-dev libgtk-3-dev \
+    x11-apps \
+    rsync \
+    gradle \
+    && apt-get clean
+
+# 4. (Optional) Kotlin CLI
+#RUN curl -s https://get.sdkman.io | bash && \
+#    bash -c "source /root/.sdkman/bin/sdkman-init.sh && sdk install kotlin" 
+
+
+# 2. Install Gradle manually (Build syste,)
+ENV GRADLE_VERSION=8.6
+RUN curl -sSL https://services.gradle.org/distributions/gradle-8.6-bin.zip -o gradle.zip && \
+    unzip gradle.zip -d /opt && \
+    rm gradle.zip && \
+    ln -sf /opt/gradle-8.6/bin/gradle /usr/bin/gradle
+    
+    
+# 3. Set environment variables
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+ENV PATH="${JAVA_HOME}/bin:${PATH}"
+
+
+# For GUI forwarding
+ENV DISPLAY=host.docker.internal:0
+
+# Set arguments, MAKE SURE the environment variables are assigned here (file:.env) so there available.
+ARG PRJ_NAME_ARG
+ENV PRJ_NAME_ARG=${PRJ_NAME_ARG}
+ARG PRJ_BASE_ARG
+ENV PRJ_BASE_ARG=${PRJ_BASE_ARG}
+ARG FIXED_IP
+ENV FIXED_IP=${FIXED_IP}
+ARG PRJ_TYPE_USE_CUSTOM_APP
+ENV PRJ_TYPE_USE_CUSTOM_APP=${PRJ_TYPE_USE_CUSTOM_APP}
+ARG SLINT_VERSION
+
+
+
+# 1.1 INSTALL The docker Base system ---
+
+# 1.1.2 We Also Instal SDL2 which integrates nicely with Slint, use: CMake find_package(SDL2, REQUIRED)
+
+
+
+
+
+#
+
+# 2.1 Create directories and make sure our templates are inside the container
+RUN mkdir -p ${PRJ_BASE_ARG}
+WORKDIR ${PRJ_BASE_ARG}
+RUN mkdir -p ${PRJ_NAME_ARG}
+COPY Project-Templates/ ./Project-Templates/
+
+# 2.2 create the projects
+RUN mkdir -p ${PRJ_NAME_ARG}/gui-app/ 
+RUN rsync -a ./Project-Templates/GUI-app/ ${PRJ_NAME_ARG}/gui-app/ ;
+#RUN rsync -a ./Project-Templates/GUI-app-sdl2/ ${PRJ_NAME_ARG}/gui-app-sdl2/ ;
+#RUN rsync -a ./Project-Templates/.vscode/ ${PRJ_NAME_ARG}/.vscode/ ;
+#RUN cp ./Project-Templates/.project.code-workspace ${PRJ_NAME_ARG}/ ;
+
+##RUN chmod +x ${PRJ_NAME_ARG}/gui-app/build.sh
+# 2.3 Make sure the container is opens in the correct dir when using VSC
+WORKDIR ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}
+
+
+# End Docker file 
+
+
+
+
+
+
+#TEST
+#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 
+#git clone https://nico2993ee@live.nl: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@github.com/nico2993ee@live.nl/compose-desktop-app.git
+## Clone your app or create files
+#git clone https://github.com/your/compose-desktop-app.git
+#cd compose-desktop-app
+#
+## Run the app
+#./gradlew run
+

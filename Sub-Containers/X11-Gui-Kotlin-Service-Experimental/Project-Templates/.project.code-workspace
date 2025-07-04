@@ -1,0 +1,23 @@
+{ 
+  "folders": [
+    {
+      "name": "Root (all)",
+      "path": "."
+    },
+    {
+      "name": "Project: gui-app",
+      "path": "gui-app"
+    },
+    {
+      "name": "Project: gui-app-sdl2 ",
+      "path": "gui-app-sdl2"
+    }
+  ], 
+  "settings": 
+  { 
+    "explorer.autoReveal": false 
+  }, 
+  "extensions": { 
+    "recommendations": ["Slint.slint", "ms-vscode.cpptools", "ms-vscode.cmake-tools",  "ms-vscode.makefile-tools","ms-vscode.cpptools-extension-pack", "ms-python.vscode-pylance", "ms-python.python", "ms-python.debugpy", "xyz.local-history",  ]
+  } 
+}
