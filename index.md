@@ -12,8 +12,6 @@ _This source code is licensed under the MIT License found in the  'LICENSE.md' f
 </small>
 <br><br>
 
-> **Announcement:**{: style="color: blue;font-size:13px; "} <br>
-*This container stack replaces the stack **App X11 Forward GUI**, which is now deprecated and will be removed on **June 1, 2025.***{: style="color: Darkgray;font-size:13px; "}   <br><br>
 **What is new:**{: style="color: Darkgray;font-size:13px; "} <br>
 <small>🌟</small> *This new stack includes all the sub-containers previously available in App X11 Forward GUI.*{: style="color: Darkgray;font-size:13px; "} <br>
 <small>🌟</small> *The documentation has been simplified.*{: style="color: Darkgray;font-size:13px; "} <br>

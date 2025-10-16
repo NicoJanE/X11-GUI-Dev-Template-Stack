@@ -1,7 +1,5 @@
 
 
-**Announcement:** <br>
-*This container stack replaces the stack **App X11 Forward GUI**, which is now deprecated and will be removed on **June 1, 2025.***   <br><br>
 **What is new:** <br>
 <small>🌟</small> *This new stack includes all the sub-containers previously available in App X11 Forward GUI.* <br>
 <small>🌟</small> *The documentation has been simplified.* <br>
