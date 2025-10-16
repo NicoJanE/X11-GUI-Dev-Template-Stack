@@ -96,12 +96,7 @@ WORKDIR ${PRJ_BASE_ARG}/${PRJ_NAME_ARG}
 
 
 #TEST
-#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 
-#git clone https://nico2993ee@live.nl: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@github.com/nico2993ee@live.nl/compose-desktop-app.git
-## Clone your app or create files
-#git clone https://github.com/your/compose-desktop-app.git
-#cd compose-desktop-app
-#
+## 
 ## Run the app
 #./gradlew run
 
