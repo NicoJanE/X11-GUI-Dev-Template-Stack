@@ -29,7 +29,7 @@ The system uses a **two-tier container structure**:
 
 <hr>
 
-## Available containers4s
+## Available containers
 
 The following conatiners are available, press the ***Setup Guide***  button to get the instructions for the page.
 
@@ -81,8 +81,8 @@ The following conatiners are available, press the ***Setup Guide***  button to g
 </span>
 </div>
 
-<hr>
 <span class="nje-br2"> </span>
+<hr>
 
 ### Latest major changes
 
