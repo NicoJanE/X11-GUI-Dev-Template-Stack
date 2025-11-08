@@ -29,9 +29,9 @@ The system uses a **two-tier container structure**:
 
 <hr>
 
-## Available containers
+## Setup Available containers
 
-The following conatiners are available, press the ***Setup Guide***  button to get the instructions for the page.
+The following containers are available, press the ***Setup Guide***  button to get the instructions for the page. Press [**this**](https://nicojane.github.io/X11-GUI-Dev-Template-Stack/Howtos/howto_create_a_dev_container) for the **complete instructions**.
 
 <div class="nje-table-base-span">
 <span class="nje-table-row">
@@ -91,8 +91,6 @@ The following conatiners are available, press the ***Setup Guide***  button to g
 <small>🌟</small> *Irrelevant actions have been removed.*{: style="color: Darkgray;font-size:13px; "}<br>
 <small>🌟</small> *Names have been shortened.*{: style="color: Darkgray;font-size:13px; "} <br>
 <small>🌟</small> *Instructions have been improved for clarity and usability.*{: style="color: Darkgray;font-size:13px; "} <br>
-
-
 
 <span class="nje-br3"> </span>
 <sub><i> This file is part of:  React Development Template Stack

@@ -4,12 +4,10 @@ RefPages:
  - howto_create_a_dev_container   
 --- 
 
-<small><br><br>
-_This file is part of: **X11-GUI-Development-Template-Stack**_
-_Copyright (c) 2025 Nico Jan Eelhart_
-_This source code is licensed under the MIT License found in the  'LICENSE.md' file in the root directory of this source tree._
-</small>
-<br><br>
+<span class="nje-br1"> </span>
+# X11 General GUI Development <span style="color: #409EFF; font-size: 0.6em; font-style: italic;"> -  Docker Setup & Usage Guide</span>
+
+<br>
 <div class="custom-style" style="--nje-color: #3077C8; --nje-size:12px; --nje-bg-color:#EDEDED">
 **Quick content links**{: style="color: #474747;font-size:12px; "} *(Reference to most common page sections)*{: style="color: #474747;font-size:11px; "}
 - ***Basics***
@@ -30,7 +28,7 @@ _This source code is licensed under the MIT License found in the  'LICENSE.md' f
   
 </div>  
 
-# Introduction
+## Introduction
 
 This Docker Linux (Ubuntu 24.04) container is designed for use on a Windows host running Docker Desktop. Its purpose is to enable the development of GUI applications (such as those written in C++, .NET, Rust, and others<sup>[1](#footnote-1)</sup>) within a Linux Docker container, and to display the running application on the Windows host <br>
 
@@ -40,20 +38,18 @@ This container stack consists of one required **base container** and one or more
 
 ## Docker with WSL Architecture & Requirements
 
-To better understand the Docker container and WSL setup, and to verify the system requirements, please refer to the following document: [WSL architecture and requirements](howto_wsl_using_x11.md)
+To better understand the Docker container and WSL setup, and to verify the system requirements, please refer to the following document: [**WSL architecture and requirements**](https://nicojane.github.io/X11-GUI-Dev-Template-Stack/Howtoshowto_wsl_using_x11)
 
-<details closed>  
- <summary class="clickable-summary">
- <span  class="summary-icon"></span> 
- **Side note**: Security Considerations and Network Configuration
- </summary> 	<!-- On same line is failure, Don't indent the following Markdown lines!  -->
-  
->### Security Considerations and Network Configuration <br>
->
->For personal use on a developer's PC or laptop, security risks are generally lower than in a production environment. However, it's still a good idea to follow some basic security practices. When running an X server (like vcxsrv) on your Windows host, configure vcxsrv to only accept connections from the local machine. This minimizes exposure and ensures that only applications on your PC can access the server. Additionally, keep your firewall enabled and set to block unsolicited incoming connections. While this setup is for development purposes and may not require strict security measures, these simple steps can help protect your system against unexpected threats, especially when connected to less secure networks.
+<details class="nje-warn-box">
+  <summary>Security Considerations and Network Configuration
+  </summary>
+**Security Considerations and Network Configuration**  
+For personal use on a developer's PC or laptop, security risks are generally lower than in a production environment. However, it's still a good idea to follow some basic security practices. When running an X server (like vcxsrv) on your Windows host, configure vcxsrv to only accept connections from the local machine. This minimizes exposure and ensures that only applications on your PC can access the server. Additionally, keep your firewall enabled and set to block unsolicited incoming connections. While this setup is for development purposes and may not require strict security measures, these simple steps can help protect your system against unexpected threats, especially when connected to less secure networks.  
 <br>
 In practice, this means that as a developer, you should leave the XLaunch ***'Extra option' -> Disable access control*** ***unchecked***
 </details>
+<br />
+<!-- <span class="nje-br"> </span> HALF height break-->
 
 # Create the Base Container
 
@@ -82,20 +78,27 @@ Now we can create and start the base container.
 
 - In any case, we use a fixed IP address in the Compose file to simplify communication with services such as an SSH server (though SSH is not used in this setup). While not strictly necessary, it helps avoid name resolution issues
 - The Subnet and IP address can be found in the `.env` file:
-
-<pre class="nje-cmd-one-line-sm-ident"> FIXED_SUBNET  # Default: 172.20.0.0/16            FIXED_IP      # Default: 172.20.0.15</pre>
+  <pre class="nje-cmd-one-line-sm-ident1"> FIXED_SUBNET  # Default: 172.20.0.0/16            FIXED_IP      # Default: 172.20.0.15</pre>
 
 - Next install the Container. Execute this command in the service sub folder
+  <pre class="nje-cmd-one-line-sm-ident1"> docker-compose -f compose_x11_gui_base.yml up -d --build --force-recreate  --remove-orphans </pre>
 
-<pre class="nje-cmd-one-line-sm-ident"> docker-compose -f compose_x11_gui_base.yml up -d --build --force-recreate  --remove-orphans </pre>
 
-> *Warning!*{: style="color: red;font-size:13px; "} <br>
-> <small> When recreating the same container(service name) avoid subtle/annoying caching issues, When needed make sure to:</small>
-- <small> delete the container</small>
-- <small> delete the volume and </small
-- <small> use the Docker prune command,so: </small>
->
-> <pre class="nje-cmd-one-line-sm-ident"> docker system prune -a --volumes</pre>
+
+<details class="nje-warn-box">
+  <summary>Recreate Docker Container
+  </summary>
+   When recreating the same container(service name) avoid subtle/annoying caching issues, When needed make sure to:
+   - delete the container
+   - delete the volume and 
+   - use the Docker prune command, like: <span class="nje-cmd-inline-sm"> docker system prune -a --volumes</span>
+
+</details>
+<br />
+<!-- <span class="nje-br"> </span> HALF height break-->
+
+
+
 
 <hr>
 
@@ -767,11 +770,18 @@ Most of the build an launch task are pre-created for you in th sub containers
 > - .vscode/settings.json: For general VS Code settings specific to your project (e.g., editor preferences, linting settings).
 In case you have to customize the build properties or other settings these files should be updated.
 
-
 </details>
-
-<hr><hr><hr>
 
 <br>
 ### Footnotes
 <small>1. <a name="footnote-1"></a>Of course, any Linux GUI application can be displayed via Docker on the Windows host; it is not limited to development.</small>
+
+
+
+
+<span class="nje-br3"> </span>
+<sub><i> This file is part of:  React Development Template Stack
+Copyright (c) 2025 Nico Jan Eelhart. This source code is licensed under the MIT License found in the  'LICENSE.md' file in the root directory of this source tree.
+</i></sub>
+
+<p align="center">─── ✦ ───</p>
