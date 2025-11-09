@@ -48,8 +48,9 @@ For personal use on a developer's PC or laptop, security risks are generally low
 <br>
 In practice, this means that as a developer, you should leave the XLaunch ***'Extra option' -> Disable access control*** ***unchecked***
 </details>
-<br />
-<!-- <span class="nje-br"> </span> HALF height break-->
+<span class="nje-br3"> </span>
+
+---
 
 # Create the Base Container
 
@@ -83,8 +84,6 @@ Now we can create and start the base container.
 - Next install the Container. Execute this command in the service sub folder
   <pre class="nje-cmd-one-line-sm-ident1"> docker-compose -f compose_x11_gui_base.yml up -d --build --force-recreate  --remove-orphans </pre>
 
-
-
 <details class="nje-warn-box">
   <summary>Recreate Docker Container
   </summary>
@@ -94,59 +93,62 @@ Now we can create and start the base container.
    - use the Docker prune command, like: <span class="nje-cmd-inline-sm"> docker system prune -a --volumes</span>
 
 </details>
-<br />
+<br>
 <!-- <span class="nje-br"> </span> HALF height break-->
-
-
-
 
 <hr>
 
 ## Verify the Setup
 
-- After running the commands you can open **Docker Desktop** and in the container section a new container is created under the name: ***'x11-gui-basic-service/x11-gui-basic-service-1'***. Open a terminal session in this container
+- After running the commands you can open **Docker Desktop** and in the container section a new container is created under the name: ***x11-gui-basic-service/x11-gui-basic-service-1***. Open a terminal session in this container
 
 - Under the Images tab of Docker Desktop you should see the image **eelhart/x11-gui-base:latest** This is the image that will be used by the **Sub Containers** that you may create (see next paragraph) to add different development environments to develop GUI applications.
 
-> *Warning!*{: style="color: red;font-size:13px; "} <br>
-> <small> For the usage of the Sub Containers you may remove the container 'x11-gui-basic-service/x11-gui-basic-service-1' but you will need to hold on to the image **eelhart/x11-gui-base:latest**</small>
+<details class="nje-remark-box">
+  <summary>Docker Image
+  </summary>
+ For the usage of the Sub Containers you may remove the container 'x11-gui-basic-service/x11-gui-basic-service-1' but you will need to hold on to the image **eelhart/x11-gui-base:latest**
+</details>
+<span class="nje-br2">
 
 - Make sure the X-server(XLaunch) is started (see 2.1.4)
 - Enter the following command in the **Docker Terminal shell**:
+  <pre class="nje-cmd-one-line-sm-ident1"> xeyes      # This should display a window with eyes on your Windows desktop</pre>
+  <span class="nje-expect"> When successful a Window with a pair of eyes should be displayed</span>
 
-<pre class="nje-cmd-one-line-sm-ident"> xeyes      # This should display a window with eyes on your Windows desktop</pre>
 
-<span class="nje-ident"></span> When successful a Window with a pair of eyes should be displayed
+<details class="nje-back-box">
+  <summary>Docker call syntax (***Skip this if you know Docker basics***)
+  </summary>
 
-<details closed>  
-  <summary class="clickable-summary">
-  <span  class="summary-icon"></span> 
-  **Side note**: Docker call syntax
-  </summary> 	<!-- On same line is failure, Don't indent the following Markdown lines!  -->
-  
->### Docker calling context <small> (***Skip this if you know Docker basics***) </small><br>
-**Docker calling context**
-Because we use Docker files (Dockerfile and compose) with descriptive names, such as **Dockerfile_Nodejs_React_Cont** instead of just **Dockerfile**, this affects how Docker commands are executed. For example, with a standard **Dockerfile**, we would use this command to reference  the Docker file in the **Docker Compose** file:
-><pre class="nje-cmd-multi-line">
-context: .
-dockerfile: Dockefile
-></pre>
-In our case, we cannot use the default name but have to specify the name we gave, thus:<br>
-><pre class="nje-cmd-multi-line">
-build: 	    
-context: .
-dockerfile: Dockerfile_Nodejs_React_Cont
-></pre>
- The same applies for using the build command. With the default Dockerfile, you can use this:
- ><pre class="nje-cmd-multi-line">
-docker build 
-# This will assume a file: Dockerfile is available
-></pre>
-With the named file, we have to use
-><pre class="nje-cmd-one-line">docker build -f MyDockerFileNameHere </pre> <br>
-The same applies for running the Compose file (use **-f** option) 
-<br>
+  **Docker calling context**  
+  Because we use Docker files (Dockerfile and compose) with descriptive names, such as **Dockerfile_Nodejs_React_Cont** instead of just **Dockerfile**, this affects how Docker commands are executed. For example, with a standard **Dockerfile**, we would use this command to reference  the Docker file in the **Docker Compose** file:
+  <pre class="nje-cmd-multi-line-sm">
+  context: .
+  dockerfile: Dockefile
+  </pre>
+
+  In our case, we cannot use the default name but have to specify the name we gave, thus:<br>
+  <pre class="nje-cmd-multi-line-sm">
+  build: 	    
+  context: .
+  dockerfile: Dockerfile_Nodejs_React_Cont
+  </pre>
+  The same applies for using the build command. With the default Dockerfile, you can use this:
+  <pre class="nje-cmd-multi-line-sm">
+  docker build 
+  # This will assume a file: Dockerfile is available
+  </pre>
+  With the named file, we have to use
+  <pre class="nje-cmd-one-line-sm-ident1">docker build -f MyDockerFileNameHere </pre> <br>
+  The same applies for running the Compose file (use **-f** option) 
+
+<p align="center" style="padding:20px;">─── ✦ ───</p>
 </details>
+
+<span class="nje-br3"> </span>
+
+---
 
 # 3. Creating the Sub Containers
 
@@ -156,7 +158,7 @@ In the **Sub-Containers folder**, each sub-container is stored in its own subfol
 
 <hr>
 
-## 3.1 Creating the .NET Sub Container (`afx-x11-forward-net-service`)
+## 3.1 Creating the .NET Sub Container (<span class="nje-cmd-inline-sm">afx-x11-forward-net-service</span>)
 
 This will create a basic .NET command-line application that returns—guess what? Yes! "Hello World."  
 This program does **not** display its output in an X11 window on the host; instead, it is meant to demonstrate that the **Base Container** can be extended, and to show how this can be done.
@@ -165,32 +167,32 @@ In addition it will  create a project, based on a template, and demonstrate how 
 
 Additionally, these steps create a project from a template and show how to build the application using the CLI prompt.
 
-
-
-> *Note:*{: style="color: Grey;font-size:13px; "}
-> <small>We already have proven that that GUI output from the Linux application is displayed in our XLaunch Window on the Windows Host, if you did not see this you can open a terminal in the Docker container and enter the command:</small>
-><pre class="nje-cmd-one-line-sm-ident">xeyes</pre>
- 
+<details class="nje-note-box">
+  <summary>Prove that GUI output works
+  </summary>
+   We already have proven that that GUI output from the Linux application is displayed in our XLaunch Window on the Windows Host, if you did not see this you can open a terminal in the Docker container and enter the command:
+  <span class="nje-cmd-inline-sm">xeyes</span>
+</details>
+<br>
 
 **Create the  Application project:**
 
 1\. Open a CMD in the folder .\Sub-Containers\Afx-X11-Forward-NET-Service\ <br>
 2\. **Define the Network**: an **External** network configuration is used by **default** <br><br>
-***Defaults checklist:***{: style="color: #999999;font-size:12px;margin-left:20px "}
+***Defaults checklist:***{: style="color: #999999;font-size:12px;margin-left:20px"}
+<div class="nje-colored-block" style="margin-left:18px;margin-top:-10px;">
 
-<div class="nje-colored-block">
-
-1. In the file `.env` of the **sub** container make sure the **FIXED_SUBNET** is set to the **same** value, of the `.env` file in the **base** container
-2. In the file `.env` of the **sub** container make sure that a free IP address variable is used (i.e. **FIXED_IP2**), this can be taken from the `.env` file in the **base** container
-3. In the `compose` file make sure that the **same** network (name) as in the base container `compose` file is used,
-4. In the `compose` file(sub container) make sure that the IP variable, from step 2 is used.
+1. In the file <span class="nje-cmd-inline-sm">.env</span> of the sub container make sure the **FIXED_SUBNET** is set to the **same** value, of the <span class="nje-cmd-inline-sm">.env</span> file in the **base** container
+2. In the file <span class="nje-cmd-inline-sm">.env</span> of the **sub** container make sure that a free IP address variable is used (i.e. **FIXED_IP2**), this can be taken from the <span class="nje-cmd-inline-sm">.envM</span> file in the **base** container
+3. In the <span class="nje-cmd-inline-sm">compose</span> file make sure that the **same** network (name) as in the base container <span class="nje-cmd-inline-sm">compose</span> file is used,
+4. In the <span class="nje-cmd-inline-sm">compose</span> file(sub container) make sure that the IP variable, from step 2 is used.
 
  📍Alternatively you can use an internal network, these are commented around the same location in the compose file.
  </div>
 
-3\. In the `.env` file, set the variable **PRJ_NAME_ARG** to the desired project name.
+3\. In the <span class="nje-cmd-inline-sm">.env</span> file, set the variable **PRJ_NAME_ARG** to the desired project name.
 
-- Alternatively, you can also set this environment variable from the command line.This value will be used for both the project name and the project directory. If you omit this step, a **default** will be used (see the **PRJ_NAME_ARG** variable in the `.env file`:
+- Alternatively, you can also set this environment variable from the command line.This value will be used for both the project name and the project directory. If you omit this step, a **default** will be used (see the **PRJ_NAME_ARG** variable in the **.env file**:
 
 <pre class="nje-cmd-one-line">$env:PRJ_NAME_ARG="my-project"		# From Command line </pre>
 
@@ -204,35 +206,33 @@ docker network create --subnet=192.168.52.0/28 network_common_X11_gui
 5\. Then execute the **docker command**, to create and builds the project
 <pre class="nje-cmd-one-line"> docker  compose -f compose_net_x11_project.yml up -d  --remove-orphans --build --force-recreate </pre>
 
-6\. Test <br>
-***Result checklist:***{: style="color: #414141;font-size:12px;margin-left:20px "}
+6\. Test checklist
 
-<div class="nje-colored-block" style="--nje-bgcolor:#414141; --nje-textcolor:#efefef;">
-- Open **Docker Desktop**, in the container section a new container should be created with the name:<br>
-***'afx-x11-forward-net-Service/afx-dotnet-container-1'***.
-- Open a terminal session in this container, navigate to directory:<br>
-***/projects/net-gtk-sharp/project_name2***
-- Enter the following command in the terminal session:<br>
-<pre class="nje-cmd-one-line-sm-ident">dotnet run</pre> <br>
-This should creat your project and display 'Hello world'
- </div>
+<div class="nje-expect-multi-lines-indent1">
+***Test steps:***
+- Open **Docker Desktop**, in the container section a new container should be created with the name:
+  <pre class="nje-cmd-one-line-sm-ident1">afx-x11-forward-net-Service/afx-dotnet-container-1</pre>
+- Open a terminal session in this container, navigate to directory: ***/projects/net-gtk-sharp/project_name2***
+- Enter the following command in the terminal session:  
+  <pre class="nje-cmd-one-line-sm-ident1">dotnet run</pre>
+  <span class="nje-expect"> This should create your project and display 'Hello world' </span>
+</div>
+<span class="nje-br"> </span>
 
 <hr>
 
-## 3.2 Creating an Avalonia .NET Sub-Container (`afx-x11-forward-avalonia-service`)
+## 3.2 Creating an Avalonia .NET Sub-Container (<span class="nje-cmd-inline-sm">afx-x11-forward-avalonia-service</span>)
 
-This sub-container sets up a GUI project using the Avalonia UI framework for .NET. For more information about Avalonia, visit the [official Avalonia site](https://avaloniaui.net/). <br>
+This sub-container sets up a GUI project using the Avalonia UI framework for .NET. For more information about Avalonia, visit the [**official Avalonia site**](https://avaloniaui.net/).
 
 Avalonia supports creating multiple types of projects using its built-in project templates. In this setup, a custom sample project—based on one of these templates—is included and installed by default.
 <br>
 
-**Steps to Create an Avalonia Base Application Project:**
-
-1\. Open a Command Prompt in the folder: ***.\Sub-Containers\X11-Gui-Avalonia-Service\\***
-
-2\. **Define the Network**: an **External** network configuration is used by **default** <br><br>
-***Defaults checklist:***{: style="color: #999999;font-size:12px;margin-left:20px "}
-<div class="nje-colored-block">
+**Steps to Create an Avalonia Base Application Project:** <br>
+1\. Open a Command Prompt in the folder: ***.\Sub-Containers\X11-Gui-Avalonia-Service\\*** <br>
+2\. Define the Network: an **External** network configuration is used by **default** <br><br>
+***Defaults checklist:***{: style="color: #999999;font-size:12px;margin-left:20px"}
+<div class="nje-colored-block" style="margin-left:18px;margin-top:-10px;">
 1. In the file `.env` of the **sub** container make sure the **FIXED_SUBNET** is set to the **same** value, of the `.env` file in the **base** container
 2. In the file `.env` of the **sub** container make sure that a free IP address variable is used (i.e. **FIXED_IP2**), this can be taken from the `.env` file in the **base** container
 3. In the `compose` file make sure that the **same** network (name) as in the base container `compose` file is used,
@@ -242,35 +242,32 @@ Avalonia supports creating multiple types of projects using its built-in project
  </div>
 
 3\. Open the ***.env*** file to adjust the necessary settings:
-
-- **Project Type** By default ***PRJ_TYPE_USE_CUSTOM_APP*** is set to create a basic application based on our custom template. You can disable this to choose one of the Avalonia-provided templates by setting the variable: **PRJ_TYPE_ARG**.
-- **Project Name**: Set the variable **PRJ_NAME_ARG** to your desired project name. This will be used for both the project name and the project directory.If omitted, the default value from **PRJ_NAME_ARG** in the **.env** file will be used.
+ - **Project Type** By default ***PRJ_TYPE_USE_CUSTOM_APP*** is set to create a basic application based on our custom template. You can disable this to choose one of the Avalonia-provided templates by setting the variable: **PRJ_TYPE_ARG**.
+ - **Project Name**: Set the variable **PRJ_NAME_ARG** to your desired project name. This will be used for both the project name and the project directory.If omitted, the default value from **PRJ_NAME_ARG** in the **.env** file will be used.
 
 4\. Create the **external network** if does not exists
-<pre class="nje-cmd-multi-line"> 
-docker network ls   # check if already exists (don't include in copy)
+<pre class="nje-cmd-multi-line">docker network ls   # check if already exists (don't include in copy)
 docker network create --subnet=192.168.52.0/28 network_common_X11_gui
-
 </pre>
 
 5\. Execute the **Docker command** to create the project:
 
 <pre class="nje-cmd-one-line"> docker  compose -f compose_avalonia_x11_project.yml up -d  --remove-orphans --build --force-recreate </pre>
-<span class="nje-ident"></span>*Note that this compose creates and builds the project.*
+<span class="nje-expect-indent1">Note that this compose creates and builds the project.</span>
 
-6\. Setup Result <br>
-***Result checklist:***{: style="color: #414141;font-size:12px;margin-left:20px "}
+6\. Test checklist
 
-<div class="nje-colored-block" style="--nje-bgcolor:#414141; --nje-textcolor:#efefef;">
-- Open **Docker Desktop**, in the container section a new container should be created with the name:<br>
-***'x11-gui-avalonia-service/x11-gui-avalonia-dotnet-1'***.
-- Open a terminal session in this container, navigate to directory:<br>
-***/projects/ava/project_name***
+<div class="nje-expect-multi-lines-indent1">
+***Test steps:***
+- Open **Docker Desktop**, in the container section a new container should be created with the name:
+  <pre class="nje-cmd-one-line-sm-ident1">x11-gui-avalonia-service/x11-gui-avalonia-dotnet-1</pre>
+- Open a terminal session in this container, navigate to directory: ***/projects/ava/project_name***
 - Make sure XLaunch is started on the host
-- Enter the following command in the terminal session:<br>
-<pre class="nje-cmd-one-line-sm-ident">dotnet run</pre> <br>
-This should display Application GUI on your host via the XLaunch program
- </div>
+- Enter the following command in the terminal session:  
+  <pre class="nje-cmd-one-line-sm-ident1">dotnet run</pre>
+  <span class="nje-expect"> This should display Application GUI on your host via the XLaunch program </span>
+</div>
+<span class="nje-br"> </span>
 When all this works you should be able to open, build, and debug the project in ***Visual Studio code***, **See paragraph 4** for details
 
 ### 3.2.1 Visual Studio Code Specifics
@@ -292,53 +289,58 @@ In the **Terminal → Run Task... menu**, you can find the build tasks for the A
 <span class="nje-ident"/> <small>*This makes sure you can see the 'live output' of the application while your updating the XAML file(s)*</small>
 For other sub-container other task might be available, but most of them should be self explaining.
 
-> *Warning 1*{: style="color: red;font-size:13px; "} <small>As of Sept. 2024, you might need to change one thing. Be sure to install **version 0.29** of the **Avalonia for Visual Studio Code** plugin. There is a persistent parsing error in versions up to 0.31 that pops up whenever you type. See more details [here](https://github.com/AvaloniaUI/AvaloniaVSCode/issues/113)</small> <br> 
+<details class="nje-warn-box">
+  <summary>Potential required bugfix
+  </summary>
+  As of Sept. 2024, you might need to change one thing. Be sure to install **version 0.29** of the **Avalonia for Visual Studio Code** plugin. There is a persistent parsing error in versions up to 0.31 that pops up whenever you type. See more details [here](https://github.com/AvaloniaUI/AvaloniaVSCode/issues/113)
+</details>
+<span class="nje-br2"> </span>
 
-<details closed>  
-<summary class="clickable-summary">
-<span  class="summary-icon"></span> 
-**Side note**: **Visual Code Plugins**  installed and configured in the Container
-</summary> 	<!-- On same line is failure, Don't indent the following Markdown lines!  -->
- 
->***Visual Code*** Plugins installed and configured in the Container 
-1. General plugins
+<details class="nje-remark-box">
+  <summary>Visual Code, Required Plugins for the Container
+  </summary>
+  1. General plugins
   -  C# Dev Kit
   -  Avalonia for vscode (by Avalonia team)<br>
-This feature for XAML development and auto complete features (Requires .NET Core 8.0)
-**WARNING** Make sure to install **version 0.29**, untill version 0.31 there is a super annoying parse error which pops-up when every you type something, see [here](https://github.com/AvaloniaUI/AvaloniaVSCode/issues/113). When a higher version then 0.31 is released you can test that version to check if it still there.
+    This feature for XAML development and auto complete features (Requires .NET Core 8.0)
+    **WARNING** Make sure to install **version 0.29**, untill version 0.31 there is a super annoying parse error which pops-up when every you type something, see [here](https://github.com/AvaloniaUI/AvaloniaVSCode/issues/113). When a higher version then 0.31 is released you can test that version to check if it still there.
 
 2. **Kir-AntipovHot Reload** plugin should already be part of this project, this is how it defined:
-	- Project file should contain (Copy this if not)	 	  
-	  ```
-	  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-		<DefineConstants>$(DefineConstants);ENABLE_XAML_HOT_RELOAD</DefineConstants>
-	  </PropertyGroup>
-	  <ItemGroup>
-		<PackageReference Condition="$(DefineConstants.Contains(ENABLE_XAML_HOT_RELOAD))" Include="Avalonia.Markup.Xaml.Loader" Version="11.1.0" />
-		<PackageReference Condition="$(DefineConstants.Contains(ENABLE_XAML_HOT_RELOAD))" Include="HotAvalonia" Version="1.1.1" />
-		<PackageReference Include="HotAvalonia.Extensions" Version="1.1.1" PrivateAssets="All" />
-	  </ItemGroup>
-	  ```
-	- In project ReactiveUI Package should be present, check if it is	
-	 ```
-	 PackageReference Include="Avalonia.ReactiveUI" Version="your_version_here" # alternatively added it with: dotnet add package Avalonia.ReactiveUI
-	 ```
-	- Next initialize **HotAvalonia** in the ***App.axaml.cs*** (This should already be done, but for your reference)
-		- Using directive ``using HotAvalonia;``
-		- In the method ' public override void Initialize()' add:<br>
-		``this.EnableHotReload(); // HotAvalonia Ensure this line **precedes** AvaloniaXamlLoader.Load(this);``
-	- Make sure the ``.UseReactiveUI();`` is called in **AppBuilder.Configure()** see ***program.cs***. This also requires: ``using Avalonia.ReactiveUI;``
-	- **Run task** -> **Watch run Avalonia** Change an \*.axaml and the program output should be adapted
-	WARNING: When Visual Code complains about multiple project and refuses to start, it is likely due to the fact that in the same folder a solution file automatically created for you :(
-  removing/relocating this file might solve the issue, to prevent it from creating:
-  - Look for installed plugin **'C# Dev Kit'**
-  - press Extensions settings
-  - Uncheck 'Automatically **Create Solution In Workspace'**
-  - Reload your project.
->
+   - Project file should contain (Copy this if not)
+
+      ``` xaml
+      <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+      <DefineConstants>$(DefineConstants);ENABLE_XAML_HOT_RELOAD</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+      <PackageReference Condition="$(DefineConstants.Contains(ENABLE_XAML_HOT_RELOAD))" Include="Avalonia.Markup.Xaml.Loader" Version="11.1.0" />
+      <PackageReference Condition="$(DefineConstants.Contains(ENABLE_XAML_HOT_RELOAD))" Include="HotAvalonia" Version="1.1.1" />
+      <PackageReference Include="HotAvalonia.Extensions" Version="1.1.1" PrivateAssets="All" />
+      </ItemGroup>
+      ```
+
+  - In project ReactiveUI Package should be present, check if it is  
+    <span class="nje-cmd-multi-line-sm-indent2">PackageReference Include="Avalonia.ReactiveUI" Version="your_version_here" # alternatively added it with: dotnet add package Avalonia.ReactiveUI</span>
+
+  - Next initialize **HotAvalonia** in the ***App.axaml.cs*** (This should already be done, but for your reference)  
+		 - Using directive <span class="nje-cmd-inline-sm">using HotAvalonia;</span>  
+		- In the method **public override void Initialize()** add:  
+		  <span class="nje-cmd-multi-line-sm-indent2">this.EnableHotReload(); // HotAvalonia Ensure this line **precedes** AvaloniaXamlLoader.Load(this);</span>
+	- Make sure the ``.UseReactiveUI();`` is called in **AppBuilder.Configure()** see ***program.cs***. This also requires: <span class="nje-cmd-inline-sm">using Avalonia.ReactiveUI;</span>
+	- **Run task** -> **Watch run Avalonia** Change an \*.axaml and the program output should be adapted  
+
+WARNING: When Visual Code complains about multiple project and refuses to start, it is likely due to the fact that in the same folder a solution file automatically created for you :(
+removing/relocating this file might solve the issue, to prevent it from creating:
+- Look for installed plugin **'C# Dev Kit'**
+- press Extensions settings
+- Uncheck 'Automatically **Create Solution In Workspace'**
+- Reload your project.
+
+<span class="nje-br2"> </span>
 <small> *Thanks: to **Kir_Antipov** [Github](https://github.com/Kir-Antipov) for providing the required tools to make this work!  </small>
-<br>
+
 </details>
+<span class="nje-br3"> </span>
 
 <hr>
 

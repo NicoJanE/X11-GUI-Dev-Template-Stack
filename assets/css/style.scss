@@ -534,15 +534,15 @@ Or
   background-color: var(--nje-bgcolor, lightgray);
   color: var(--nje-textcolor, #32312c);
   display:inline-block;
-  font-size: 92%;
+  font-size: 85%;
   padding-top:2px; 
   padding-left:10px;
   padding-right:14px;
-  padding-bottom: 3px;
+  padding-bottom: 0px;
   border-radius: 6px;
   margin: 10px 0;
-  line-height: 1.0;
-  font-family: sans-serif;
+  line-height: 1.5;
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   transform: translateX(var(--nje-offset)) translateY(var(--nje-vmove2));
 }
 
