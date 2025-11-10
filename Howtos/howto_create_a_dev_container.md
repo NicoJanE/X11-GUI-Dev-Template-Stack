@@ -230,13 +230,15 @@ Avalonia supports creating multiple types of projects using its built-in project
 
 **Steps to Create an Avalonia Base Application Project:** <br>
 1\. Open a Command Prompt in the folder: ***.\Sub-Containers\X11-Gui-Avalonia-Service\\*** <br>
-2\. Define the Network: an **External** network configuration is used by **default** <br><br>
+2\. Define the Network: an **External** network configuration is used by **default**
+
 ***Defaults checklist:***{: style="color: #999999;font-size:12px;margin-left:20px"}
 <div class="nje-colored-block" style="margin-left:18px;margin-top:-10px;">
-1. In the file `.env` of the **sub** container make sure the **FIXED_SUBNET** is set to the **same** value, of the `.env` file in the **base** container
-2. In the file `.env` of the **sub** container make sure that a free IP address variable is used (i.e. **FIXED_IP2**), this can be taken from the `.env` file in the **base** container
-3. In the `compose` file make sure that the **same** network (name) as in the base container `compose` file is used,
-4. In the `compose` file(sub container) make sure that the IP variable, from step 2 is used.
+
+1. In the file <span class="nje-cmd-inline-sm">.env</span> of the **sub** container make sure the **FIXED_SUBNET** is set to the **same** value, of the <span class="nje-cmd-inline-sm">.env</span> file in the **base** container
+2. In the file <span class="nje-cmd-inline-sm">.env</span> of the **sub** container make sure that a free IP address variable is used (i.e. **FIXED_IP2**), this can be taken from the <span class="nje-cmd-inline-sm">.env</span> file in the **base** container
+3. In the <span class="nje-cmd-inline-sm">compose</span> file make sure that the **same** network (name) as in the base container <span class="nje-cmd-inline-sm">compose</span> file is used,
+4. In the <span class="nje-cmd-inline-sm">compose</span> file(sub container) make sure that the IP variable, from step 2 is used.
 
  📍Alternatively you can use an internal network, these are commented around the same location in the compose file.
  </div>
@@ -346,185 +348,235 @@ removing/relocating this file might solve the issue, to prevent it from creating
 
 ### 3.3 Creating a .NET GTK Sub-Container (Afx-X11-Forward-NET-Service-GTK#)
 
-This instruction set describes how to install the .NET GTK# Sub-Container, which is based on GTK 3.24.24.
+These instructions describes, how to install the .NET GTK# Sub-Container, which is based on GTK 3.24.24.
 
 **Steps to Create a .NET GTK# Sub-Container Application Project:**
 
-1\. Open a Command Prompt in the following folder: ***.\Sub-Containers\X11-Gui-NET-Service-GTK#\\***
-      
-2\. **Define the Network**: an **External** network configuration is used by **default** <br><br>
+1. Open a Command Prompt in the following folder: ***.\Sub-Containers\X11-Gui-NET-Service-GTK#\\***
+2. Define the Network, an **External** network configuration is used by **default**
+
 ***Defaults checklist:***{: style="color: #999999;font-size:12px;margin-left:20px "}
-<div class="nje-colored-block">
-1. In the file `.env` of the **sub** container make sure the **FIXED_SUBNET** is set to the **same** value, of the `.env` file in the **base** container
-2. In the file `.env` of the **sub** container make sure that a free IP address variable is used (i.e. **FIXED_IP2**), this can be taken from the `.env` file in the **base** container
-3. In the `compose` file make sure that the **same** network (name) as in the base container `compose` file is used,
-4. In the `compose` file(sub container) make sure that the IP variable, from step 2 is used.
+
+<div class="nje-colored-block" style="margin-left:18px;margin-top:-10px;">
+
+1. In the file <span class="nje-cmd-inline-sm">.env</span> of the **sub** container make sure the **FIXED_SUBNET** is set to the **same** value, of the <span class="nje-cmd-inline-sm">.env</span> file in the **base** container
+2. In the file <span class="nje-cmd-inline-sm">.env</span> of the **sub** container make sure that a free IP address variable is used (i.e. **FIXED_IP2**), this can be taken from the <span class="nje-cmd-inline-sm">.env</span> file in the **base** container
+3. In the <span class="nje-cmd-inline-sm">compose</span> file make sure that the **same** network (name) as in the base container `compose` file is used,
+4. In the <span class="nje-cmd-inline-sm">compose</span> file(sub container) make sure that the IP variable, from step 2 is used.
 
  📍Alternatively you can use an internal network, these are commented around the same location in the compose file.
  </div>
 
 3\. Create the **external network** if does not exists
-<pre class="nje-cmd-multi-line"> 
-docker network ls   # check if already exists (don't include in copy)
-docker network create --subnet=192.168.52.0/28 network_common_X11_gui
-
-</pre>
+<pre class="nje-cmd-multi-line">docker network ls   # check if already exists (don't include in copy)
+docker network create --subnet=192.168.52.0/28 network_common_X11_gui </pre>
 
 5\. Execute the **Docker command** to create the project (folder: 'X11-Gui-NET-Service-GTK#')
 <pre class="nje-cmd-one-line">docker-compose -f compose_net_x11_gtksharp_project.yml up -d --build --force-recreate --remove-orphans
-</pre><br>
-
-6\. Setup Result <br>
-***Result checklist:***{: style="color: #414141;font-size:12px;margin-left:20px "}
-
-<div class="nje-colored-block" style="--nje-bgcolor:#414141; --nje-textcolor:#efefef;">
-- Open **Docker Desktop**, in the container section a new container should be created with the name:<br>
-***'x11-gui-avalonia-service/x11-gui-avalonia-dotnet-1'***.
-- Open a terminal session in this container, navigate to directory:<br>
-***/projects/net-gtk/project_name***
-- Make sure XLaunch is started on the host
-- Enter the following command in the terminal session:<br>
-<pre class="nje-cmd-one-line-sm-ident">dotnet run -f net8.0-windows</pre> <br>
-This should display Application GUI on your host via the XLaunch program
- </div>
-When everything is set up correctly, you should be able to open, build, and debug the project in Visual Studio Code. See **paragraph 4** for details.
-7\. Specific for Visual Studio Code <br>
-
-- Start the new container in VSC
-- open the directorie: `projects/net-gtk/project_name`
-- Within a new terminal session in VSC Install the following extension(s) in the container"
-
-<pre class="nje-cmd-multi-line">code --install-extension ms-dotnettools.csharp
-code --install-extension ms-dotnettools.csdevkit
-code --install-extensionms-dotnettools.vscode-dotnet-runtime
 </pre>
+<div class="nje-br1"> </div>
 
-See the next paragraph for the specifics regarding Visual Studio Code
+6\. Test checklist
+
+<div class="nje-expect-multi-lines-indent1">
+***Test steps:***
+- Open **Docker Desktop**, in the container section a new container should be created with the name:
+  <pre class="nje-cmd-one-line-sm-ident1">x11-gui-avalonia-service/x11-gui-avalonia-dotnet-1</pre>
+- Open a terminal session in this container, navigate to directory: ***/projects/net-gtk/project_name***
+- Make sure XLaunch is started on the host
+- Enter the following command in the terminal session:  
+  <pre class="nje-cmd-one-line-sm-ident1">dotnet run -f net8.0-windows</pre>
+  <span class="nje-expect"> This should display Application GUI on your host via the XLaunch program </span>
+</div>
+
+When everything is set up correctly, you should be able to open, build, and debug the project in Visual Studio Code. See **paragraph 4** for details.
+
+7\. Specific for Visual Studio Code
+
+- Visual Studio Code requires you to install the following plugins for this container:
+  - Start the new container in VSC
+  - Open the directory: `projects/net-gtk/project_name`
+  - Within a new terminal session in VSC Install the following extension(s) in the container:
+    <pre class="nje-cmd-multi-line-sm-indent1">
+    code --install-extension ms-dotnettools.csharp
+    code --install-extension ms-dotnettools.csdevkit
+    code --install-extensionms-dotnettools.vscode-dotnet-runtime
+    </pre>
+
+<div class="nje-br"> </div>
 
 #### 3.3.1 The project Template and specific tasks in VSC
 
-**Project structure** <br>
-After opening your GTK3 .NET project in **VSC** you find a **'src'** folder with the following structure: <br>
+This sections explains how to use the GTL project template in Visual Studio Code.
 
-- **src** -->> *root source folder*
-  - **backend** -->> *.NET class libraries*. <small>**See VSC task: '2.1 AFX ...' below**</small>
-    - **cl_example** -->> *simple sample class library*
-    - **cl_example_rest** -->> *other sample class library, with simple Rest example*
-  - **frontend** -->> *GTK3 csharp code*
-    - **Program.cs** -->> main program using the sample libraries
+**Project structure**  
+When you open your GTK3 .NET project in **VSC**, you'll find the following **'src'** folder structure:
 
-**VSC Tasks** <br>
-You can use the following tasks in Visual Studio Code: 
+```
+📁 src                          → root source folder
+├── 📁 backend                  → .NET class libraries (See VSC task: '2.1 AFX ...' below)
+│   ├── 📁 cl_example           → simple sample class library
+│   └── 📁 cl_example_rest      → other sample class library, with simple Rest example
+└── 📁 frontend                 → GTK3 csharp code
+    └── 📄 Program.cs           → main program using the sample libraries
+```
 
-| Tasks                                                                       | Used for                                  |
-|:-----                                                                       |:--------                                  |
-|<small>1.1 AFX Build GTK App (Debug Windows)</small>                         | <small>Debug Build all for the Windows platform </small> |
-|<small>1.2 AFX Build Release GTK App (Windows & Linux)</small>&nbsp; | <small>Release build ofr Linux and Windows Platforms </small>
-|<small>2.1 AFX CREATE: Class Source Library </small>                         | <small>Creates a class library in the directory: src/backend/ see **Remark 1** </small>
-|<small>3.1 AFX Run GTKApp (Windows Release) </small>                         | <small>Run the app in release mode </small>
-|<small>4.1 AFX Clean a specific Library </small>                             | <small>Cleans a specific class library </small>
-|<small>4.2 AFX Clean the application </small>                                | <small>Cleans the frontend application  </small>
-|<small>4.3 AFX Clean ALL </small>                                            | <small>Clean all libraries and frontend application </small>
+**VSC Tasks**  
+The following tasks are available in Visual Studio Code:
 
->***Remark 1***{: style="color: green;font-size:14px; "} <small> <br>Make sure the class library start with: **'cl_'** followed by a descriptive name. This makes sure:
-<br><span class="nje-ident" style="--nje-number-of-spaces: 30px;"></span> * That the class libraries are created in a **folder** with that name on **src\backend\cl_yourname**
-<br><span class="nje-ident" style="--nje-number-of-spaces: 30px;"></span> * During the build process the **cl_** is replaced with with **'lib_'**  resulting into library: ***lib_yourname***
-<br><span class="nje-ident" style="--nje-number-of-spaces: 30px;"></span> * The **clean tasks 4.x** wil work properly, because they act on these names!
- </small> 
+<div class="nje-table-vct">
+  <span class="nje-header-row">
+    <span class="nje-hcol1">Task name</span>
+    <span class="nje-hcol2">Description</span>
+  </span>
+  <span class="nje-row">
+    <span class="nje-column1">1.1 AFX Build GTK App (Debug Windows)</span>
+    <span class="nje-column2">Debug Build all for the Windows platform</span>
+  </span>
+  <span class="nje-row">
+    <span class="nje-column1">1.2 AFX Build Release GTK App (Windows & Linux)</span>
+    <span class="nje-column2">Release build ofr Linux and Windows Platforms</span>
+  </span>
+  <span class="nje-row">
+    <span class="nje-column1">2.1 AFX CREATE: Class Source Library</span>
+    <span class="nje-column2">Creates a class library in the directory: src/backend/ see **Remark 1**</span>
+  </span>
+  <span class="nje-row">
+    <span class="nje-column1">3.1 AFX Run GTKApp (Windows Release)</span>
+    <span class="nje-column2">Run the app in release mode</span>
+  </span>
+  <span class="nje-row">
+    <span class="nje-column1">4.1 AFX Clean a specific Library</span>
+    <span class="nje-column2">Cleans a specific class library</span>
+  </span>
+  <span class="nje-row">
+    <span class="nje-column1">4.2 AFX Clean the application</span>
+    <span class="nje-column2">Cleans the frontend application</span>
+  </span>
+  <span class="nje-row">
+    <span class="nje-column1">4.3 AFX Clean ALL</span>
+    <span class="nje-column2">Clean all libraries and frontend application</span>
+  </span>  
+</div>
 
-<br>
+
+<details class="nje-remark-box">
+  <summary>Prefix library names
+  </summary>
+  Make sure the class library start with: **'cl_'** followed by a descriptive name. This makes sure:
+  - That the class libraries are created in a **folder** with that name on **src\backend\cl_yourname**
+  - During the build process the **cl_** is replaced with with **'lib_'**  resulting into library: ***lib_yourname***
+  - The **clean tasks 4.x** wil work properly, because they act on these names!
+</details>
+<span class="nje-br3"> </span>
+
+<hr>
 
 ### 3.4 - A PHP/Python/Rust Sub container
 
 This is a general-purpose container for PHP, Python, and Rust development. It includes a default project template that integrates all three languages.
 Below are the instructions to install this sub-container:
 
-
 **Steps to Create an PHP, Python, Rust based  Application Project:**
 
-1\. Open a Command Prompt in the folder: ***.\Sub-Containers\X11-Gui-PyPHP-Service\\***
+1. Open a Command Prompt in the folder: ***.\Sub-Containers\X11-Gui-PyPHP-Service\\***
+2. Define the Network, an **External** network configuration is used by **default**
 
-2\. **Define the Network**: an **External** network configuration is used by **default** <br><br>
 ***Defaults checklist:***{: style="color: #999999;font-size:12px;margin-left:20px "}
-<div class="nje-colored-block">
-1. In the file `.env` of the **sub** container make sure the **FIXED_SUBNET** is set to the **same** value, of the `.env` file in the **base** container
-2. In the file `.env` of the **sub** container make sure that a free IP address variable is used (i.e. **FIXED_IP5**), this can be taken from the `.env` file in the **base** container
-3. In the `compose` file make sure that the **same** network (name) as in the base container `compose` file is used,
-4. In the `compose` file(sub container) make sure that the IP variable, from step 2 is used.
+
+<div class="nje-colored-block" style="margin-left:18px;margin-top:-10px;">
+
+1. In the file <span class="nje-cmd-inline-sm">.env</span> of the **sub** container make sure the **FIXED_SUBNET** is set to the **same** value, of the <span class="nje-cmd-inline-sm">.env</span> file in the **base** container
+2. In the file <span class="nje-cmd-inline-sm">.env</span> of the **sub** container make sure that a free IP address variable is used (i.e. **FIXED_IP5**), this can be taken from the <span class="nje-cmd-inline-sm">.env</span> file in the **base** container
+3. In the <span class="nje-cmd-inline-sm">compose</span> file make sure that the **same** network (name) as in the base container `compose` file is used,
+4. In the <span class="nje-cmd-inline-sm">compose</span> file(sub container) make sure that the IP variable, from step 2 is used.
 
  📍Alternatively you can use an internal network, these are commented around the same location in the compose file.
  </div>
 
 3\. Create the **external network** if does not exists
-<pre class="nje-cmd-multi-line"> 
-docker network ls   # check if already exists (don't include in copy)
+<pre class="nje-cmd-multi-line">docker network ls   # check if already exists (don't include in copy)
 docker network create --subnet=192.168.52.0/28 network_common_X11_gui
-
 </pre>
 
-5\. Execute the **Docker command** to create the project (folder: 'X11-Gui-PyPHP-Service')
-<pre class="nje-cmd-one-line">docker compose -f compose_Python-Apache-php.yml up -d --build --force-recreate --remove-orphans                                     
-</pre><br>
+4\. Execute the **Docker command** to create the project (folder: 'X11-Gui-PyPHP-Service')
+<pre class="nje-cmd-one-line">docker compose -f compose_Python-Apache-php.yml up -d --build --force-recreate --remove-orphans
+</pre>
+<div class="nje-br1"> </div>
 
+6\. Test checklist
 
-6\. Setup Result <br>
-***Result checklist:***{: style="color: #414141;font-size:12px;margin-left:20px "}
+<div class="nje-expect-multi-lines-indent1">
+***Test steps:***
+- Open **Docker Desktop**, in the container section a new container should be created with the name:
+  <pre class="nje-cmd-one-line-sm-ident1">x11-gui-pyphp-service/x11-gui-python-apache-php-1</pre>
+- The following wen applications should be reachable:
+  - [http://localhost:8071/web-app/phpinfo.php](http://localhost:8071/web-app/phpinfo.php)
+  - [http://localhost:8071/web-app/home/index.php](http://localhost:8071/web-app/home/index.php)
+  - [http://localhost:8071/web-rest/wr-api.php?name=John](http://localhost:8071/web-rest/wr-api.php?name=John)
+  - [http://localhost:8071/web-rest/test-client/client.php](http://localhost:8071/web-rest/test-client/client.php)
 
-<div class="nje-colored-block" style="--nje-bgcolor:#414141; --nje-textcolor:#efefef;">
-- Within **Docker Desktop**, in the container section a new container should be created with the name:<br>
-***'x11-gui-pyphp-service/x11-gui-python-apache-php-1'***.
-- The following wen applications should be reachable <br>
-  - `http://localhost:8071/web-app/phpinfo.php`
-  - `http://localhost:8071/web-app/home/index.php`
-  - `http://localhost:8071/web-rest/wr-api.php?name=John`
-  - `http://localhost:8071/web-rest/test-client/client.php`
-- Open a terminal session in this container, navigate to directory: ***/projects/pyphp/project*** <br>
-You should note the atleast the following files and directories
-  - **File**: `.project.code-workspace` to open all projects in VSC
-  - **Dir**: `./GUI-app/src_frontend` a GUI Python application 
-  - **Dir**: `./GUI-app/src_backend` The location for the **Rust** libaries that can be called from Python, can be generated from a **VSC Task**
-  - **Dir**: `./web-app` The PHP home webpage (`http://localhost:8071/web-app/home/index.php`) application
-  - **Dir**: `./web-rest` A simple REST PHP application
-  - **Dir**: `./rust_lib_demo` A Simple Rust library to check the creation of a **Rust library** <br><br>
-***Please note*** that the ./rust_lib_demo library is just a simple sample, unrelated to the GUI application, to demonstrate a Rust function exposed to Python using PyO3. Similar Rust libraries can be generated in the ./GUI-app/src_backend directory via a Visual Studio Code task (see 3.4.1 below). <br><br>
-  - Lets test if Python can be found: 
-  <pre class="nje-cmd-one-line-sm-ident">python --version </pre>
-  - Let's test if we can build the `./rust_lib_demo` with **`maturin`**  Change directory to `rust_lib_demo` in the CLI and exceute:
-  <pre class="nje-cmd-multi-line" style="--nje-font-size:smaller;">
+- Open a terminal session in this container, navigate to directory: ***/projects/pyphp/project***
+- You should note the atleast the following files and directories
+  - **File**: <span class="nje-cmd-inline-sm">.project.code-workspace</span> to open all projects in VSC
+  - **Dir**: <span class="nje-cmd-inline-sm">./GUI-app/src_frontend</span> a GUI Python application
+  - **Dir**: <span class="nje-cmd-inline-sm">./GUI-app/src_backend</span> The location for the **Rust** libraries that can be called from Python, can be generated from a **VSC Task**
+  - **Dir**: <span class="nje-cmd-inline-sm">./web-app</span> The PHP home webpage [(http://localhost:8071/web-app/home/index.php)](http://localhost:8071/web-app/home/index.php) Application
+  - **Dir**: <span class="nje-cmd-inline-sm">./web-rest</span> A simple REST PHP application
+  - **Dir**: <span class="nje-cmd-inline-sm">./rust_lib_demo</span> A Simple Rust library to check the creation of a **Rust library** <br><br>
+***Please note*** that the ./rust_lib_demo library is just a simple sample, unrelated to the GUI application, to demonstrate a Rust function exposed to Python using PyO3. Similar Rust libraries can be generated in the ./GUI-app/src_backend directory via a Visual Studio Code task (see section ***Visual Studio Code Specifics*** just after this section).
+
+- Lets test if Python can be found: 
+  <pre class="nje-cmd-multi-line-sm-indent1">python --version </pre>
+  - Let's test if we can build the **./rust_lib_demo**  with **maturin**  
+  - Change directory to <span class="nje-cmd-inline-sm">rust_lib_demo</span> in the CLI and execute:
+    <pre class="nje-cmd-multi-line-sm-indent1" >
   maturin build --release
   pip install target/wheels/*.whl  # install the wheel
-  python -c "import rust_lib; print(rust_lib.add(3, 7));" # Sample calls the Rust Function in Python
-  &nbsp;</pre>
+  python -c "import rust_lib; print(rust_lib.add(3, 7));" # Sample calls the Rust Function in Python</pre>
+  <span class="nje-expect-block-indent1"> 
+Maturin creates a **Python module** from our Rust library. It first creates a shared library and then it Packages everything into a wheel that can be installed with **pip**. *Note* that in the VSC Task that builds the rust library in (**./GUI-app/src_backend** we use **cargo** to build the shared and statical library. </span>
 
-><small>***Maturin*** <br>
-Maturin creates a **Python module** from our Rust library. It first creates a shared library and then it Packages everything into a wheel that can be installed with **pip**. *Note* that in the VSC Task that builds the rust library in (`./GUI-app/src_backend` we use **cargo** to build the shared and statical library.
- </small>
-
-When the above links work and the rust generates a library and python is install, the installation was successful. You can Continue with the Visual Studio Code section, to explorer the projects and tools.
-
- </div>
-When all this works you should be able to open, build, and debug the project in ***Visual Studio Code***, **See paragraph 3.4.1** for details
-
-<hr>
+</div>
+When the above links work and the rust generates a library and python is install, the installation was successful. You can Continue with the *Visual Studio Code specifics* section, to explorer the projects and tools.
+<div class="nje-br"> </div>
 
 #### 3.4.1 - Visual Studio Code Specifics
 
-This project template consists of the following projects and tools
+This section explains how to use the project template in Visual Studio Code.
 
-- Two **PHP** application `web-app` and `web-rest`
-- A **Python** GUI application `GUI-app`
-  - **PySide** to us Qt inside Python
-- **Rust** to create library files for Python
-  - **PyO3**, to make the integrationpossible
-  - **Maturin**, To creat a Python module from a Rust library (enables pip install) 
-- A **make** based tool that generates a **Rust** source library in the GUI-app (`./GUI-app/src_backend`) which can be called via a VSC tasks
+**Project structure**  
+This project template consists of the following components and tools:
 
-Because multiple project definitions are used, a **project workspace** is defined to open all these (sub)projects: `.project.code-workspace.`
+```
+📁 project                                    → root project folder
+├── 📄 .project.code-workspace               → VSCode workspace configuration
+├── 📁 GUI-app                               → Python GUI application
+│   ├── 📁 src_frontend                      → Python frontend code (PySide/Qt)
+│   └── 📁 src_backend                       → Rust libraries for Python
+│       └── 📁 api_interface_rust            → Rust library location (PyO3-enabled)
+├── 📁 web-app                               → PHP web application
+│   └── 📁 home                              → Main web pages
+├── 📁 web-rest                              → PHP REST API application
+│   └── 📁 test-client                       → REST API test client
+└── 📁 rust_lib_demo                         → Sample Rust library (Maturin demo)
+    └── 📁 target/wheels                     → Built Python wheels
+```
+
+**Technologies:**
+
+- **PHP** - Two web applications (<span class="nje-cmd-inline-sm">web-app</span> and <span class="nje-cmd-inline-sm">web-rest</span>)
+- **Python** - GUI application using **PySide** (Qt bindings)
+- **Rust** - Library files callable from Python via **PyO3**
+- **Maturin** - Creates Python modules from Rust libraries (pip installable)
+- **Make** - Tool to generate Rust source libraries (invoked via VSC tasks)
+
+Because multiple project definitions are used, a **project workspace** is defined to open all these (sub)projects: <span class="nje-cmd-inline-sm">.project.code-workspace.</span>
 
 ##### To open the project workspace
 
-- First open the folder in VSC: 'File -> Open folder' and choos `/projects/pyphp/project/`
-- Then open the project workspace: 'File-> open workspace from file' choose: `.project.code-workspace`
+- First open the folder in VSC: 'File -> Open folder' and choos <span class="nje-cmd-inline-sm">/projects/pyphp/project/</span>
+- Then open the project workspace: 'File-> open workspace from file' choose: <span class="nje-cmd-inline-sm">.project.code-workspace</span>
 - This result in:
 
 <div class="nje-colored-block" style="--nje-bgcolor:#414141; --nje-textcolor:#efefef;--nje-offset:22px; --nje-vmove2:-14px">
@@ -545,66 +597,68 @@ In **VSC** basic actions and task can be run for the python application ➜ ***P
 
 1. **Debug and Run**
 - Make sure XLaunch is started in the Windows host.
-- In the project:`Project:Desktop App (PY, main)` 
+- In the project:<span class="nje-cmd-inline-sm">Project:Desktop App (PY, main)<>/span>
 - Open the file: ***./src_frontend/main.py*** and set a breakpoint
 - Make Sure that in the **Run and Debug** tab the **AFX PY(Debugpy)** is selected
 - Press F5, you should hit the breakpoint 
 - Press F5 again, the program should run and you should see a simple program in the XLaunch Window.
 
-2.**Create a Rust Source Library** <br>
-By default the directorie: ***./src-backend/api_interface_rust*** is empty. This directorty is used for **Rust libraries** that we can **generate**
-
-  - Terminal ➜ Run Task...
-  - Choose ***AFX Create 4: business Library (Rust)*** and follow the instruction (Use the mentioned conventions!, i.e. **name_lib**) After this you have a Rust library in: <br>
+2. **Create a Rust Source Library** <br>
+By default the directorie: ***./src-backend/api_interface_rust*** is empty. This directorty is used for **Rust libraries** that we can **generate** it:
+   - Terminal ➜ Run Task...
+   - Choose ***AFX Create 4: business Library (Rust)*** and follow the instruction (Use the mentioned conventions!, i.e. **name_lib**) After this you have a Rust library in:
   ***src_backend/api_interface_rust/name_lib***
 
-3.**Build the Rust library** <br>
-The above created Rust libary can be build:
+3. **Build the Rust library** <br>
+The above created Rust library can be build:
+   - Terminal ➜ Run Task...
+   - Choose ***"AFX BUILD 1: Libraries (Rust,LINUX)*** This will create the library and dislays where it can be found, after this you can call it from Python using PyO3 (which is instaled [see](https://github.com/PyO3/pyo3) ).
+<details class="nje-warn-box">
+  <summary>Cross-compile Rust
+  </summary>
+  While there is a tasks to cross-compile the Rust library for Windows (***AFX BUILD 2: Libraries (Rust,WINDOWS)***) This is not supported because it uses Python Windows bindings which at this time(2025) are not provide. The compile should probably work but linkage will result into errors
+</details>
+ <div class="nje-br4"> </div>
 
-- Terminal ➜ Run Task...
-- Choose ***"AFX BUILD 1: Libraries (Rust,LINUX)*** This will create the library and dislays where it can be found, after this you can call it from Python using PyO3 (which is instaled [see](https://github.com/PyO3/pyo3) ).
-
-> ***Remark:***{: style="color: red;font-size:13px; "} <br>
-> <small>While there is a tasks to cross-compile the Rust library for Windows (***AFX BUILD 2: Libraries (Rust,WINDOWS)***) 
-This is not supported because it uses Python Windows bindings which at this time(2025) are not provide. The compile should probably work but linkage will result into errors     <br>
-</small>
-
-4.**Optional. Client Rust Libary Test App** <br>
+4\. **Optional. Client Rust Libary Test App**   
 Optional you can create a simple 'client test' application for your Rust Library.
+
 - Terminal ➜ Run Task...
 - Choose ***AFX Create 5: Client Library Tester (Rust LINUX)*** and follow the instruction.
 - This will create in the directorie  ***src_backend/api_interface_rust/tests*** a sub directory **test[libname]** with the test code.
 
 5.**Optional. Build the Test Client** <br>
 The created Rust client Test can be build with:
+
 - Terminal ➜ Run Task...
 - Choose ***AFX BUILD 3: Client Library Tester (Rust LINUX, debug)***
 - It ask for the test, which is named like **test_[lib_name]**
-- After that follow the the instructions.
+- After that follow the the instructions on the scrreen
 
-> ***Error?***{: style="color: red;font-size:13px; "} <br>
-> <small>If you get an error; **'Can not find library...'** make sure you have the following in your **Cargo.toml** of the library:</small>  <br>
-> <small>- `crate-type = ["rlib", "cdylib"]`  instead of: <br></small>
-> <small>- `crate-type = ["cdylib"]` <br>
->  rlib makes sure the library can be found statically
-</small>
-
-<hr>
+<details class="nje-error-box">
+  <summary>Can not find library…
+  </summary>
+  If you get an error; **'Can not find library...'** make sure you have the following in your **Cargo.toml** of the library:  
+  <span class="nje-cmd-inline-sm">crate-type = ["rlib", "cdylib"]</span>  instead of:  
+  <span class="nje-cmd-inline-sm">crate-type = ["cdylib"]</span>  
+  *rlib makes sure the library can be found statically
+</details>
+<div class="nje-br4"> </div>
 
 ##### 3.4.1.2  PHP application
+
 In VSC basic actions and task can be run for the PHP web applications (***Project: web-app (PHP)*** and ***Project: web-rest (PHP)***)
 
 1. **Debug and Run**
-- In one of the project files set a breakpoint
-- In the RUN AND DEBUG make sure you have selected: **PHP(A): Xdebug AFX"** for the PHP application and **PHP(R): Xdebug AFX"**  for the rest version
-- Load the relevant page:
-  - `http://localhost:8071/web-app/home/index.php`
-  - `http://localhost:8071/web-rest/wr-api.php?name=John`
-- You should hit the breakpoint 
-- Press F5 again the program should run and you should see a simple program in the XLaunch Window
+   - In one of the project files set a breakpoint
+   - In the RUN AND DEBUG make sure you have selected: **PHP(A): Xdebug AFX"** for the PHP application and **PHP(R): Xdebug AFX"**  for the rest version
+   - Load the relevant page:
+     - <span class="nje-cmd-inline-sm">http://localhost:8071/web-app/home/index.php</span>
+     - <span class="nje-cmd-inline-sm">http://localhost:8071/web-rest/wr-api.php?name=John</span>
+   - You should hit the breakpoint.
+   - Press F5 again the program should run and you should see a simple program in the XLaunch Window
 
-
-<br>
+<hr>
 
 ### 3.5 - Sub-Container: Slint/SDL2 C++ and Python
 
@@ -612,76 +666,89 @@ This is a general-purpose container for the development of Slint applications in
 
 **Steps to Create a  Slint/SDL2 C++ and Python container and Slint Application Project:**
 
-1\. Open a Command prompt in the folder: ***.\Sub-Containers\X11-Gui-Slint-py-cpp-Service\\***
+1. Open a Command prompt in the folder: ***.\Sub-Containers\X11-Gui-Slint-py-cpp-Service\\***
+2. **Define the network**: an **External** network configuration is used by **default.**
 
-2\. **Define the network**: an **External** network configuration is used by **default.** <br><br>
 ***Defaults checklist:***{: style="color: #999999;font-size:12px;margin-left:20px "}
-<div class="nje-colored-block">
-1. In the file `.env` of the **sub** container make sure the **FIXED_SUBNET** is set to the **same** value, of the `.env` file in the **base** container
-2. In the file `.env` of the **sub** container make sure that a free IP address variable is used (i.e. **FIXED_IP6**), this can be taken from the `.env` file in the **base** container
-3. In the `compose` file make sure that the **same** network (name) as in the base container `compose` file is used,
-4. In the `compose` file(sub container) make sure that the IP variable, from step 2 is used.
 
- 📍Alternatively you can use an internal network, these are commented around the same location in the compose file.
- </div>
+<div class="nje-colored-block" style="margin-left:18px;margin-top:-10px;">
+
+1. In the file <span class="nje-cmd-inline-sm">.env</span> of the **sub** container make sure the **FIXED_SUBNET** is set to the **same** value, of the <span class="nje-cmd-inline-sm">.env</span> file in the **base** container
+2. In the file <span class="nje-cmd-inline-sm">.env</span> of the **sub** container make sure that a free IP address variable is used (i.e. **FIXED_IP6**), this can be taken from the <span class="nje-cmd-inline-sm">.env</span> file in the **base** container
+3. In the <span class="nje-cmd-inline-sm">compose</span> file make sure that the **same** network (name) as in the base container `compose` file is used,
+4. In the <span class="nje-cmd-inline-sm">compose</span> file(sub container) make sure that the IP variable, from step 2 is used.
+
+📍Alternatively you can use an internal network, these are commented around the same location in the compose file.
+</div>
 
 3\. Create the **external network** if does not exists
-<pre class="nje-cmd-multi-line"> 
-docker network ls   # check if already exists (don't include in copy)
-docker network create --subnet=192.168.52.0/28 network_common_X11_gui
-
-</pre>
+<pre class="nje-cmd-multi-line">docker network ls   # check if already exists (don't include in copy)
+docker network create --subnet=192.168.52.0/28 network_common_X11_gui </pre>
 
 5\. Execute the **Docker command** to create the project (folder: 'X11-Gui-PyPHP-Service')
-<pre class="nje-cmd-one-line">docker compose -f compose_Slint-py-cpp.yml -d --build --force-recreate --remove-orphans
-</pre><br>
+<pre class="nje-cmd-one-line">docker compose -f compose_Slint-py-cpp.yml -d --build --force-recreate --remove-orphans</pre>
 
+6\. Setup Result
 
-6\. Setup Result <br>
-***Result checklist:***{: style="color: #414141;font-size:12px;margin-left:20px "}
+<div class="nje-expect-multi-lines-indent1">
+***Test steps:***
+- Open **Docker Desktop**, in the container section a new container should be created with the name:
+  <pre class="nje-cmd-one-line-sm-ident1">x11-gui-slint-py-cpp-service/x11-gui-slint-py-cpp-service-x11-gui-slint-python-cpp-1</pre>
 
-<div class="nje-colored-block" style="--nje-bgcolor:#414141; --nje-textcolor:#efefef;">
-
-- Within **Docker Desktop**, in the container section a new container should be created with the name:<br>
-***'x11-gui-slint-py-cpp-service/x11-gui-slint-py-cpp-service-x11-gui-slint-python-cpp-1'***. <br> <br>
 - Open a terminal session in this container, navigate to directory: ***/projects/slint/project/gui-app*** <br>
 You should see at least the following file:
   - **File**: `build.sh` to build the program with CMake
-  - Test if can build the project from here: 
-  <pre class="nje-cmd-one-line-sm-ident">./build.sh </pre>
+  - Test if can build the project from here:
+  <pre class="nje-cmd-one-line">./build.sh </pre>
   - Test if the created program works, in your CLI and exceute:
   <pre class="nje-cmd-multi-line" style="--nje-font-size:smaller;">
 
-  # 1. Change to dir
+  # 1. Change to dir:
     cd build
-
   # 2. Make sure XLaunch is running on your host
-
-  # 3. Execute
+  # 3. Execute:
     ./HelloWorld
-  &nbsp;</pre>
 
-><small>📍SDL2 <br>
+  </pre>
+
+📍SDL2  
 Another example includes a SDL2 Window, and can be found in the directory `gui-app-sdl2`. It can be build an run in the same way
- </small>
 
-
- </div>
+</div>
 When all this works, you should be able to open, build, and debug the project in Visual Studio Code. See paragraph 3.4.1 for details.
 
 <hr>
 
 #### 3.5.1 - Visual Studio Code Specifics
 
-This project template consists of two subprojects:
+This section explains how to use the project template in Visual Studio Code.
 
-- `gui-app` <br>
-Baisc Slint C++ sample
-- `gui-app-sdl2` <br>
-Baisc Slint C++ sample with integration of a SDL2 [Simple DirectMedia Layer](https://www.libsdl.org/) Window
+**Project structure**  
+This project template consists of two Slint C++ sub-projects:
 
-><small>📍SDL2 <br>
-Because multiple project definitions are used, a **project workspace** is defined to open all these projects: `.project.code-workspace.` </small>
+```
+📁 project                                    → root project folder
+├── 📄 .project.code-workspace               → VSCode workspace configuration
+├── 📁 .vscode                               → Shared VSCode settings
+├── 📁 gui-app                               → Basic Slint C++ sample
+│   ├── 📄 CMakeLists.txt                    → CMake build configuration
+│   ├── 📄 build.sh                          → Build script
+│   ├── 📁 src                               → C++ source files
+│   └── 📁 build                             → Build output directory
+└── 📁 gui-app-sdl2                          → Slint C++ with SDL2 integration
+    ├── 📄 CMakeLists.txt                    → CMake build configuration
+    ├── 📄 build.sh                          → Build script
+    ├── 📁 src                               → C++ source files
+    └── 📁 build                             → Build output directory
+```
+
+**Technologies:**
+
+- **Slint**  Modern GUI toolkit for C++ and Rust
+- **SDL2**   Cross-platform multimedia library for graphics and windowing ([Simple DirectMedia Layer](https://www.libsdl.org/))
+- **CMake**  Build system generator
+
+Because multiple project definitions are used, a **project workspace** is defined to open all these projects: class="nje-cmd-inline-sm">.project.code-workspace</span>
 
 ##### To open the project workspace
 
@@ -689,52 +756,54 @@ Because multiple project definitions are used, a **project workspace** is define
 - (Then open the project workspace: 'File-> open workspace from file' choose: `.project.code-workspace`)
 - This result in:
 
-<div class="nje-colored-block" style="--nje-bgcolor:#414141; --nje-textcolor:#efefef;--nje-offset:22px; --nje-vmove2:-14px">
-***Project workspace layout:***{: style="color:rgb(204, 186, 186);font-size:12px;margin-left:2px;"} <br>
-📦 ***Root*** ➜ This the root of all project, includes ./vscode(shared)<br>
-📦 ***gui-app*** ➜ A simple SDL C++ sample  <br>
-📦 ***gui-app-sdl-2*** ➜ A simple SDL C++ sample with SDL2 Window(threaded)  <br>
-</div>
+<span class="nje-colored-block" style="--nje-bgcolor:#414141; --nje-textcolor:#efefef;--nje-offset:22px; --nje-vmove2:-14px">
+***Project workspace layout:***{: style="color:rgb(204, 186, 186);font-size:12px;margin-left:2px;"}  
+📦 ***Root*** ➜ This the root of all project, includes ./vscode(shared)  
+📦 ***gui-app*** ➜ A simple SDL C++ sample  
+📦 ***gui-app-sdl-2*** ➜ A simple SDL C++ sample with SDL2 Window(threaded)  
+</span>
 
 ##### Required Extensions
 
 These extensions should be installed automatically, or at least recommended by the Visual Studio Code interface when opening the project workspace. If not, please install them manually:
 
-- `Slint.slint`
-- `ms-vscode.cpptools`
-- `ms-vscode.cmake-tools`
-- `ms-vscode.cpptools-extension-pack`
-- `ms-python.vscode-pylance`
-- `ms-python.python`
-- `ms-python.debugpy`
-
-<hr>
+<pre class="nje-cmd-multi-line-sm">
+Slint.slint
+ms-vscode.cpptools
+ms-vscode.cmake-tools
+ms-vscode.cpptools-extension-pack
+ms-python.vscode-pylance
+ms-python.python
+ms-python.debugpy
+</pre>
+<div class="nje-br2"> </div>
 
 ##### 3.5.1.1 - Task for the sub project
 
 In **VSC** the following tasks can be run for the projects in the Workspace.
 
-1\. **Build Slint C++** <br>
+1. **Build Slint C++** <br>
 By default 2 task are available one to build the project in *Debug* mode and one to build it in **Release** mode. Both will give you the option two choose the project (***gui-app*** or ***gui-app-sdl2***) and follow the instructions
+   - Terminal ➜ Run Task...
+   - Choose ***SLINT Build (DEBUG)***  or ***SLINT Build (RELEASE)***
 
-- Terminal ➜ Run Task...
-- Choose ***SLINT Build (DEBUG)***  or ***SLINT Build (RELEASE)***
-
-2\. **Debug and Run**
-
-- Make sure XLaunch is started in the Windows host.
-- Make sure the project is build in DEBUG mode
-- Set a breakpoint in one of the project files
-- Make Sure that in the **Run and Debug** tab, the **Debug C++** is selected
-- Press F5, you should hit the breakpoint.
-- Press F5 again, the program should run and you should see a simple program in the XLaunch Window.
-
+2. **Debug and Run**
+   - Make sure XLaunch is started in the Windows host.
+   - Make sure the project is build in DEBUG mode
+   - Set a breakpoint in one of the project files
+   - Make Sure that in the **Run and Debug** tab, the **Debug C++** is selected
+   - Press F5, you should hit the breakpoint.
+   - Press F5 again, the program should run and you should see a simple program in the XLaunch Window.
 <br>
 
-<hr><hr>
+### Footnotes
+<small>1. <a name="footnote-1"></a>Of course, any Linux GUI application can be displayed via Docker on the Windows host; it is not limited to development.</small>
 
-# Appendix 1 Develop with VSC in the host
-
+<details>
+<summary class="clickable-summary"> <span class="summary-icon"></span>
+    <span style="color: #097df1ff; font-size: 26px;">Appendix I</span> <span style="color: #409EFF; font-size: 16px; font-style: italic;"> -  Develop with VSC in the host </span>
+</summary>
+## 📎  Develop with VSC in the host
 To develop in **V**isual **S**tudio **C**ode we advice the following instructions. Note that this is a general instruction applicable for all sub containers, any specific issue will  be described in the **'README.md'** in the root directory of the sub container, this all includes specific VSC task and project structure.
 
 ## 1. Open an application  from a container VSC (@host)
@@ -773,10 +842,10 @@ Most of the build an launch task are pre-created for you in th sub containers
 In case you have to customize the build properties or other settings these files should be updated.
 
 </details>
+</details>
 
-<br>
-### Footnotes
-<small>1. <a name="footnote-1"></a>Of course, any Linux GUI application can be displayed via Docker on the Windows host; it is not limited to development.</small>
+
+
 
 
 

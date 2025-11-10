@@ -252,13 +252,15 @@ pre.nje-source-block {
 	color: #FFD700; 
 	padding-bottom: 10px; 
 	padding-top: 12px; 
+  padding-left: 6px;
 	border-radius: 
 	5px; overflow-x: auto; 
 	margin-left:20px;
 	margin-top:-18px;
 	margin-bottom:4px;
 	line-height: 0.3;
-
+  max-width: min(904px, 90%);   /* LAST ADDED (okt 25) in case goes wrong */
+  width: 100%; /* LAST ADDED (okt 25) in case goes wrong */
 	position: relative; 	/* 1) Required for positioning the pseudo-elements (.nje-cmd-one-line button, .nje-cmd-multi-line button)  */
 	display: flex; 			/* Use flexbox layout */
     align-items: center;
@@ -631,33 +633,95 @@ Or
 }
 
 
-@mixin nje-expect-block {  
-  display: inline-block;                        
-  padding-left: 0px;     /* Indents all lines, including wrapped lines */
-  font-size: 12px;
-  margin-top:-10px;
+@mixin nje-expect-block-base {
+  display: block;
+  box-sizing: border-box;
+  font-size: 11px;
+  font-family: "Roboto Slab", "Segoe UI", Arial, sans-serif;
+  font-style: normal;
+  margin-top: -8px;
+  color:white;
+  background-color: rgb(122, 119, 119);
+  word-wrap: break-word;
+  max-width: min(910px, 90%);
+  width: 100%;
+  padding-left: 14px; /* extra indent inside the block   rgb(112, 94, 94);  background-color: rgb(97, 95, 95);*/
+  padding-top: 6px;
+  padding-right: 12px;
+  padding-bottom:10px;
 }
+
 @mixin nje-expect-block-before {
   font-size: 12px;
-  font-weight: 500; /* medium */
+  font-weight: 600;
   content: "Expected result: ";
   color: #048204;
+  color: #FFD700;
   font-style: italic;
+  padding-right:8px;
 }
-/* Use the mixin's */
-.nje-expect-block {  
-  @include nje-expect-block  ;        
+
+.nje-expect-block {
+  @include nje-expect-block-base;
+  margin-left: 0px;
 }
+
 .nje-expect-block::before {
   @include nje-expect-block-before;
 }
-.nje-expect-block-indent1 {  
-  @include nje-expect-block  ;                      
-  padding-left: 16px;     /* Indents all lines, including wrapped lines */
+
+.nje-expect-block-indent1 {
+  @include nje-expect-block-base;
+  margin-left: 20px;                        /* left text indent, ~ 6 till 7 pixels about char*/
+  max-width: calc(min(910px, 90%) - 20px);  /* Nice!: make sure the left margin(20) is subtract of the  max width, so that the right alignment is correct  */
+  margin-top: 4px;
+  
 }
-.nje-expect-block-indent1::before {  
+.nje-expect-block-indent1::before {
   @include nje-expect-block-before;
 }
+.nje-expect-block-indent2 {
+  @include nje-expect-block-base;
+  margin-left: 40px;                        /* left text indent, ~ 6 till 7 pixels about char*/
+  max-width: calc(min(910px, 90%) - 40px);  /* Nice!: make sure the left margin(20) is subtract of the  max width, so that the right alignment is correct  */
+  margin-top: 4px;
+  
+}
+.nje-expect-block-indent2::before {
+  @include nje-expect-block-before;
+}
+.nje-expect-block-indent3 {
+  @include nje-expect-block-base;
+  margin-left: 60px;                        /* left text indent, ~ 6 till 7 pixels about char*/
+  max-width: calc(min(910px, 90%) - 60px);  /* Nice!: make sure the left margin(20) is subtract of the  max width, so that the right alignment is correct  */
+  margin-top: 4px;
+  
+}
+.nje-expect-block-indent3::before {
+  @include nje-expect-block-before;
+}
+.nje-expect-block-indent4 {
+  @include nje-expect-block-base;
+  margin-left: 80px;                        /* left text indent, ~ 6 till 7 pixels about char*/
+  max-width: calc(min(910px, 90%) - 80px);  /* Nice!: make sure the left margin(20) is subtract of the  max width, so that the right alignment is correct  */
+  margin-top: 4px;
+  
+}
+.nje-expect-block-indent4::before {
+  @include nje-expect-block-before;
+}
+.nje-expect-block-indent5 {
+  @include nje-expect-block-base;
+  margin-left: 100px;                        /* left text indent, ~ 6 till 7 pixels about char*/
+  max-width: calc(min(910px, 90%) - 100px);  /* Nice!: make sure the left margin(20) is subtract of the  max width, so that the right alignment is correct  */
+  margin-top: 4px;
+  
+}
+.nje-expect-block-indent5::before {
+  @include nje-expect-block-before;
+}
+
+
 
 /* Multi-line Expected Result Mixins */
 @mixin nje-expect-multi-lines-base {
@@ -766,11 +830,14 @@ Or
   border-left: 5px solid #28a745;
 }
 
-/* ===== CLEAN AUTO-HEADER TABLE SYSTEM ===== */
-/* Base container table with auto-generated title and headers */
-.nje-table-base-span {
+/* ===== BEGINMIXIN-BASED TABLE SYSTEM ===== */
+
+@mixin nje-table-container-base {
   width: 100%;
-  margin: 20px 0;
+  margin-top: 20px;
+  margin-right: 0px;
+  margin-bottom: 20px;
+  margin-left: 0px;
   background-color: #ffffff;
   border-radius: 6px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.1);
@@ -779,11 +846,11 @@ Or
   overflow: hidden;
 }
 
-/* Table title header */
-.nje-table-base-span::before {
-  content: "Base Container";
+/* Mixin for table header/title */
+@mixin nje-table-header($title, $bg-gradient-start, $bg-gradient-end) {
+  content: $title;
   display: block;
-  background: linear-gradient(135deg, #409EFF 0%, #3077C8 100%);
+  background: linear-gradient(135deg, $bg-gradient-start 0%, $bg-gradient-end 100%);
   color: white;
   font-weight: 600;
   padding-top: 4px;
@@ -794,35 +861,8 @@ Or
   letter-spacing: 0.3px;
 }
 
-/* Sub container table */
-.nje-table-sub-span {
-  width: 100%;
-  margin: 20px 0;
-  background-color: #ffffff;
-  border-radius: 6px;
-  box-shadow: 0 1px 8px rgba(0,0,0,0.1);
-  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  border: 1px solid #e8e8e8;
-  overflow: hidden;
-}
-
-/* Auto-generated title for sub containers */
-.nje-table-sub-span::before {
-  content: "Sub Containers";
-  display: block;
-  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-  color: white;
-  font-weight: 600;
-  padding-top: 4px;
-  padding-right: 12px;
-  padding-bottom: 4px;
-  padding-left: 12px;
-  font-size: 14px;
-  letter-spacing: 0.3px;
-}
-
-/* Data rows */
-.nje-table-row {
+/* Mixin for table rows */
+@mixin nje-table-row-base {
   display: flex;
   width: 100%;
   min-height: 24px;
@@ -830,16 +870,8 @@ Or
   transition: background-color 0.2s ease;
 }
 
-.nje-table-row:hover {
-  background-color: #f0fff4;
-}
-
-.nje-table-row:last-child {
-  border-bottom: none;
-}
-
-/* Column 1: Container name - Fixed width for single line */
-.nje-column1-value {
+/* Mixin for column 1 (Name/Title) */
+@mixin nje-column1-base {
   flex: 0 0 34%;
   padding-top: 0.1cap;
   padding-bottom: 0cap;
@@ -854,8 +886,8 @@ Or
   text-overflow: ellipsis;
 }
 
-/* Column 2: Description - Fixed width with text wrapping */
-.nje-column2-desc {
+/* Mixin for column 2 (Description) */
+@mixin nje-column2-base {
   flex: 0 0 44%;
   padding-top: 0.5cap;
   padding-bottom: 0cap;
@@ -869,8 +901,8 @@ Or
   overflow-wrap: break-word;
 }
 
-/* Column 3:container for  action button - Fixed width */
-.nje-column3-button {
+/* Mixin for column 3 (Action button container) */
+@mixin nje-column3-base {
   flex: 0 0 22%;
   padding-right: 12px;
   padding-top: 0cap;
@@ -879,11 +911,11 @@ Or
   text-align: left;
 }
 
-/* Green button - default for all tables */
-.nje-column3-button a {
-  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+/* Mixin for button styling */
+@mixin nje-table-button($bg-gradient-start, $bg-gradient-end, $shadow-color) {
+  background: linear-gradient(135deg, $bg-gradient-start 0%, $bg-gradient-end 100%);
   color: rgb(255, 255, 255);
-  padding-top:0px;
+  padding-top: 0px;
   padding-bottom: 2px;
   padding-right: 12px;
   padding-left: 12px;
@@ -893,20 +925,71 @@ Or
   font-size: 12px;
   transition: all 0.2s ease;
   white-space: nowrap;
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px $shadow-color;
+  }
 }
 
-.nje-column3-button a:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 3px 6px rgba(142, 149, 144, 0.3);
+/* ===== END  MIXIN-BASED TABLE SYSTEM ===== */
+
+
+/* TABLE ITEM 1: Base container table */
+.nje-table-base-span {
+  @include nje-table-container-base;
+}
+.nje-table-base-span::before {
+  @include nje-table-header("Base Container", #409EFF, #3077C8);
+}
+
+/* TABLE ITEM 2: Sub container table */
+.nje-table-sub-span {
+  @include nje-table-container-base;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.1);
+}
+.nje-table-sub-span::before {
+  @include nje-table-header("Sub Containers", #28a745, #20c997);
+}
+
+/* ----- Table rows and columns ----- */
+
+/* Data rows */
+.nje-table-row {
+  @include nje-table-row-base;
+}
+
+.nje-table-row:hover {
+  background-color: #f0fff4;
+}
+
+.nje-table-row:last-child {
+  border-bottom: none;
+}
+
+/* Column 1: Container name - Fixed width for single line */
+.nje-column1-value {
+  @include nje-column1-base;
+}
+
+/* Column 2: Description - Fixed width with text wrapping */
+.nje-column2-desc {
+  @include nje-column2-base;
+}
+
+/* Column 3: container for action button - Fixed width */
+.nje-column3-button {
+  @include nje-column3-base;
+}
+
+/* Green button - default for all tables */
+.nje-column3-button a {
+  @include nje-table-button(#28a745, #20c997, rgba(142, 149, 144, 0.3));
 }
 
 /* Blue button for base container table - matches header gradient */
 .nje-table-base-span .nje-column3-button a {
-  background: linear-gradient(135deg, #409EFF 0%, #3077C8 100%);
-}
-
-.nje-table-base-span .nje-column3-button a:hover {
-  box-shadow: 0 3px 6px rgba(64, 158, 255, 0.3);
+  @include nje-table-button(#409EFF, #3077C8, rgba(64, 158, 255, 0.3));
 }
 
 /* Different hover for sub containers */
@@ -950,8 +1033,200 @@ Or
     border-bottom: none;
   }
 }
-
 /* ===== END TABLE SYSTEM ===== */
+
+
+/* TABLE ITEM 3: TABLE_VCT; Visual Studio Tasks table  */
+.nje-table-sub-span2 {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  margin-right: 0px;
+  margin-bottom: 20px;
+  margin-left: 0px;
+  background-color: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  padding-bottom: 0px;
+  overflow: hidden;
+}
+
+.nje-table-vct::before {
+  content: "Visual Code Tasks";
+  display: inline-block;
+  width: fit-content;
+  /*background: linear-gradient(135deg, #d44d5b  0%, #af666d 100%);*/
+  background: linear-gradient(135deg, #ba7d84  0%,  #dfafb3 100%);
+  color: white;
+  font-weight: 600;
+  padding-top: 4px;
+  padding-right: 15px;
+  padding-bottom: 4px;
+  padding-left: 12px;
+  margin-bottom:-2px;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  border: 0px;;
+  border-radius: 4px;
+}
+
+.nje-table-vct .nje-header-row {
+  display: flex;
+  width: 100%;  
+  background: linear-gradient(135deg, #ba7d84  0%,  #dfafb3 11%);
+  border: 10px;
+  font-weight: 600;
+  font-size: 13px;
+  color: #f6f7f8;
+}
+
+/*
+.nje-table-vct .nje-header-row:hover {
+  background-color: #dc3545; 
+}*/
+
+.nje-table-vct .nje-row {
+  display: flex;
+  width: 100%;
+  height:16px;
+  min-height: 16px;
+  max-height: 60px;
+  border-bottom: 1px solid #e8e8e8;
+  transition: background-color 0.2s ease;
+  padding-bottom: 6px;;
+}
+
+.nje-table-vct .nje-row:hover {
+  background-color: #fce9e9; /* Light red tint on hover */
+}
+
+.nje-table-vct .nje-row:last-child {
+  border-bottom: 2px solid #dfafb3;
+}
+
+.nje-table-vct .nje-hcol1 {
+  flex: 0 0 28%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-right: none;
+
+}
+
+.nje-table-vct .nje-hcol2 {
+  flex: 0 0 42%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-right: none;
+}
+
+.nje-table-vct .nje-hcol3 {
+  flex: 0 0 30%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+/* Data column widths - override the global column classes for this table only */
+.nje-table-vct .nje-column1 {
+  flex: 0 0 28%;
+  padding-top: 0.3cap;
+  padding-bottom: 0cap;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #1a1a1a;
+  border-right: 1px solid #e8e8e8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nje-table-vct .nje-column2 {
+  flex: 0 0 42%;
+  padding-top: 0.5cap;
+  padding-bottom: 0cap;
+  padding-right: 12px;
+  padding-left: 12px;
+  font-size: 12px;
+  color: #555;
+  line-height: 1.3;
+  border-right: 1px solid #e8e8e8;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.nje-table-vct .nje-column3 {
+  flex: 0 0 30%;
+  padding-right: 12px;
+  padding-top: 0cap;
+  padding-bottom: 0.2cap;
+  padding-left: 12px;
+  text-align: left;
+  font-size: 12px;
+}
+
+.nje-table-vct .nje-column3 a {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: rgb(255, 255, 255);
+  padding-top: 0px;
+  padding-bottom: 2px;
+  padding-right: 12px;
+  padding-left: 12px;
+  border-radius: 3px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 12px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.nje-table-vct .nje-column3 a:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(220, 53, 69, 0.3);
+}
+/* 2-column layout: override widths when column2 is the last column */
+.nje-table-vct .nje-row .nje-column1:first-child:nth-last-child(2) {
+  flex: 0 0 35%;
+}
+.nje-table-vct .nje-row .nje-column2:last-child:nth-child(2) {
+  flex: 0 0 60%;
+  border-right: none;
+}
+.nje-table-vct .nje-header-row .nje-hcol1:first-child:nth-last-child(2) {
+  flex: 0 0 35%;
+}
+.nje-table-vct .nje-header-row .nje-hcol2:last-child:nth-child(2) {
+  flex: 0 0 65%;
+  border-right: none;
+}
+/* END  TABLE ITEM 3: TABLE_VCT; Visual Studio Tasks table */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .nje-text-block {
   color: var(--nje-color);      /* black */
