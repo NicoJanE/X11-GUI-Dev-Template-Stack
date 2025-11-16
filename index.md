@@ -31,7 +31,7 @@ The system uses a **two-tier container structure**:
 
 ## Setup Available containers
 
-The following containers are available, press the ***Setup Guide***  button to get the instructions for the page. Press [**this**](https://nicojane.github.io/X11-GUI-Dev-Template-Stack/Howtos/howto_create_a_dev_container) for the **complete instructions**.
+The following containers are available. Press the ***Setup Guide*** button to view instructions for a specific container. For complete instructions and an introduction, press [**this**](https://nicojane.github.io/X11-GUI-Dev-Template-Stack/Howtos/howto_create_a_dev_container)
 
 <div class="nje-table-base-span">
 <span class="nje-table-row">
