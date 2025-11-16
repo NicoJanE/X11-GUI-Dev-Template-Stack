@@ -38,7 +38,7 @@ This container stack consists of one required **base container** and one or more
 
 ## Docker with WSL Architecture & Requirements
 
-To better understand the Docker container and WSL setup, and to verify the system requirements, please refer to the following document: [**WSL architecture and requirements**](https://nicojane.github.io/X11-GUI-Dev-Template-Stack/Howtoshowto_wsl_using_x11)
+To better understand the Docker container and WSL setup, and to verify the system requirements, please refer to the following document: [**WSL architecture and requirements**](https://nicojane.github.io/X11-GUI-Dev-Template-Stack/Howtos/howto_x11_wsl_in_Docker)
 
 <details class="nje-warn-box">
   <summary>Security Considerations and Network Configuration
