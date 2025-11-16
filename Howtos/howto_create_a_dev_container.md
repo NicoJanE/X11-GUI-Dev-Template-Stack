@@ -851,7 +851,7 @@ In case you have to customize the build properties or other settings these files
 
 
 <span class="nje-br3"> </span>
-<sub><i> This file is part of:  React Development Template Stack
+<sub><i> This file is part of:  X11 GUI Development Template Stack
 Copyright (c) 2025 Nico Jan Eelhart. This source code is licensed under the MIT License found in the  'LICENSE.md' file in the root directory of this source tree.
 </i></sub>
 

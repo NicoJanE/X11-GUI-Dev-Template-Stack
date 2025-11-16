@@ -93,8 +93,10 @@ The following containers are available, press the ***Setup Guide***  button to g
 <small>🌟</small> *Instructions have been improved for clarity and usability.*{: style="color: Darkgray;font-size:13px; "} <br>
 
 <span class="nje-br3"> </span>
-<sub><i> This file is part of:  React Development Template Stack
+
+<sub><i> This file is part of:  X11 GUI Development Template Stack
 Copyright (c) 2025 Nico Jan Eelhart. This source code is licensed under the MIT License found in the  'LICENSE.md' file in the root directory of this source tree.
 </i></sub>
+
 
 <p align="center">─── ✦ ───</p>
