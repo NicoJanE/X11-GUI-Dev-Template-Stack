@@ -1057,34 +1057,44 @@ Or
   overflow: hidden;
 }
 
+
+
+
 .nje-table-vct::before {
   content: "Visual Code Tasks";
   display: inline-block;
   width: fit-content;
-  /*background: linear-gradient(135deg, #d44d5b  0%, #af666d 100%);*/
   background: linear-gradient(135deg, #ba7d84  0%,  #dfafb3 100%);
   color: white;
   font-weight: 600;
   padding-top: 4px;
   padding-right: 15px;
-  padding-bottom: 4px;
+  padding-bottom: 5px;
   padding-left: 12px;
   margin-bottom:-2px;
   font-size: 14px;
   letter-spacing: 0.3px;
-  border: 0px;;
-  border-radius: 4px;
+  border-top: 4px solid #e2bfc6;
+  border-radius: 6px;
 }
 
+
+ 
 .nje-table-vct .nje-header-row {
   display: flex;
-  width: 100%;  
-  background: linear-gradient(135deg, #ba7d84  0%,  #dfafb3 3%);
+  width: 100%;
+  background: linear-gradient(100deg, #ba7d84 0%, #cfa1a8 4%, #dfafb3 8%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  box-shadow: 0 2px 8px rgba(186, 125, 132, 0.08);
   border: 10px;
   font-weight: 600;
   font-size: 13px;
   color: #f6f7f8;
+  border-top: 2px solid #e2bfc6;
+  margin-top:-2px;
 }
+
 
 /*
 .nje-table-vct .nje-header-row:hover {
