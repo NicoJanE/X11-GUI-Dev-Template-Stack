@@ -1,12 +1,5 @@
 # X11 General GUI Development <span style="color: #409EFF; font-size: 0.6em; font-style: italic;"> -  Docker Container</span>
 
-**What is new:** <br>
-<small>🌟</small> *This new stack includes all the sub-containers previously available in App X11 Forward GUI.* <br>
-<small>🌟</small> *The documentation has been simplified.* <br>
-<small>🌟</small> *Irrelevant actions have been removed.*<br>
-<small>🌟</small> *Names have been shortened.* <br>
-<small>🌟</small> *Instructions have been improved for clarity and usability.* <br>
-
 ## ℹ️ Introduction
 
 This is a Docker Linux (Ubuntu 24.04) general purpose template container with GUI output to an X11 server on a Windows host. The container is **designed** for use on a Windows Docker Desktop host, enabling the **development** of **GUI applications** within a **Docker container**. Additionally, the container can be used to run other Linux GUI applications.
