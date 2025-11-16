@@ -1,10 +1,13 @@
 ---
+# This is emptyfront matter, just tells Jekyll to process the file
+# Compiled CSS will have this comment
 ---
 
+/* Jekyll will process {{ site.theme }} into the actual theme name */
 @import "{{ site.theme }}";
 
 :root{
-  --nje-font-size: medium
+  --nje-font-size: medium;
 	--font-style: normal; 	/* normal, bold*/
 	--line-thickness: 3px;	/* original intent line thickness , that's why 3px is default */
   --nje-ident: 20px;      /* ident x pixels*/
@@ -393,7 +396,7 @@ pre.nje-source-block {
 	padding: 7px 8px; 		/* Similar padding to nje-cmd-one-line-sm-ident variants */
 	position: relative; 	/* Required for positioning pseudo-elements */
 	display: block; 		/* Block layout allows natural multi-line flow */
-	white-space: pre-wrap; 	/* Preserves line breaks and allows wrapping */
+	white-space: pre; 	
 }
 
 .nje-cmd-multi-line-sm {
@@ -535,16 +538,18 @@ Or
 .nje-colored-block{
   background-color: var(--nje-bgcolor, lightgray);
   color: var(--nje-textcolor, #32312c);
-  display:inline-block;
-  font-size: 85%;
-  padding-top:2px; 
-  padding-left:10px;
-  padding-right:14px;
-  padding-bottom: 0px;
+  display: inline-block;
+  width: fit-content;
+  font-size: 90%;
+  padding-top:0px; 
+  padding-left:6px;
+  padding-right:8px;
+  padding-bottom: 2px;
   border-radius: 6px;
-  margin: 10px 0;
+  margin: 0;
   line-height: 1.5;
   font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  vertical-align:top;
   transform: translateX(var(--nje-offset)) translateY(var(--nje-vmove2));
 }
 
@@ -1033,8 +1038,8 @@ Or
     border-bottom: none;
   }
 }
-/* ===== END TABLE SYSTEM ===== */
 
+/* ===== END TABLE SYSTEM ===== */
 
 /* TABLE ITEM 3: TABLE_VCT; Visual Studio Tasks table  */
 .nje-table-sub-span2 {
@@ -1112,7 +1117,6 @@ Or
   padding-left: 12px;
   padding-right: 12px;
   border-right: none;
-
 }
 
 .nje-table-vct .nje-hcol2 {
@@ -1655,3 +1659,20 @@ Next the collapsisble boxes that are base on the 'nje-box*' mixings
     display: block;
     height: 2.0em; /* Extra-large break: ~80% of typical <br> visual spacing */
   }
+
+/* ASCII diagram specific styling - only affects elements with this class */
+.ascii-diagram {
+    font-family: 'Courier New', Courier, 'Liberation Mono', 'Lucida Console', monospace !important;
+    font-size: 11px !important;
+    line-height: 1.1 !important;
+    white-space: pre !important;
+    overflow-x: auto !important;
+    letter-spacing: 0px !important;
+    word-spacing: 0px !important;
+}
+
+.ascii-diagram code {
+    font-family: inherit !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+}
