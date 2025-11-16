@@ -19,7 +19,7 @@ The **sub-containers** provide development environments for GUI applications run
 
 | ***Base-container name***            | ***Reference*** |
 |:-----------------                   |:----------------|
-| Full instructions (including required  Base container)         | [here](https://nicojane.github.io/X11-GUI-Dev-Template-Stack/Howtos/howto_create_a_dev_container.html) |
+| Full instructions (including required  Base container)         | [here](https://nicojane.github.io/X11-GUI-Dev-Template-Stack/) |
 
 You can choose to install one or more sub-containers.
 
