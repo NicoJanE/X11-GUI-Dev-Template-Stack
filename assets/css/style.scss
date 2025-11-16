@@ -1062,29 +1062,43 @@ Or
 
 .nje-table-vct::before {
   content: "Visual Code Tasks";
-  display: inline-block;
+  display: flex;
+  align-items: flex-start;
   width: fit-content;
-  background: linear-gradient(135deg, #ba7d84  0%,  #dfafb3 80%);
-  color: #8a4c8a  ;
-  /*  color: #b25777   ;*/
+  background: transparent; /*linear-gradient(45deg, #e6c1c5  0%,  #dcb8bc 88%);*/
+  
+  vertical-align: top;
+  
+  color: #c69b9f;
+  /*  color: #b25777   color: #8a4c8a  ;;*/
   font-weight: 600;
   padding-top: 4px;
   padding-right: 15px;
-  padding-bottom: 5px;
+  padding-bottom: 3px;
   padding-left: 12px;
-  margin-bottom:-2px;
+  margin-bottom:0px;
   font-size: 14px;
   letter-spacing: 0.3px;
-  border-top: 4px solid #e2bfc6;
+  border-top: 3px solid #e2bfc6;
+  border-bottom: 2px solid #e2bfc6;
+  border-left: 2px solid #e2bfc6;
+  border-right: 1px solid #e2bfc6;
+
   border-radius: 6px;
+  border-bottom-right-radius: -4px;;
+  border-bottom-left-radius: 0px;;
 }
 
 
  
 .nje-table-vct .nje-header-row {
+    
+  z-index: 3;
   display: flex;
   width: 100%;
-  background: linear-gradient(100deg, #ba7d84 0%, #cfa1a8 7.4%, #dfafb3 10%);
+  /*background: linear-gradient(100deg, #ba7d84 2%, #cfa1a8 7.4%, #dfafb3 10%);*/
+  /*background: linear-gradient(160deg, #ba7d84  0%,  #dfafb3 36%);*/
+  background: linear-gradient(160deg, #dfafb3  0%,  #eddbdd 36%);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   box-shadow: 0 2px 8px rgba(186, 125, 132, 0.08);
@@ -1094,7 +1108,7 @@ Or
   /*color: #f6f7f8;
   color: #866286;*/
   color: #868282;
-  border-top: 2px solid #e2bfc6;
+  
   margin-top:-2px;
 }
 
