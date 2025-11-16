@@ -7,6 +7,7 @@ This is a Docker Linux (Ubuntu 24.04) general purpose template container with GU
 This container consists of a **Base Container** and several **Sub Containers**. **The Base Container** is ***required*** for any **Sub Container** and provides the infrastructure for outputting GUI data from the Linux application to the X11 server on Windows.
 
 The **sub-containers** provide development environments for GUI applications running on Linux.
+The **sub-containers** provide development environments, including template source projects, for GUI applications running on Linux.
 
 ### Available containers
 
